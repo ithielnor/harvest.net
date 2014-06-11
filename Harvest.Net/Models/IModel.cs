@@ -4,9 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Harvest.Net
+namespace Harvest.Net.Models
 {
-    public class Class1
+    public interface IModel
     {
+
     }
 }

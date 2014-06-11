@@ -79,11 +79,11 @@ namespace Harvest.Net
             var t = obj.GetType();
             var name = t.Name.ToLower();
 
-            //var options = t.GetAttribute<SerializeAsAttribute>();
-            //if (options != null)
-            //{
-            //    name = options.TransformName(options.Name ?? name);
-            //}
+            var options = t.GetAttribute<SerializeAsAttribute>();
+            if (options != null)
+            {
+                name = options.TransformName(options.Name ?? name);
+            }
 
             var root = new XElement(name.AsNamespaced(Namespace));
 

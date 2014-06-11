@@ -58,11 +58,12 @@ namespace Harvest.Net
         {
             var response = _client.Execute<T>(request);
 
-            if (response.StatusCode == System.Net.HttpStatusCode.Created || response.StatusCode == System.Net.HttpStatusCode.Accepted)
+            if (response.StatusCode == System.Net.HttpStatusCode.Created || response.StatusCode == System.Net.HttpStatusCode.Accepted
+                || (response.StatusCode == System.Net.HttpStatusCode.OK && request.Method == Method.PUT))
             {
                 var location = (string)response.Headers.First(h => h.Type == ParameterType.HttpHeader && h.Name == "Location").Value;
                 if (location != null)
-                {
+                {    
                     var loadRequest = Request(location, rootElement: request.RootElement);
 
                     response = _client.Execute<T>(loadRequest);

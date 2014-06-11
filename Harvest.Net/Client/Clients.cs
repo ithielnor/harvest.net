@@ -53,12 +53,9 @@ namespace Harvest.Net
                 Active = active
             };
 
-            if (currency != null)
-                newClient.Currency = currency.Value;
-            if (details != null)
-                newClient.Details = details;
-            if (highriseId != null)
-                newClient.HighriseId = highriseId;
+            newClient.Currency = currency;            
+            newClient.Details = details;
+            newClient.HighriseId = highriseId;
 
             return CreateClient(newClient);
         }
@@ -80,7 +77,6 @@ namespace Harvest.Net
         /// Delete a client from the authenticated account. Makes a DELETE request to the Clients resource.
         /// </summary>
         /// <param name="clientId">The ID of the client to delete</param>
-        /// <returns></returns>
         public bool DeleteClient(long clientId)
         {
             var request = Request("clients/" + clientId, RestSharp.Method.DELETE);
@@ -88,6 +84,34 @@ namespace Harvest.Net
             var result = Execute(request);
 
             return result.StatusCode == System.Net.HttpStatusCode.OK;
+        }
+
+        /// <summary>
+        /// Toggles the Active status of a client. Makes a POST request to the Clients/Toggle resource.
+        /// </summary>
+        /// <param name="clientId">The ID of the client to toggle</param>
+        public Client ToggleClient(long clientId)
+        {
+            var request = Request("clients/" + clientId + "/toggle", RestSharp.Method.POST, "client");
+
+            return Execute<Client>(request);
+        }
+
+        public Client UpdateClient(long clientId, string name = null, Currency? currency = null, string details = null, long? highriseId = null)
+        {
+            var partialClient = new ClientUpdate()
+            {
+                Name = name,
+                Details = details,
+                HighriseId = highriseId,
+                Currency = currency
+            };
+
+            var request = Request("clients/" + clientId, RestSharp.Method.PUT, "client");
+
+            request.AddBody(partialClient);
+
+            return Execute<Client>(request);
         }
     }
 }

@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace Harvest.Net.Models
 {
+    [SerializeAs(Name = "invoice")]
     public class Invoice : IModel
     {
         public long Id { get; set; }

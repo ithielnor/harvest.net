@@ -49,6 +49,7 @@
     <Compile Include="HarvestJsonDeserializer.cs" />
     <Compile Include="HarvestRestClient.cs" />
     <Compile Include="HarvestXmlSerializer.cs" />
+    <Compile Include="Models\ClientUpdate.cs" />
     <Compile Include="Models\Enumerations.cs" />
     <Compile Include="Models\IModel.cs" />
     <Compile Include="Models\Client.cs" />

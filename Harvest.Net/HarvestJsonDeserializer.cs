@@ -29,6 +29,9 @@ namespace Harvest.Net
         {
             var target = Activator.CreateInstance<T>();
 
+            if (string.IsNullOrWhiteSpace(response.Content))
+                return target;
+
             if (target is IList)
             {
                 var objType = target.GetType();

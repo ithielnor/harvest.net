@@ -1,19 +1,30 @@
 ﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Linq;
+using Xunit;
 
 namespace Harvest.Net.Tests
 {
-    [TestClass]
-    public class InvoiceFacts
+    public class InvoiceFacts : FactBase
     {
-        [TestMethod]
-        public void TestMethod1()
+        [Fact]
+        public void ListInvoices_Returns()
         {
-            var client = new HarvestRestClient("", "", "");
+            var list = Api.ListInvoices();
 
-            var list = client.ListInvoices();
-
-            Assert.IsTrue(list != null);
+            Assert.True(list != null, "Result list is null.");
         }
+
+        //[Fact]
+        //public void CreateInvoice_ReturnsANewInvoice()
+        //{
+        //    var invoice = Client.CreateInvoice();
+
+        //    TearDownEvents.Add(() =>
+        //    {
+        //        Client.DeleteInvoice(invoice);
+
+        //        return true;
+        //    });
+        //}
     }
 }

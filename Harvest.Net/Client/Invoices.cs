@@ -1,5 +1,4 @@
 ﻿using Harvest.Net.Models;
-using RestSharp;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,8 +11,7 @@ namespace Harvest.Net
     {
         public IList<Invoice> ListInvoices(int page = 1, DateTime? from = null, DateTime? to = null, DateTime? updatedSince = null, InvoiceState? status = null, long? clientId = null)
         {
-            var request = new RestRequest();
-            request.Resource = "invoices";
+            var request = Request("invoices");
 
             if (page > 1)
                 request.AddParameter("page", page);

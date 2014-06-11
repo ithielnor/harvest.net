@@ -1,4 +1,5 @@
-﻿using System;
+﻿using RestSharp.Serializers;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,8 +8,8 @@ using System.Threading.Tasks;
 namespace Harvest.Net.Models
 {
     public class Invoice : IModel
-    {/*
-        public int Id { get; set; }
+    {
+        public long Id { get; set; }
 
         public decimal Amount { get; set; }
 
@@ -22,7 +23,7 @@ namespace Harvest.Net.Models
 
         public DateTime? PeriodStart { get; set; }
 
-        public int ClientId { get; set; }
+        public long ClientId { get; set; }
 
         public string Subject { get; set; }
 
@@ -30,7 +31,7 @@ namespace Harvest.Net.Models
 
         public DateTime IssuedAt { get; set; }
 
-        public int CreatedById { get; set; }
+        public long CreatedById { get; set; }
 
         public string Notes { get; set; }
 
@@ -54,14 +55,14 @@ namespace Harvest.Net.Models
 
         public decimal DiscountAmount { get; set; }
 
-        public int? RecurringInvoiceId { get; set; }
+        public long? RecurringInvoiceId { get; set; }
 
-        public int? EstimateId { get; set; }
+        public long? EstimateId { get; set; }
 
-        public int? RetainerId { get; set; }
+        public long? RetainerId { get; set; }
 
         public DateTime UpdatedAt { get; set; }
 
         public DateTime CreatedAt { get; set; }
-    */}
+    }
 }

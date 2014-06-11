@@ -42,9 +42,11 @@ namespace Harvest.Net
 
             _client.BaseUrl = BaseUrl;
 
-            // Harvest API only response in xml currently
-            _client.AddDefaultHeader("Accept", "application/xml");
-            _client.AddDefaultHeader("Content-Type", "application/xml");
+            // Harvest API only responds in xml currently
+            //_client.AddDefaultHeader("Accept", "application/xml");
+            //_client.AddDefaultHeader("Content-Type", "application/xml");
+
+            _client.AddHandler("application/json", new HarvestJsonDeserializer());
         }
 
         /// <summary>
@@ -54,27 +56,46 @@ namespace Harvest.Net
         /// <param name="request">The request to send</param>
         public virtual T Execute<T>(RestRequest request) where T : new()
         {
-            request.OnBeforeDeserialization = (resp) =>
-            {
-                // for individual resources when there's an error to make
-                // sure that RestException props are populated
-                if (((int)resp.StatusCode) >= 400)
-                {
-                    // have to read the bytes so .Content doesn't get populated
-                    string restException = "{{ \"RestException\" : {0} }}";
-                    var content = System.Text.Encoding.Default.GetString(resp.RawBytes);
-                    var newJson = string.Format(restException, content);
-
-                    resp.Content = null;
-                    resp.RawBytes = Encoding.UTF8.GetBytes(newJson.ToString());
-                }
-            };
-
-            request.DateFormat = @"yyyy-MM-dd\Thh:mm:ss\Z";
-
             var response = _client.Execute<T>(request);
 
+            if (response.StatusCode == System.Net.HttpStatusCode.Created || response.StatusCode == System.Net.HttpStatusCode.Accepted)
+            {
+                var location = (string)response.Headers.First(h => h.Type == ParameterType.HttpHeader && h.Name == "Location").Value;
+                if (location != null)
+                {
+                    var loadRequest = Request(location, rootElement: request.RootElement);
+
+                    response = _client.Execute<T>(loadRequest);
+                }
+            }
+
             return response.Data;
+        }
+
+        public virtual IRestResponse Execute(RestRequest request)
+        {
+            return _client.Execute(request);
+        }
+
+
+        /// <summary>
+        /// Initializes a new RestRequest object with a custom XmlSerializer and DateFormat to match Harvest's conventions.
+        /// </summary>
+        /// <param name="resource">Harvest resource request will hit</param>
+        /// <param name="method">HTTP method to use</param>
+        protected RestRequest Request(string resource, Method method = Method.GET, string rootElement = null)
+        {
+            var request = new RestRequest();
+            request.Resource = resource;
+            request.Method = method;
+            request.RootElement = rootElement;
+
+            request.RequestFormat = DataFormat.Xml;
+            request.XmlSerializer = new HarvestXmlSerializer();
+         
+            request.OnBeforeDeserialization = resp => { resp.ContentType = "application/json"; };
+
+            return request;
         }
     }
 }

@@ -44,12 +44,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Client\Clients.cs" />
     <Compile Include="Client\Invoices.cs" />
+    <Compile Include="HarvestJsonDeserializer.cs" />
     <Compile Include="HarvestRestClient.cs" />
+    <Compile Include="HarvestXmlSerializer.cs" />
     <Compile Include="Models\Enumerations.cs" />
     <Compile Include="Models\IModel.cs" />
-    <Compile Include="Models\InvoiceList.cs" />
-    <Compile Include="Models\ListBase.cs" />
+    <Compile Include="Models\Client.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Models\Invoice.cs" />
   </ItemGroup>

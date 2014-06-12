@@ -8,10 +8,11 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Globalization;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Harvest.Net
+namespace Harvest.Net.Serialization
 {
     public class HarvestJsonDeserializer :IDeserializer
     {
@@ -107,7 +108,6 @@ namespace Harvest.Net
                 if (value != null) prop.SetValue(target, ConvertValue(type, value), null);
             }
         }
-
         private IDictionary BuildDictionary(Type type, object parent)
         {
             var dict = (IDictionary)Activator.CreateInstance(type);
@@ -203,7 +203,7 @@ namespace Harvest.Net
                     .Cast<Enum>()
                     .FirstOrDefault(v => 
                     {
-                        var attr = type.GetMember(v.ToString())[0].GetCustomAttributes(typeof(DescriptionAttribute), false).FirstOrDefault() as DescriptionAttribute;
+                        var attr = type.GetMember(v.ToString())[0].GetAttribute<DescriptionAttribute>();
                         if (attr != null && attr.Description == stringValue)
                             return true;
                         return false;
@@ -313,8 +313,18 @@ namespace Harvest.Net
         {
             var instance = Activator.CreateInstance(type);
 
-            Map(instance, (IDictionary<string, object>)element);
+            var data = (IDictionary<string, object>)element;
+            var options = type.GetAttribute<SerializeAsAttribute>();
+            if (options != null)
+            {
+                var name = options.Name ?? type.Name.GetNameVariants(Culture).FirstOrDefault(x => data.ContainsKey(x));
 
+                if (name != null)
+                    data = (IDictionary<string, object>)data[name];
+            }
+
+            Map(instance, data);
+            
             return instance;
         }
     }

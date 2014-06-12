@@ -7,8 +7,9 @@ using System.Xml.Linq;
 using RestSharp.Extensions;
 using System.Collections;
 using System.Globalization;
+using System.ComponentModel;
 
-namespace Harvest.Net
+namespace Harvest.Net.Serialization
 {
     public class HarvestXmlSerializer : ISerializer
     {
@@ -134,6 +135,7 @@ namespace Harvest.Net
                         select p;
 
             var globalOptions = objType.GetAttribute<SerializeAsAttribute>();
+            var globalSettings = objType.GetAttribute<HarvestSerializeAttribute>();
 
             foreach (var prop in props)
             {
@@ -145,7 +147,9 @@ namespace Harvest.Net
                     continue;
                 }
 
-                var value = GetSerializedValue(rawValue);
+                var harvestSettings = prop.GetAttribute<HarvestSerializeAttribute>();
+
+                var value = GetSerializedValue(rawValue, harvestSettings);
                 var propType = prop.PropertyType;
 
                 var useAttribute = false;
@@ -206,13 +210,16 @@ namespace Harvest.Net
             }
         }
 
-        private string GetSerializedValue(object obj)
+        private string GetSerializedValue(object obj, HarvestSerializeAttribute settings)
         {
             var output = obj;
 
-            if (obj is DateTime && DateFormat.HasValue())
+            if (obj is DateTime)
             {
-                output = ((DateTime)obj).ToString(DateFormat, CultureInfo.InvariantCulture);
+                if (settings != null && settings.DateOnly)
+                    output = ((DateTime)obj).ToString("yyyy-MM-dd", CultureInfo.InvariantCulture);
+                else if (DateFormat.HasValue())
+                    output = ((DateTime)obj).ToString(DateFormat, CultureInfo.InvariantCulture);
             }
             if (obj is bool)
             {
@@ -221,6 +228,13 @@ namespace Harvest.Net
             if (IsNumeric(obj))
             {
                 return SerializeNumber(obj);
+            }
+            if (obj.GetType().IsEnum)
+            {
+                var description = obj.GetType().GetMember(obj.ToString())[0].GetAttribute<DescriptionAttribute>();
+
+                if (description != null)
+                    output = description.Description ?? obj.ToString();
             }
 
             return output.ToString();

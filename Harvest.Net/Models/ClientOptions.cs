@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace Harvest.Net.Models
 {
     [SerializeAs(Name = "client")]
-    internal class ClientUpdate
+    public class ClientOptions
     {
         public string Name { get; set; }
 
@@ -17,5 +17,7 @@ namespace Harvest.Net.Models
         public Currency? Currency { get; set; }
 
         public string Details { get; set; }
+
+        public bool? Active { get; set; }
     }
 }

@@ -1,4 +1,5 @@
-﻿using RestSharp;
+﻿using Harvest.Net.Serialization;
+using RestSharp;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -61,13 +62,21 @@ namespace Harvest.Net
             if (response.StatusCode == System.Net.HttpStatusCode.Created || response.StatusCode == System.Net.HttpStatusCode.Accepted
                 || (response.StatusCode == System.Net.HttpStatusCode.OK && request.Method == Method.PUT))
             {
-                var location = (string)response.Headers.First(h => h.Type == ParameterType.HttpHeader && h.Name == "Location").Value;
-                if (location != null)
-                {    
-                    var loadRequest = Request(location, rootElement: request.RootElement);
+                string location = null;
 
-                    response = _client.Execute<T>(loadRequest);
+                var header = response.Headers.FirstOrDefault(h => h.Type == ParameterType.HttpHeader && h.Name == "Location");
+                if (header != null)
+                {
+                    location = (string)header.Value;
                 }
+                else
+                {
+                    // Location header is missing try to GET from the original resource instead
+                    location = request.Resource;
+                }
+
+                var loadRequest = Request(location, rootElement: request.RootElement);
+                response = _client.Execute<T>(loadRequest);
             }
 
             return response.Data;

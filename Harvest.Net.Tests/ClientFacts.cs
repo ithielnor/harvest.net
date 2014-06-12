@@ -1,17 +1,21 @@
-﻿using System;
+﻿using Harvest.Net.Models;
+using System;
 using System.Linq;
 using Xunit;
 
 namespace Harvest.Net.Tests
 {
-    public class ClientFacts : FactBase
+    public class ClientFacts : FactBase, IDisposable
     {
+        Client _todelete = null;
+
         [Fact]
         public void ListClients_Returns()
         {
             var list = Api.ListClients();
 
             Assert.True(list != null, "Result list is null.");
+            Assert.NotEqual(0, list.First().Id);
         }
 
         [Fact]
@@ -28,7 +32,6 @@ namespace Harvest.Net.Tests
         {
             var client = Api.CreateClient("Test Delete Client");
 
-            // cleanup
             var result = Api.DeleteClient(client.Id);
 
             Assert.Equal(true, result);
@@ -37,34 +40,34 @@ namespace Harvest.Net.Tests
         [Fact]
         public void CreateClient_ReturnsANewClient()
         {
-            var client = Api.CreateClient("Test Create Client");
-
-            // cleanup
-            Api.DeleteClient(client.Id);
-
-            Assert.Equal("Test Create Client", client.Name);
+            _todelete = Api.CreateClient("Test Create Client");
+            
+            Assert.Equal("Test Create Client", _todelete.Name);
         }
 
         [Fact]
         public void UpdateClient_UpdatesOnlyChangedValues()
         {
-            var client = Api.CreateClient("Test Update Client");
+            _todelete = Api.CreateClient("Test Update Client");
 
-            var updated = Api.UpdateClient(client.Id, "Updated Client", details: "details");
-
-            // cleanup
-            Api.DeleteClient(client.Id);
-
+            var updated = Api.UpdateClient(_todelete.Id, "Updated Client", details: "details");
+            
             // stuff changed
-            Assert.NotEqual(client.Name, updated.Name);
+            Assert.NotEqual(_todelete.Name, updated.Name);
             Assert.Equal("Updated Client", updated.Name);
-            Assert.NotEqual(client.Details, updated.Details);
+            Assert.NotEqual(_todelete.Details, updated.Details);
             Assert.Equal("details", updated.Details);
 
             // stuff didn't change
-            Assert.Equal(client.Active, updated.Active);
-            Assert.Equal(client.Currency, updated.Currency);
+            Assert.Equal(_todelete.Active, updated.Active);
+            Assert.Equal(_todelete.Currency, updated.Currency);
 
+        }
+
+        public void Dispose()
+        {
+            if (_todelete != null)
+                Api.DeleteClient(_todelete.Id);
         }
     }
 }

@@ -23,4 +23,29 @@ namespace Harvest.Net.Models
         Unpaid,
         PastDue,
     }
+
+    public enum InvoiceKind
+    {
+        Project,
+        Task,
+        People,
+        Detailed,
+        FreeForm,
+    }
+
+    public enum InvoiceDateAtFormat
+    {
+        [Description("upon receipt")]
+        UponReceipt,
+        [Description("net 15")]
+        Net15,
+        [Description("net 30")]
+        Net30,
+        [Description("net 45")]
+        Net45,
+        [Description("net 60")]
+        Net60,
+        [Description("custom")]
+        Custom,
+    }
 }

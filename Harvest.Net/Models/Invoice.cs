@@ -12,13 +12,17 @@ namespace Harvest.Net.Models
     {
         public long Id { get; set; }
 
+        public DateTime UpdatedAt { get; set; }
+
+        public DateTime CreatedAt { get; set; }
+
         public decimal Amount { get; set; }
 
         public decimal DueAmount { get; set; }
 
         public DateTime DueAt { get; set; }
 
-        public string DueAtHumanFormat { get; set; }
+        public InvoiceDateAtFormat DueAtHumanFormat { get; set; }
 
         public DateTime? PeriodEnd { get; set; }
 
@@ -26,9 +30,11 @@ namespace Harvest.Net.Models
 
         public long ClientId { get; set; }
 
+        public InvoiceKind Kind { get; set; }
+
         public string Subject { get; set; }
 
-        public Currency Currency { get; set; }
+        public Currency? Currency { get; set; }
 
         public DateTime IssuedAt { get; set; }
 
@@ -62,8 +68,9 @@ namespace Harvest.Net.Models
 
         public long? RetainerId { get; set; }
 
-        public DateTime UpdatedAt { get; set; }
-
-        public DateTime CreatedAt { get; set; }
+        /// <summary>
+        /// Free form items
+        /// </summary>
+        public string CsvLineItems { get; set; }
     }
 }

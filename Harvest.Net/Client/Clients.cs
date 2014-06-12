@@ -47,28 +47,27 @@ namespace Harvest.Net
             if (name == null)
                 throw new ArgumentNullException("name");
 
-            var newClient = new Client()
+            var newClient = new ClientOptions()
             {
                 Name = name,
-                Active = active
+                Active = active,
+                Currency = currency,
+                Details = details,
+                HighriseId = highriseId
             };
-
-            newClient.Currency = currency;            
-            newClient.Details = details;
-            newClient.HighriseId = highriseId;
 
             return CreateClient(newClient);
         }
 
         /// <summary>
-        /// Creates a new client under the authenticated account. Makes both a POST and a GET request to the Clients resource.
+        /// Creates a new client under the authenticated account. Makes a POST and a GET request to the Clients resource.
         /// </summary>
-        /// <param name="newClient">The new client object to be created</param>
-        public Client CreateClient(Client newClient)
+        /// <param name="options">The options for the new client to be created</param>
+        public Client CreateClient(ClientOptions options)
         {
             var request = Request("clients", RestSharp.Method.POST, "client");
 
-            request.AddBody(newClient);            
+            request.AddBody(options);            
 
             return Execute<Client>(request);
         }
@@ -87,7 +86,7 @@ namespace Harvest.Net
         }
 
         /// <summary>
-        /// Toggles the Active status of a client. Makes a POST request to the Clients/Toggle resource.
+        /// Toggle the Active status of a client on the authenticated account. Makes a POST request to the Clients/Toggle resource and a GET request to the Clients resource.
         /// </summary>
         /// <param name="clientId">The ID of the client to toggle</param>
         public Client ToggleClient(long clientId)
@@ -97,19 +96,29 @@ namespace Harvest.Net
             return Execute<Client>(request);
         }
 
-        public Client UpdateClient(long clientId, string name = null, Currency? currency = null, string details = null, long? highriseId = null)
+        /// <summary>
+        /// Update a client on the authenticated account. Makes a PUT and a GET request to the Clients resource.
+        /// </summary>
+        /// <param name="clientId">The ID of the client to update</param>
+        /// <param name="name">The updated name</param>
+        /// <param name="currency">The updated currency</param>
+        /// <param name="details">The updated details</param>
+        /// <param name="highriseId">The updated Highrise ID</param>
+        /// <param name="active">The updated state</param>
+        public Client UpdateClient(long clientId, string name = null, Currency? currency = null, string details = null, long? highriseId = null, bool? active = null)
         {
-            var partialClient = new ClientUpdate()
+            var options = new ClientOptions()
             {
                 Name = name,
                 Details = details,
                 HighriseId = highriseId,
-                Currency = currency
+                Currency = currency,
+                Active = active
             };
 
             var request = Request("clients/" + clientId, RestSharp.Method.PUT, "client");
 
-            request.AddBody(partialClient);
+            request.AddBody(options);
 
             return Execute<Client>(request);
         }

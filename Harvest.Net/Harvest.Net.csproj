@@ -45,8 +45,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Extensions\StringExtensions.cs" />
+    <Compile Include="Models\ContactOptions.cs" />
+    <Compile Include="Models\Contact.cs" />
     <Compile Include="Models\InvoiceMessageOptions.cs" />
     <Compile Include="Models\InvoiceMessage.cs" />
+    <Compile Include="Resources\Contacts.cs" />
     <Compile Include="Resources\Clients.cs" />
     <Compile Include="Resources\InvoiceMessages.cs" />
     <Compile Include="Resources\Invoices.cs" />

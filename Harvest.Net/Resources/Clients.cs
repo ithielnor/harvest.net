@@ -24,7 +24,7 @@ namespace Harvest.Net
         }
 
         /// <summary>
-        /// Retrieve a client. Makes a GET request to the Clients resource.
+        /// Retrieve a client on the authenticated account. Makes a GET request to the Clients resource.
         /// </summary>
         /// <param name="clientId">The Id of the client to retrieve</param>
         public Client Client(long clientId)
@@ -105,7 +105,7 @@ namespace Harvest.Net
         /// <param name="details">The updated details</param>
         /// <param name="highriseId">The updated Highrise ID</param>
         /// <param name="active">The updated state</param>
-        public Client UpdateClient(long clientId, string name = null, Currency? currency = null, string details = null, long? highriseId = null, bool? active = null)
+        public Client UpdateClient(long clientId, string name = null, Currency? currency = null, bool? active = null, string details = null, long? highriseId = null)
         {
             var options = new ClientOptions()
             {
@@ -116,6 +116,11 @@ namespace Harvest.Net
                 Active = active
             };
 
+            return UpdateClient(clientId, options);
+        }
+
+        public Client UpdateClient(long clientId, ClientOptions options)
+        {
             var request = Request("clients/" + clientId, RestSharp.Method.PUT);
 
             request.AddBody(options);

@@ -63,7 +63,7 @@ namespace Harvest.Net.Tests
         {
             var client = Api.ListClients().First();
 
-            _toDelete = Api.CreateInvoice(new InvoiceOptions()
+            var invoice = Api.CreateInvoice(new InvoiceOptions()
             {
                 ClientId = client.Id,
                 Subject = "Test Update Invoice",
@@ -72,27 +72,30 @@ namespace Harvest.Net.Tests
                 DueAtHumanFormat = InvoiceDateAtFormat.Net15
             });
 
-            Assert.Equal(DateTime.Now.AddDays(14).ToString("yyyy-MM-dd"), _toDelete.DueAt.ToString("yyyy-MM-dd"));
-            Assert.Equal(DateTime.Now.AddDays(-1).ToString("yyyy-MM-dd"), _toDelete.IssuedAt.ToString("yyyy-MM-dd"));
+            Assert.Equal(DateTime.Now.AddDays(14).ToString("yyyy-MM-dd"), invoice.DueAt.ToString("yyyy-MM-dd"));
+            Assert.Equal(DateTime.Now.AddDays(-1).ToString("yyyy-MM-dd"), invoice.IssuedAt.ToString("yyyy-MM-dd"));
 
             // REVIEW: Bugs in the api currently prevent setting the due-at date.
             // https://github.com/harvesthq/api/issues/66
 
-            var updated = Api.UpdateInvoice(_toDelete.Id, new InvoiceOptions()
+            var updated = Api.UpdateInvoice(invoice.Id, new InvoiceOptions()
             {
                 Subject = "Tested",
-                //DueAtHumanFormat = InvoiceDateAtFormat.Custom,
-                //DueAt = DateTime.Now.AddDays(10)
+                DueAtHumanFormat = InvoiceDateAtFormat.Custom,
+                DueAt = DateTime.Now.AddDays(10)
             });
+
+            // for debugging, don't mark for deletion
+            // _toDelete = invoice;
 
             // fields that changed
             Assert.Equal("Tested", updated.Subject);
-            //Assert.Equal(DateTime.Now.AddDays(-1).ToString("yyyy-MM-dd"), updated.IssuedAt.ToString("yyyy-MM-dd"));
-            //Assert.Equal(DateTime.Now.AddDays(10).ToString("yyyy-MM-dd"), updated.DueAt.ToString("yyyy-MM-dd"));
+            Assert.Equal(DateTime.Now.AddDays(-1).ToString("yyyy-MM-dd"), updated.IssuedAt.ToString("yyyy-MM-dd"));
+            Assert.Equal(DateTime.Now.AddDays(10).ToString("yyyy-MM-dd"), updated.DueAt.ToString("yyyy-MM-dd"));
 
             // fields that didn't change
-            Assert.Equal(_toDelete.ClientId, updated.ClientId);
-            Assert.Equal(_toDelete.Notes, updated.Notes);
+            Assert.Equal(invoice.ClientId, updated.ClientId);
+            Assert.Equal(invoice.Notes, updated.Notes);
         }
 
         public void CreateInvoice_WithItemsContainsItems()

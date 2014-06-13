@@ -29,7 +29,7 @@ namespace Harvest.Net
         /// <param name="clientId">The Id of the client to retrieve</param>
         public Client Client(long clientId)
         {
-            var request = Request("clients/" + clientId, rootElement: "client");
+            var request = Request("clients/" + clientId);
 
             return Execute<Client>(request);
         }
@@ -65,7 +65,7 @@ namespace Harvest.Net
         /// <param name="options">The options for the new client to be created</param>
         public Client CreateClient(ClientOptions options)
         {
-            var request = Request("clients", RestSharp.Method.POST, "client");
+            var request = Request("clients", RestSharp.Method.POST);
 
             request.AddBody(options);            
 
@@ -91,7 +91,7 @@ namespace Harvest.Net
         /// <param name="clientId">The ID of the client to toggle</param>
         public Client ToggleClient(long clientId)
         {
-            var request = Request("clients/" + clientId + "/toggle", RestSharp.Method.POST, "client");
+            var request = Request("clients/" + clientId + "/toggle", RestSharp.Method.POST);
 
             return Execute<Client>(request);
         }
@@ -116,7 +116,7 @@ namespace Harvest.Net
                 Active = active
             };
 
-            var request = Request("clients/" + clientId, RestSharp.Method.PUT, "client");
+            var request = Request("clients/" + clientId, RestSharp.Method.PUT);
 
             request.AddBody(options);
 

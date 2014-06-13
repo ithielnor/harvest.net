@@ -44,9 +44,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Client\Clients.cs" />
-    <Compile Include="Client\Invoices.cs" />
+    <Compile Include="Models\InvoiceMessageOptions.cs" />
+    <Compile Include="Models\InvoiceMessage.cs" />
+    <Compile Include="Resources\Clients.cs" />
+    <Compile Include="Resources\InvoiceMessages.cs" />
+    <Compile Include="Resources\Invoices.cs" />
     <Compile Include="Serialization\HarvestAttribute.cs" />
+    <Compile Include="Serialization\HarvestXmlDeserializer.cs" />
     <Compile Include="Serialization\HarvestJsonDeserializer.cs" />
     <Compile Include="HarvestRestClient.cs" />
     <Compile Include="Serialization\HarvestXmlSerializer.cs" />

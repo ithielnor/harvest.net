@@ -48,7 +48,7 @@ namespace Harvest.Net
         /// <param name="invoiceId">The ID of the invoice to retrieve</param>
         public Invoice Invoice(long invoiceId)
         {
-            var request = Request("invoices/" + invoiceId, rootElement: "invoice");
+            var request = Request("invoices/" + invoiceId);
 
             return Execute<Invoice>(request);
         }
@@ -93,7 +93,7 @@ namespace Harvest.Net
         /// <param name="options">The options for the new invoice to create</param>
         public Invoice CreateInvoice(InvoiceOptions options)
         {
-            var request = Request("invoices", RestSharp.Method.POST, "invoice");
+            var request = Request("invoices", RestSharp.Method.POST);
 
             request.AddBody(options);
 
@@ -121,7 +121,7 @@ namespace Harvest.Net
         /// <param name="options">The fields to be updated</param>
         public Invoice UpdateInvoice(long invoiceId, InvoiceOptions options)
         {
-            var request = Request("invoices/" + invoiceId, RestSharp.Method.PUT, "invoice");
+            var request = Request("invoices/" + invoiceId, RestSharp.Method.PUT);
 
             request.AddBody(options);
 

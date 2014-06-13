@@ -42,12 +42,11 @@ namespace Harvest.Net
             _client.Authenticator = new HttpBasicAuthenticator(username, password);
 
             _client.BaseUrl = BaseUrl;
-
-            // Harvest API only responds in xml currently
-            //_client.AddDefaultHeader("Accept", "application/xml");
-            //_client.AddDefaultHeader("Content-Type", "application/xml");
-
-            _client.AddHandler("application/json", new HarvestJsonDeserializer());
+            
+            // Harvest API is inconsistent in JSON responses so we'll stick to XML
+            _client.ClearHandlers();
+            _client.AddHandler("application/xml", new HarvestXmlDeserializer());
+            _client.AddHandler("text/xml", new HarvestXmlDeserializer());            
         }
 
         /// <summary>
@@ -75,7 +74,7 @@ namespace Harvest.Net
                     location = request.Resource;
                 }
 
-                var loadRequest = Request(location, rootElement: request.RootElement);
+                var loadRequest = Request(location);
                 response = _client.Execute<T>(loadRequest);
             }
 
@@ -93,17 +92,23 @@ namespace Harvest.Net
         /// </summary>
         /// <param name="resource">Harvest resource request will hit</param>
         /// <param name="method">HTTP method to use</param>
-        protected RestRequest Request(string resource, Method method = Method.GET, string rootElement = null)
+        protected RestRequest Request(string resource, Method method = Method.GET)
         {
             var request = new RestRequest();
             request.Resource = resource;
             request.Method = method;
-            request.RootElement = rootElement;
 
             request.RequestFormat = DataFormat.Xml;
             request.XmlSerializer = new HarvestXmlSerializer();
          
-            request.OnBeforeDeserialization = resp => { resp.ContentType = "application/json"; };
+            request.OnBeforeDeserialization = resp =>
+            {
+                //remove the first ByteOrderMark
+                //see: http://stackoverflow.com/questions/19663100/restsharp-has-problems-deserializing-xml-including-byte-order-mark
+                string byteOrderMarkUtf8 = Encoding.UTF8.GetString(Encoding.UTF8.GetPreamble());
+                if (resp.Content.StartsWith(byteOrderMarkUtf8))
+                    resp.Content = resp.Content.TrimStart(byteOrderMarkUtf8.ToArray());
+            };
 
             return request;
         }

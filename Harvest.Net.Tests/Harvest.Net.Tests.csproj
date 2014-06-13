@@ -55,8 +55,9 @@
   </Choose>
   <ItemGroup>
     <Compile Include="FactBase.cs" />
-    <Compile Include="ClientFacts.cs" />
-    <Compile Include="InvoiceFacts.cs" />
+    <Compile Include="ResourceFacts\ClientFacts.cs" />
+    <Compile Include="ResourceFacts\InvoiceMessageFacts.cs" />
+    <Compile Include="ResourceFacts\InvoiceFacts.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

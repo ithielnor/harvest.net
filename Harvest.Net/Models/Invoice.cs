@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Harvest.Net.Extensions;
 
 namespace Harvest.Net.Models
 {
@@ -72,5 +73,34 @@ namespace Harvest.Net.Models
         /// Free form items
         /// </summary>
         public string CsvLineItems { get; set; }
+
+        private IList<InvoiceItem> _listLineItems;
+        public IList<InvoiceItem> ListLineItems()
+        {
+            if (_listLineItems == null)
+            {
+                var lines = CsvLineItems.Split(new[] { '\n' }, StringSplitOptions.RemoveEmptyEntries)
+                    .Select(line => line.Split(','));
+
+                var headers = lines.First();
+                _listLineItems = new List<InvoiceItem>();
+
+                foreach (var row in lines.Skip(1))
+                {
+                    _listLineItems.Add(new InvoiceItem()
+                    {
+                        ProjectId = row[Array.IndexOf<string>(headers, "project_id")].ParseNullableLong(),
+                        UnitPrice = decimal.Parse(row[Array.IndexOf<string>(headers, "unit_price")]),
+                        Quantity = decimal.Parse(row[Array.IndexOf<string>(headers, "quantity")]),
+                        Amount = decimal.Parse(row[Array.IndexOf<string>(headers, "amount")]),
+                        Taxed = bool.Parse(row[Array.IndexOf<string>(headers, "taxed")]),
+                        Taxed2 = bool.Parse(row[Array.IndexOf<string>(headers, "taxed2")]),
+                        Kind = row[Array.IndexOf<string>(headers, "kind")],
+                        Description = row[Array.IndexOf<string>(headers, "description")],
+                    });
+                }
+            }
+            return _listLineItems;
+        }
     }
 }

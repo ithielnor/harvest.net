@@ -81,23 +81,23 @@ namespace Harvest.Net.Tests
             var updated = Api.UpdateInvoice(invoice.Id, new InvoiceOptions()
             {
                 Subject = "Tested",
-                DueAtHumanFormat = InvoiceDateAtFormat.Custom,
-                DueAt = DateTime.Now.AddDays(10)
+                //DueAtHumanFormat = InvoiceDateAtFormat.Custom,
+                //DueAt = DateTime.Now.AddDays(10)
             });
 
-            // for debugging, don't mark for deletion
-            // _toDelete = invoice;
+            _toDelete = invoice;
 
             // fields that changed
             Assert.Equal("Tested", updated.Subject);
-            Assert.Equal(DateTime.Now.AddDays(-1).ToString("yyyy-MM-dd"), updated.IssuedAt.ToString("yyyy-MM-dd"));
-            Assert.Equal(DateTime.Now.AddDays(10).ToString("yyyy-MM-dd"), updated.DueAt.ToString("yyyy-MM-dd"));
+            //Assert.Equal(DateTime.Now.AddDays(-1).ToString("yyyy-MM-dd"), updated.IssuedAt.ToString("yyyy-MM-dd"));
+            //Assert.Equal(DateTime.Now.AddDays(10).ToString("yyyy-MM-dd"), updated.DueAt.ToString("yyyy-MM-dd"));
 
             // fields that didn't change
             Assert.Equal(invoice.ClientId, updated.ClientId);
             Assert.Equal(invoice.Notes, updated.Notes);
         }
 
+        [Fact]
         public void CreateInvoice_WithItemsContainsItems()
         {
             var client = Api.ListClients().First();
@@ -115,9 +115,9 @@ namespace Harvest.Net.Tests
                 new InvoiceItem() { Kind = "Product", Description = "Description 2", Quantity = 2, Amount = 10 }
             });
 
-            var invoice = Api.CreateInvoice(options);
+            _toDelete = Api.CreateInvoice(options);
 
-            Assert.Equal(2, invoice.CsvLineItems.Count());
+            Assert.Equal(2, _toDelete.ListLineItems().Count());
         }
 
         public void Dispose()

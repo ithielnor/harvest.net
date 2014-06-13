@@ -1,4 +1,4 @@
-harvest.net
+Harvest.Net
 ===========
 
 A .Net wrapper for the [Harvest API][1].

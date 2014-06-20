@@ -6,7 +6,6 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
-using Harvest.Net.Models;
 
 namespace Harvest.Net
 {
@@ -19,10 +18,6 @@ namespace Harvest.Net
 
         private string Username { get; set; }
         private string Password { get; set; }
-
-        private string ClientId { get; set; }
-        private string ClientSecret { get; set; }
-        private string AccessToken { get; set; }
 
         private RestClient _client;
 
@@ -52,28 +47,6 @@ namespace Harvest.Net
             _client.ClearHandlers();
             _client.AddHandler("application/xml", new HarvestXmlDeserializer());
             _client.AddHandler("text/xml", new HarvestXmlDeserializer());            
-        }
-
-        public HarvestRestClient(string subdomain, string clientId, string clientSecret, string accessToken)
-        {
-            BaseUrl = "https://" + subdomain + ".harvestapp.com/";
-
-            ClientId = clientId;
-            ClientSecret = clientSecret;
-            AccessToken = accessToken;
-
-            var assembly = Assembly.GetExecutingAssembly();
-            AssemblyName assemblyName = new AssemblyName(assembly.FullName);
-            var version = assemblyName.Version;
-
-            _client = new RestClient();
-            _client.UserAgent = "harvest.net/" + version + " (.NET " + Environment.Version.ToString() + ")";
-            _client.BaseUrl = BaseUrl;
-            _client.AddDefaultParameter("access_token", accessToken, ParameterType.UrlSegment);
-
-            _client.ClearHandlers();
-            _client.AddHandler("application/xml", new HarvestXmlDeserializer());
-            _client.AddHandler("text/xml", new HarvestXmlDeserializer());   
         }
 
         /// <summary>
@@ -113,20 +86,6 @@ namespace Harvest.Net
             return _client.Execute(request);
         }
 
-        public OAuth RefreshToken(string refreshToken)
-        {
-            RestRequest r = new RestRequest();
-            r.Method = Method.POST;
-
-            r.Resource = "oauth2/token";
-            r.AddParameter("refresh_token", refreshToken);
-            r.AddParameter("client_id", ClientId);
-            r.AddParameter("client_secret", ClientSecret);
-            r.AddParameter("grant_type", "refresh_token");
-            r.AddHeader("Content-Type", "x-www-form-urlencoded");
-
-            return this.Execute<OAuth>(r);
-        }
 
         /// <summary>
         /// Initializes a new RestRequest object with a custom XmlSerializer and DateFormat to match Harvest's conventions.
@@ -137,10 +96,6 @@ namespace Harvest.Net
         {
             var request = new RestRequest();
             request.Resource = resource;
-
-            if (AccessToken != null)
-                request.Resource = resource + "?access_token=" + AccessToken;
-
             request.Method = method;
 
             request.RequestFormat = DataFormat.Xml;

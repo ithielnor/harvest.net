@@ -49,7 +49,6 @@
     <Compile Include="Models\Contact.cs" />
     <Compile Include="Models\InvoiceMessageOptions.cs" />
     <Compile Include="Models\InvoiceMessage.cs" />
-    <Compile Include="Models\OAuth.cs" />
     <Compile Include="Resources\Contacts.cs" />
     <Compile Include="Resources\Clients.cs" />
     <Compile Include="Resources\InvoiceMessages.cs" />

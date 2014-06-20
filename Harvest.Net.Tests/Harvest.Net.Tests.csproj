@@ -60,7 +60,6 @@
     <Compile Include="ResourceFacts\InvoiceMessageFacts.cs" />
     <Compile Include="ResourceFacts\InvoiceFacts.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ResourceFacts\OAuthFacts.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Harvest.Net\Harvest.Net.csproj">

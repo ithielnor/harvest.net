@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Harvest.Net.Models;
 using Xunit;
 
-namespace Harvest.Net.Tests.ResourceFacts
+namespace Harvest.Net.Tests
 {
     public class OAuthFacts
     {
@@ -22,7 +22,7 @@ namespace Harvest.Net.Tests.ResourceFacts
         }
 
         [Fact]
-        public void ListClients_Returns()
+        public void OAuth_Succeeds()
         {
             var client = new HarvestRestClient("harvestdotnet", "CuJ3af_hylkRp4NvDe20yg", "3_-0j6mRXPSjOmNcGn2q73BHexU11jxbbPiwBXnpX1oJ92Yj7Sb22UYuE4uKkc5zZYMtXg5s2BXZsfmWbFo0fg", 
                 "PbAjhAeW--og-9FADcPm0GHSHuWEWFKYzCLLhi0SkeFYMzH61a1_DekV7ww8_5blaBTGctlhPu2znfD_RyCjPw");

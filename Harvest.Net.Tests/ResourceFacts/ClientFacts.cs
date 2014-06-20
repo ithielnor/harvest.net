@@ -62,7 +62,7 @@ namespace Harvest.Net.Tests
             Assert.Equal(_todelete.Active, updated.Active);
             Assert.Equal(_todelete.Currency, updated.Currency);
 
-        }
+        }        
 
         public void Dispose()
         {

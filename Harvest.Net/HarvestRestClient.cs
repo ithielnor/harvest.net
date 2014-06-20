@@ -26,42 +26,16 @@ namespace Harvest.Net
 
         private RestClient _client;
 
-        /// <summary>
-        /// Initializes a new client using basic HTTP authentication
-        /// </summary>
-        /// <param name="subdomain">The subdomain of the harvest account to connect to</param>
-        /// <param name="username">The usernamen to authenticate with</param>
-        /// <param name="password">The password to athenticate with</param>
-        public HarvestRestClient(string subdomain, string username, string password)
+        private HarvestRestClient(string subdomain, string username, string password, string clientId, string clientSecret, string accessToken)
         {
-            BaseUrl = "https://" + subdomain + ".harvestapp.com/";
             Username = username;
             Password = password;
-
-            var assembly = Assembly.GetExecutingAssembly();
-            AssemblyName assemblyName = new AssemblyName(assembly.FullName);
-            var version = assemblyName.Version;
-
-            _client = new RestClient();
-            _client.UserAgent = "harvest.net/" + version + " (.NET " + Environment.Version.ToString() + ")";
-            _client.Authenticator = new HttpBasicAuthenticator(username, password);
-
-            _client.BaseUrl = BaseUrl;
-            
-            // Harvest API is inconsistent in JSON responses so we'll stick to XML
-            _client.ClearHandlers();
-            _client.AddHandler("application/xml", new HarvestXmlDeserializer());
-            _client.AddHandler("text/xml", new HarvestXmlDeserializer());            
-        }
-
-        public HarvestRestClient(string subdomain, string clientId, string clientSecret, string accessToken)
-        {
-            BaseUrl = "https://" + subdomain + ".harvestapp.com/";
-
             ClientId = clientId;
             ClientSecret = clientSecret;
             AccessToken = accessToken;
 
+            BaseUrl = "https://" + subdomain + ".harvestapp.com/";
+
             var assembly = Assembly.GetExecutingAssembly();
             AssemblyName assemblyName = new AssemblyName(assembly.FullName);
             var version = assemblyName.Version;
@@ -69,12 +43,38 @@ namespace Harvest.Net
             _client = new RestClient();
             _client.UserAgent = "harvest.net/" + version + " (.NET " + Environment.Version.ToString() + ")";
             _client.BaseUrl = BaseUrl;
-            _client.AddDefaultParameter("access_token", accessToken, ParameterType.UrlSegment);
 
+            // Harvest API is inconsistent in JSON responses so we'll stick to XML
             _client.ClearHandlers();
             _client.AddHandler("application/xml", new HarvestXmlDeserializer());
-            _client.AddHandler("text/xml", new HarvestXmlDeserializer());   
+            _client.AddHandler("text/xml", new HarvestXmlDeserializer()); 
+
+            if (username != null && password != null)
+                _client.Authenticator = new HttpBasicAuthenticator(username, password);
+            else if (accessToken != null)
+                _client.AddDefaultParameter("access_token", accessToken, ParameterType.UrlSegment);
         }
+
+        /// <summary>
+        /// Initializes a new client using basic HTTP authentication
+        /// </summary>
+        /// <param name="subdomain">The subdomain of the harvest account to connect to</param>
+        /// <param name="username">The username to authenticate with</param>
+        /// <param name="password">The password to athenticate with</param>
+        public HarvestRestClient(string subdomain, string username, string password)
+            : this(subdomain, username, password, null, null, null)
+        { }
+
+        /// <summary>
+        /// Initializes a new client using OAuth2 authentication
+        /// </summary>
+        /// <param name="subdomain">The subdomain of the harvest account to connect to</param>
+        /// <param name="clientId">The OAuth client ID</param>
+        /// <param name="clientSecret">The OAuth client secret</param>
+        /// <param name="accessToken">The OAuth access token</param>
+        public HarvestRestClient(string subdomain, string clientId, string clientSecret, string accessToken)
+            : this(subdomain, null, null, clientId, clientSecret, accessToken)
+        { }
 
         /// <summary>
         /// Execute a manual REST request
@@ -108,11 +108,20 @@ namespace Harvest.Net
             return response.Data;
         }
 
+        /// <summary>
+        /// Execute a non-generic REST request
+        /// </summary>
+        /// <param name="request">The request to send</param>
         public virtual IRestResponse Execute(RestRequest request)
         {
             return _client.Execute(request);
         }
 
+        /// <summary>
+        /// Request a new access token
+        /// </summary>
+        /// <param name="refreshToken">An unexpired refresh token provided to the authenticated client ID.</param>
+        /// <returns></returns>
         public OAuth RefreshToken(string refreshToken)
         {
             RestRequest r = new RestRequest();
@@ -123,7 +132,7 @@ namespace Harvest.Net
             r.AddParameter("client_id", ClientId);
             r.AddParameter("client_secret", ClientSecret);
             r.AddParameter("grant_type", "refresh_token");
-            r.AddHeader("Content-Type", "x-www-form-urlencoded");
+            r.AddHeader("Content-Type", "application/x-www-form-urlencoded");
 
             return this.Execute<OAuth>(r);
         }
@@ -136,10 +145,14 @@ namespace Harvest.Net
         protected RestRequest Request(string resource, Method method = Method.GET)
         {
             var request = new RestRequest();
-            request.Resource = resource;
 
             if (AccessToken != null)
-                request.Resource = resource + "?access_token=" + AccessToken;
+            {
+                var delimiter = resource.Contains("?") ? "&" : "?";
+                request.Resource = resource + delimiter + "access_token={access_token}";
+            }
+            else
+                request.Resource = resource;
 
             request.Method = method;
 

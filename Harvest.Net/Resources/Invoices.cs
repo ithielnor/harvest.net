@@ -79,8 +79,10 @@ namespace Harvest.Net
                 Subject = subject,
                 Notes = notes,
                 Number = number,
-                ProjectsToInvoice = string.Join(",", projectIds.Select(id => id.ToString())),
             };
+
+            if (projectIds != null)
+                invoice.ProjectsToInvoice = string.Join(",", projectIds.Select(id => id.ToString()));
 
             invoice.SetInvoiceItems(lineItems);
 

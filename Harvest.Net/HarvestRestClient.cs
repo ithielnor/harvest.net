@@ -13,9 +13,14 @@ namespace Harvest.Net
     public partial class HarvestRestClient
     {
         /// <summary>
-        /// Base URL of API (defaults to https://subdomain.harvestapp.com/)
+        /// Base URL of API
         /// </summary>
         public string BaseUrl { get; private set; }
+
+        /// <summary>
+        /// The configured format 
+        /// </summary>
+        public string DateFormat { get; set; }
 
         private string Username { get; set; }
         private string Password { get; set; }

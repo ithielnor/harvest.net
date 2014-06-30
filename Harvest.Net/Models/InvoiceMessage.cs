@@ -26,5 +26,7 @@ namespace Harvest.Net.Models
         public string SentByEmail { get; set; }
 
         public string FullRecipientList { get; set; }
+
+        public string Body { get; set; }
     }
 }

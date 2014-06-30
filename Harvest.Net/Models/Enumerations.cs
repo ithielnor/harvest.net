@@ -22,6 +22,7 @@ namespace Harvest.Net.Models
         Paid,
         Unpaid,
         PastDue,
+        Closed,
     }
 
     public enum InvoiceKind

@@ -81,6 +81,59 @@ namespace Harvest.Net
             return result.StatusCode == System.Net.HttpStatusCode.OK;
         }
 
-        // TODO: mark_as_sent, mark_as_closed, re_open, mark_as_draft
+        /// <summary>
+        /// Mark an existing invoice from the authenticated account as closed (written-off). Makes a POST request to the Invoices/Messages resource.
+        /// </summary>
+        /// <param name="invoiceId">The ID of the invoice to close</param>
+        /// <param name="body">The message body</param>
+        public bool MarkInvoiceClosed(long invoiceId, string body)
+        {
+            return _createInvoiceMessageAction(invoiceId, body, "mark_as_closed");
+        }
+
+        /// <summary>
+        /// Mark an existing invoice from the authenticated account as sent. Makes a POST request to the Invoices/Messages resource.
+        /// </summary>
+        /// <param name="invoiceId">The ID of the invoice to mark as sent</param>
+        /// <param name="body">The message body</param>
+        public bool MarkInvoiceSent(long invoiceId, string body)
+        {
+            return _createInvoiceMessageAction(invoiceId, body, "mark_as_sent");
+        }
+
+        /// <summary>
+        /// Mark an existing invoice from the authenticated account as draft. Makes a POST request to the Invoices/Messages resource.
+        /// </summary>
+        /// <param name="invoiceId">The ID of the invoice to mark as draft</param>
+        public bool MarkInvoiceDraft(long invoiceId)
+        {
+            return _createInvoiceMessageAction(invoiceId, null, "mark_as_draft");
+        }
+
+        /// <summary>
+        /// Mark an existing invoice from the authenticated account as open. Makes a POST request to the Invoices/Messages resource.
+        /// </summary>
+        /// <param name="invoiceId">The ID of the invoice to open</param>
+        /// <param name="body">The message body</param>
+        public bool ReopenInvoice(long invoiceId, string body)
+        {
+            return _createInvoiceMessageAction(invoiceId, body, "re_open");
+        }
+
+        private bool _createInvoiceMessageAction(long invoiceId, string body, string action)
+        {
+            var request = Request("invoices/" + invoiceId + "/messages/" + action, RestSharp.Method.POST);
+
+            var options = new InvoiceMessageOptions()
+            {
+                Body = body
+            };
+
+            request.AddBody(options);
+
+            var result = Execute(request);
+
+            return result.StatusCode == System.Net.HttpStatusCode.OK;
+        }
     }
 }

@@ -18,7 +18,7 @@ namespace Harvest.Net
         public string BaseUrl { get; private set; }
 
         /// <summary>
-        /// The configured format 
+        /// The date format configured in Harvest (default: yyyy-MM-dd)
         /// </summary>
         public string DateFormat { get; set; }
 
@@ -31,13 +31,14 @@ namespace Harvest.Net
 
         private RestClient _client;
 
-        private HarvestRestClient(string subdomain, string username, string password, string clientId, string clientSecret, string accessToken)
+        private HarvestRestClient(string subdomain, string username, string password, string clientId, string clientSecret, string accessToken, string dateFormat)
         {
             Username = username;
             Password = password;
             ClientId = clientId;
             ClientSecret = clientSecret;
             AccessToken = accessToken;
+            DateFormat = dateFormat ?? "yyyy-MM-dd";
 
             BaseUrl = "https://" + subdomain + ".harvestapp.com/";
 
@@ -67,7 +68,7 @@ namespace Harvest.Net
         /// <param name="username">The username to authenticate with</param>
         /// <param name="password">The password to athenticate with</param>
         public HarvestRestClient(string subdomain, string username, string password)
-            : this(subdomain, username, password, null, null, null)
+            : this(subdomain, username, password, null, null, null, null)
         { }
 
         /// <summary>
@@ -78,7 +79,7 @@ namespace Harvest.Net
         /// <param name="clientSecret">The OAuth client secret</param>
         /// <param name="accessToken">The OAuth access token</param>
         public HarvestRestClient(string subdomain, string clientId, string clientSecret, string accessToken)
-            : this(subdomain, null, null, clientId, clientSecret, accessToken)
+            : this(subdomain, null, null, clientId, clientSecret, accessToken, null)
         { }
 
         /// <summary>
@@ -162,7 +163,7 @@ namespace Harvest.Net
             request.Method = method;
 
             request.RequestFormat = DataFormat.Xml;
-            request.XmlSerializer = new HarvestXmlSerializer();
+            request.XmlSerializer = new HarvestXmlSerializer() { DateFormat = this.DateFormat };
          
             request.OnBeforeDeserialization = resp =>
             {

@@ -39,7 +39,7 @@ namespace Harvest.Net.Models
 
         public DateTime IssuedAt { get; set; }
 
-        public long CreatedById { get; set; }
+        public long? CreatedById { get; set; }
 
         public string Notes { get; set; }
 

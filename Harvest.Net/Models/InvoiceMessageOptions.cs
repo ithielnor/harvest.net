@@ -15,6 +15,12 @@ namespace Harvest.Net.Models
 
         public bool AttachPdf { get; set; }
 
+        /// <summary>
+        /// This feature is not documented and may change in a future version of the Harvest API
+        /// </summary>
+        [Obsolete("Undocumented. Works as of 7/1/2014")]
+        public bool IncludePayPalLink { get; set; }
+
         public bool SendMeACopy { get; set; }
 
         /// <summary>

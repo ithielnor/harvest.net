@@ -40,14 +40,15 @@ namespace Harvest.Net
         /// <param name="body">The body of the message</param>
         /// <param name="sendMeACopy">Whether to send a copy of the invoice to the authenticated user</param>
         /// <param name="attachPdf">Whether to attach a pdf copy of the invoice to the email(s)</param>
-        public InvoiceMessage SendInvoice(long invoiceId, string recipients, string body = null, bool sendMeACopy = true, bool attachPdf = true)
+        public InvoiceMessage SendInvoice(long invoiceId, string recipients, string body = null, bool sendMeACopy = true, bool attachPdf = true, bool includeLink = false)
         {
             var options = new InvoiceMessageOptions()
             {
                 Recipients = recipients,
                 Body = body,
                 SendMeACopy = sendMeACopy,
-                AttachPdf = attachPdf
+                AttachPdf = attachPdf,
+                IncludePayPalLink = includeLink
             };
 
             return SendInvoice(invoiceId, options);

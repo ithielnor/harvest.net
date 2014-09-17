@@ -49,4 +49,11 @@ namespace Harvest.Net.Models
         [Description("custom")]
         Custom,
     }
+
+    public enum WeekDay
+    {
+        Sunday,
+        Monday,
+        Saturday
+    }
 }

@@ -11,16 +11,19 @@ namespace Harvest.Net.Tests
     public abstract class FactBase
     {
         protected HarvestRestClient Api { get; set; }
+        protected string Username { get; private set; }
+        protected string Subdomain { get; private set; }
 
         protected IList<Func<bool>> TearDownEvents { get; set; }
 
         public FactBase()
         {
-            string subdomain = ConfigurationManager.AppSettings["auth_subdomain"];
-            string username = ConfigurationManager.AppSettings["auth_username"];
+            Username = ConfigurationManager.AppSettings["auth_username"];
+            Subdomain = ConfigurationManager.AppSettings["auth_subdomain"];
+            
             string password = ConfigurationManager.AppSettings["auth_password"];
 
-            Api = new HarvestRestClient(subdomain, username, password);
+            Api = new HarvestRestClient(Subdomain, Username, password);
 
             Initialize();
         }

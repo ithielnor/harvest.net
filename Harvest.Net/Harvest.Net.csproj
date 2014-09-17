@@ -45,11 +45,17 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Extensions\StringExtensions.cs" />
+    <Compile Include="Models\Modules.cs" />
+    <Compile Include="Models\Company.cs" />
+    <Compile Include="Models\ProjectManager.cs" />
+    <Compile Include="Models\User.cs" />
+    <Compile Include="Models\Account.cs" />
     <Compile Include="Models\ContactOptions.cs" />
     <Compile Include="Models\Contact.cs" />
     <Compile Include="Models\InvoiceMessageOptions.cs" />
     <Compile Include="Models\InvoiceMessage.cs" />
     <Compile Include="Models\OAuth.cs" />
+    <Compile Include="Resources\Account.cs" />
     <Compile Include="Resources\Contacts.cs" />
     <Compile Include="Resources\Clients.cs" />
     <Compile Include="Resources\InvoiceMessages.cs" />

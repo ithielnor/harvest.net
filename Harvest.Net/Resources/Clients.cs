@@ -39,7 +39,7 @@ namespace Harvest.Net
         /// </summary>
         /// <param name="name">The name of the client</param>
         /// <param name="currency">The currency for the client</param>
-        /// <param name="active">That status of the client</param>
+        /// <param name="active">The status of the client</param>
         /// <param name="details">The details (address, phone, etc.) of the client</param>
         /// <param name="highriseId">The related Highrise ID of the client</param>
         public Client CreateClient(string name, Currency? currency = null, bool active = true, string details = null, long? highriseId = null)
@@ -119,6 +119,11 @@ namespace Harvest.Net
             return UpdateClient(clientId, options);
         }
 
+        /// <summary>
+        /// Updates a client on the authenticated account. Makes a PUT and a GET request to the Clients resource.
+        /// </summary>
+        /// <param name="clientId">The ID for the client to update</param>
+        /// <param name="options">The options to be updated</param>
         public Client UpdateClient(long clientId, ClientOptions options)
         {
             var request = Request("clients/" + clientId, RestSharp.Method.PUT);

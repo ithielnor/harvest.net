@@ -91,8 +91,12 @@ namespace Harvest.Net
         {
             var response = _client.Execute<T>(request);
 
-            if (response.StatusCode == System.Net.HttpStatusCode.Created || response.StatusCode == System.Net.HttpStatusCode.Accepted
-                || (response.StatusCode == System.Net.HttpStatusCode.OK && request.Method == Method.PUT))
+            if (response.StatusCode == System.Net.HttpStatusCode.BadRequest)
+                throw new Exception(response.StatusDescription + Environment.NewLine + string.Join(Environment.NewLine, response.Headers.Select(h => h.Name + ": " + h.Value).ToArray()));
+
+            if (response.StatusCode == System.Net.HttpStatusCode.Created 
+                || response.StatusCode == System.Net.HttpStatusCode.Accepted
+                || (response.StatusCode == System.Net.HttpStatusCode.OK && (request.Method == Method.PUT || request.Method == Method.POST)))
             {
                 string location = null;
 

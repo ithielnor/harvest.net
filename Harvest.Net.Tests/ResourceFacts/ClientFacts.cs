@@ -46,6 +46,18 @@ namespace Harvest.Net.Tests
         }
 
         [Fact]
+        public void ToggleClient_TogglesTheClientStatus()
+        {
+            _todelete = Api.CreateClient("Test Toggle Client");
+
+            Assert.Equal(true, _todelete.Active);
+
+            _todelete = Api.ToggleClient(_todelete.Id);
+
+            Assert.Equal(false, _todelete.Active);
+        }
+
+        [Fact]
         public void UpdateClient_UpdatesOnlyChangedValues()
         {
             _todelete = Api.CreateClient("Test Update Client");
@@ -61,8 +73,7 @@ namespace Harvest.Net.Tests
             // stuff didn't change
             Assert.Equal(_todelete.Active, updated.Active);
             Assert.Equal(_todelete.Currency, updated.Currency);
-
-        }        
+        }
 
         public void Dispose()
         {

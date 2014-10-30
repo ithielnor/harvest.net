@@ -12,7 +12,7 @@ namespace Harvest.Net
         /// <summary>
         /// List all contacts for the authenticated account. Makes a GET request to the Contacts resource.
         /// </summary>
-        /// <param name="updatedSince">An optional filter on the client updated-at property</param>
+        /// <param name="updatedSince">An optional filter on the contact updated-at property</param>
         public IList<Contact> ListContacts(DateTime? updatedSince = null)
         {
             var request = Request("contacts");
@@ -26,7 +26,7 @@ namespace Harvest.Net
         /// <summary>
         /// List all contacts for a client for the authenticated account. Makes a GET request to the Clients/Contacts resource.
         /// </summary>
-        /// <param name="updatedSince">An optional filter on the client updated-at property</param>
+        /// <param name="updatedSince">An optional filter on the contact updated-at property</param>
         public IList<Contact> ListClientContacts(long clientId, DateTime? updatedSince = null)
         {
             var request = Request("clients/" + clientId + "/contacts");
@@ -40,7 +40,7 @@ namespace Harvest.Net
         /// <summary>
         /// Retrieve a contact on the authenticated account. Makes a GET request to the Contacts resource.
         /// </summary>
-        /// <param name="clientId">The Id of the client to retrieve</param>
+        /// <param name="contactId">The Id of the contact to retrieve</param>
         public Contact Contact(long contactId)
         {
             var request = Request("contacts/" + contactId);
@@ -98,7 +98,7 @@ namespace Harvest.Net
         /// <summary>
         /// Delete a contact from the authenticated account. Makes a DELETE request to the Contacts resource.
         /// </summary>
-        /// <param name="clientId">The ID of the contact to delete</param>
+        /// <param name="contactId">The ID of the contact to delete</param>
         public bool DeleteContact(long contactId)
         {
             var request = Request("contacts/" + contactId, RestSharp.Method.DELETE);

@@ -1,5 +1,6 @@
 ﻿using Harvest.Net.Models;
 using System;
+using System.IO;
 using System.Linq;
 using Xunit;
 
@@ -70,6 +71,26 @@ namespace Harvest.Net.Tests
             // stuff didn't change
             Assert.Equal(_todelete.ProjectId, updated.ProjectId);
             Assert.Equal(_todelete.Notes, updated.Notes);
+        }
+
+        [Fact]
+        public void AttachExpenseReceipt_AttachesFile()
+        {
+            _todelete = Api.CreateExpense(DateTime.Now.Date, _testProjectId, _testExpenseCategoryId, totalCost: 1, notes: "Upload Test");
+
+            System.Reflection.Assembly factAssembly = System.Reflection.Assembly.GetExecutingAssembly();
+
+            byte[] fileBytes;
+            using (Stream resourceFilestream = factAssembly.GetManifestResourceStream("Harvest.Net.Tests.receipt.jpg"))
+            {
+                fileBytes = new byte[resourceFilestream.Length];
+                resourceFilestream.Read(fileBytes, 0, fileBytes.Length);
+            }
+            
+            var attached = Api.AttachExpenseReceipt(_todelete.Id, fileBytes, "receipt.jpg");
+
+            Assert.Equal(true, attached.HasReceipt);
+            Assert.NotNull(attached.ReceiptUrl);
         }
         
         public void Dispose()

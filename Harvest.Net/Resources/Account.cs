@@ -9,6 +9,8 @@ namespace Harvest.Net
 {
     public partial class HarvestRestClient
     {
+        // https://github.com/harvesthq/api/blob/master/Sections/Accounts.md
+
         /// <summary>
         /// List user and account information for the authenticated account. Makes a GET request to the Account/Who_Am_I resource.
         /// </summary>
@@ -18,6 +20,5 @@ namespace Harvest.Net
             
             return Execute<Account>(request);
         }
-
     }
 }

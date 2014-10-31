@@ -9,6 +9,8 @@ namespace Harvest.Net
 {
     public partial class HarvestRestClient
     {
+        // https://github.com/harvesthq/api/blob/master/Sections/Expense%20Tracking.md
+
         /// <summary>
         /// List all expenses for the authenticated account. Makes a GET request to the Expenses resource.
         /// </summary>

@@ -58,9 +58,9 @@ namespace Harvest.Net
         }
 
         /// <summary>
-        /// Creates a new client under the authenticated account. Makes a POST and a GET request to the Clients resource.
+        /// Creates a new expense category under the authenticated account. Makes a POST and a GET request to the Expense_Categories resource.
         /// </summary>
-        /// <param name="options">The options for the new client to be created</param>
+        /// <param name="options">The options for the new expense category to be created</param>
         public ExpenseCategory CreateExpenseCategory(ExpenseCategoryOptions options)
         {
             var request = Request("expense_categories", RestSharp.Method.POST);
@@ -84,7 +84,7 @@ namespace Harvest.Net
         }
 
         /// <summary>
-        /// Toggle the Deactivated status of an expense category on the authenticated account. Makes a POST request to the Expense_Categories/Toggle resource and a GET request to the Clients resource.
+        /// Toggle the Deactivated status of an expense category on the authenticated account. Makes a POST request to the Expense_Categories/Toggle resource and a GET request to the Expense_Category resource.
         /// </summary>
         /// <param name="expenseCategoryId">The ID of the expense category to toggle</param>
         public ExpenseCategory ToggleExpenseCategory(long expenseCategoryId)
@@ -95,7 +95,7 @@ namespace Harvest.Net
         }
 
         /// <summary>
-        /// Update a client on the authenticated account. Makes a PUT and a GET request to the Clients resource.
+        /// Update a expense category on the authenticated account. Makes a PUT and a GET request to the Expense_Category resource.
         /// </summary>
         /// <param name="expenseCategoryId">The ID of the expense category to update</param>
         /// <param name="name">The updated name</param>
@@ -114,7 +114,7 @@ namespace Harvest.Net
         }
 
         /// <summary>
-        /// Updates an expense category on the authenticated account. Makes a PUT and a GET request to the Clients resource.
+        /// Updates an expense category on the authenticated account. Makes a PUT and a GET request to the Expense_Category resource.
         /// </summary>
         /// <param name="expenseCategoryId">The ID for the expense category to update</param>
         /// <param name="options">The options to be updated</param>

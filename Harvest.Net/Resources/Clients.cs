@@ -9,6 +9,8 @@ namespace Harvest.Net
 {
     public partial class HarvestRestClient
     {
+        // https://github.com/harvesthq/api/blob/master/Sections/Clients.md
+
         /// <summary>
         /// List all clients for the authenticated account. Makes a GET request to the Clients resource.
         /// </summary>

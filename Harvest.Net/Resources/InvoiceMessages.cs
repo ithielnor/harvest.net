@@ -9,6 +9,8 @@ namespace Harvest.Net
 {
     public partial class HarvestRestClient
     {
+        // https://github.com/harvesthq/api/blob/master/Sections/Invoice%20Messages.md
+
         /// <summary>
         /// Retrieve a list of messages for an invoice on the authenticated account. Makes a GET request to the Invoices/Messages resource.
         /// </summary>

@@ -14,7 +14,7 @@ namespace Harvest.Net.Tests
         [Fact]
         public void ListInvoiceMessages_Returns()
         {
-            var invoice = Api.Invoice(4861513);
+            var invoice = Api.Invoice(GetTestId(TestId.InvoiceId));
 
             var messages = Api.ListInvoiceMessages(invoice.Id);
 
@@ -25,7 +25,7 @@ namespace Harvest.Net.Tests
         [Fact]
         public void InvoiceMessage_Returns()
         {
-            var invoice = Api.Invoice(4861513);
+            var invoice = Api.Invoice(GetTestId(TestId.InvoiceId));
 
             var message = Api.InvoiceMessage(invoice.Id, Api.ListInvoiceMessages(invoice.Id).First().Id);
 

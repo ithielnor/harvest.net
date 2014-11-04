@@ -9,6 +9,7 @@ namespace Harvest.Net.Tests
     public class InvoiceFacts : FactBase, IDisposable
     {
         Invoice _toDelete = null;
+        const long _test = 4861513; // TODO: move this into a config file
 
         [Fact]
         public void ListInvoices_Returns()
@@ -22,7 +23,7 @@ namespace Harvest.Net.Tests
         [Fact]
         public void Invoice_ReturnsInvoice()
         {
-            var invoice = Api.Invoice(4861513);
+            var invoice = Api.Invoice(GetTestId(TestId.InvoiceId));
 
             Assert.NotNull(invoice);
         }

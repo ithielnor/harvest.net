@@ -14,7 +14,10 @@ namespace Harvest.Net.Tests
         protected string Username { get; private set; }
         protected string Subdomain { get; private set; }
 
-        protected IList<Func<bool>> TearDownEvents { get; set; }
+        protected long GetTestId(TestId key)
+        {
+            return long.Parse(ConfigurationManager.AppSettings["Test_" + key.ToString()]);
+        }
 
         public FactBase()
         {
@@ -32,5 +35,16 @@ namespace Harvest.Net.Tests
         /// Initialize any necessary test items
         /// </summary>
         protected virtual void Initialize() { }
+
+        protected enum TestId
+        {
+            ClientId,
+            ContactId,
+            ExpenseCategoryId,
+            ExpenseId,
+            InvoiceCategoryId,
+            InvoiceId,
+            ProjectId,
+        }
     }
 }

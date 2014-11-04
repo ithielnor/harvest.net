@@ -21,7 +21,7 @@ namespace Harvest.Net.Tests
         [Fact]
         public void ExpenseCategory_ReturnsExpenseCategory()
         {
-            var expenseCategory = Api.ExpenseCategory(2001551); // Id of base Entertainment expense category
+            var expenseCategory = Api.ExpenseCategory(GetTestId(TestId.ExpenseCategoryId)); // Id of base Entertainment expense category
 
             Assert.NotNull(expenseCategory);
             Assert.Equal("Entertainment", expenseCategory.Name);

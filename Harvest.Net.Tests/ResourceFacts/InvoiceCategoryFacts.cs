@@ -21,7 +21,7 @@ namespace Harvest.Net.Tests
         [Fact(Skip = "GET for a single item does not work. https://github.com/harvesthq/api/issues/90")]
         public void InvoiceCategory_ReturnsInvoiceCategory()
         {
-            var InvoiceCategory = Api.InvoiceCategory(795576); // Id of test invoice category
+            var InvoiceCategory = Api.InvoiceCategory(GetTestId(TestId.InvoiceCategoryId));
 
             Assert.NotNull(InvoiceCategory);
             Assert.Equal("TEST CATEGORY DO NOT DELETE", InvoiceCategory.Name);

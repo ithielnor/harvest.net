@@ -36,7 +36,7 @@ namespace Harvest.Net.Tests
         [Fact]
         public void StateChangesApply()
         {
-            var invoice = Api.CreateInvoice(InvoiceKind.FreeForm, 2553669, DateTime.Now, lineItems: new List<InvoiceItem>());
+            var invoice = Api.CreateInvoice(InvoiceKind.FreeForm, GetTestId(TestId.ClientId), DateTime.Now, lineItems: new List<InvoiceItem>());
             _toDeleteInvoice = invoice;
 
             Assert.Equal(InvoiceState.Draft, invoice.State);

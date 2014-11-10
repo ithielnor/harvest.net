@@ -46,9 +46,8 @@ namespace Harvest.Net
             AssemblyName assemblyName = new AssemblyName(assembly.FullName);
             var version = assemblyName.Version;
 
-            _client = new RestClient();
+            _client = new RestClient(BaseUrl);
             _client.UserAgent = "harvest.net/" + version + " (.NET " + Environment.Version.ToString() + ")";
-            _client.BaseUrl = BaseUrl;
 
             // Harvest API is inconsistent in JSON responses so we'll stick to XML
             _client.ClearHandlers();

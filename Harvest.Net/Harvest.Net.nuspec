@@ -13,5 +13,8 @@
     <description>A wrapper for the Harvest time tracking API.</description>
     <releaseNotes>First release.</releaseNotes>
     <tags>harvest harvestapp harvestapi api harvesthq timetracking</tags>
+    <dependencies>
+      <dependency id="RestSharp" version="104.2.0" /> <!-- I have test with 104.2 through 105 -->
+    </dependencies>
   </metadata>
 </package>

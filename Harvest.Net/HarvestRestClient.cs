@@ -22,6 +22,7 @@ namespace Harvest.Net
         /// </summary>
         public string DateFormat { get; set; }
 
+        #region Privates
         private string Username { get; set; }
         private string Password { get; set; }
 
@@ -31,16 +32,26 @@ namespace Harvest.Net
 
         private RestClient _client;
 
-        private HarvestRestClient(string subdomain, string username, string password, string clientId, string clientSecret, string accessToken, string dateFormat)
+        /// <summary>
+        /// Constructs a client for executing all api commands.
+        /// </summary>
+        /// <param name="subdomain">The harvest account subdomain</param>
+        /// <param name="username">The harvest account username (optional for OAuth)</param>
+        /// <param name="password">The harvest account password (optional for OAuth)</param>
+        /// <param name="clientId">The harvest account client OAuth ID (optional for basic auth)</param>
+        /// <param name="clientSecret">The harvest account client OAuth secret (optional for basic auth)</param>
+        /// <param name="accessToken">The harvest account OAuth token (optional for basic auth)</param>
+        /// <param name="dateFormat">The date format of the harvest account (default: yyyy-MM-dd)</param>
+        private HarvestRestClient(string subdomain, string username, string password, string clientId, string clientSecret, string accessToken, string dateFormat = null)
         {
-            Username = username;
-            Password = password;
-            ClientId = clientId;
-            ClientSecret = clientSecret;
-            AccessToken = accessToken;
-            DateFormat = dateFormat ?? "yyyy-MM-dd";
+            this.Username = username;
+            this.Password = password;
+            this.ClientId = clientId;
+            this.ClientSecret = clientSecret;
+            this.AccessToken = accessToken;
+            this.DateFormat = dateFormat ?? "yyyy-MM-dd";
 
-            BaseUrl = "https://" + subdomain + ".harvestapp.com/";
+            this.BaseUrl = "https://" + subdomain + ".harvestapp.com/";
 
             var assembly = Assembly.GetExecutingAssembly();
             AssemblyName assemblyName = new AssemblyName(assembly.FullName);
@@ -59,6 +70,7 @@ namespace Harvest.Net
             else if (accessToken != null)
                 _client.AddDefaultParameter("access_token", accessToken, ParameterType.UrlSegment);
         }
+        #endregion
 
         /// <summary>
         /// Initializes a new client using basic HTTP authentication
@@ -67,7 +79,7 @@ namespace Harvest.Net
         /// <param name="username">The username to authenticate with</param>
         /// <param name="password">The password to athenticate with</param>
         public HarvestRestClient(string subdomain, string username, string password)
-            : this(subdomain, username, password, null, null, null, null)
+            : this(subdomain, username, password, null, null, null)
         { }
 
         /// <summary>
@@ -78,7 +90,7 @@ namespace Harvest.Net
         /// <param name="clientSecret">The OAuth client secret</param>
         /// <param name="accessToken">The OAuth access token</param>
         public HarvestRestClient(string subdomain, string clientId, string clientSecret, string accessToken)
-            : this(subdomain, null, null, clientId, clientSecret, accessToken, null)
+            : this(subdomain, null, null, clientId, clientSecret, accessToken)
         { }
 
         /// <summary>

@@ -46,6 +46,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Extensions\StringExtensions.cs" />
+    <Compile Include="Models\PaymentOptions.cs" />
+    <Compile Include="Models\Payment.cs" />
     <Compile Include="Models\InvoiceItemCategoryOptions.cs" />
     <Compile Include="Models\ExpenseOptions.cs" />
     <Compile Include="Models\Expense.cs" />
@@ -61,6 +63,7 @@
     <Compile Include="Models\InvoiceMessageOptions.cs" />
     <Compile Include="Models\InvoiceMessage.cs" />
     <Compile Include="Models\OAuth.cs" />
+    <Compile Include="Resources\InvoicePayments.cs" />
     <Compile Include="Resources\InvoiceCategories.cs" />
     <Compile Include="Resources\Expenses.cs" />
     <Compile Include="Resources\ExpenseCategories.cs" />

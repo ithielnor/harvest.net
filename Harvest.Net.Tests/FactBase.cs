@@ -44,6 +44,7 @@ namespace Harvest.Net.Tests
             ExpenseId,
             InvoiceCategoryId,
             InvoiceId,
+            PaymentId,
             ProjectId,
         }
     }

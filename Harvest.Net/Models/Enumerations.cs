@@ -164,4 +164,29 @@ namespace Harvest.Net.Models
         Monday,
         Saturday
     }
+
+    public enum BillingMethod
+    {
+        [Description("none")]
+        None,
+        People,
+        Project,
+        Task
+    }
+
+    public enum BudgetMethod
+    {
+        [Description("none")]
+        None,
+        Person,
+        Project,
+        ProjectCost,
+        Task
+    }
+
+    public enum EstimateMethod
+    {
+        [Description("none")]
+        None,
+    }
 }

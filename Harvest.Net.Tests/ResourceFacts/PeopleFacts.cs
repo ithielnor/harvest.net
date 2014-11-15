@@ -21,7 +21,7 @@ namespace Harvest.Net.Tests
         [Fact]
         public void User_ReturnsUser()
         {
-            var User = Api.User(GetTestId(TestId.UserId)); // Id of base Harvest.Net User
+            var User = Api.User(GetTestId(TestId.UserId));
 
             Assert.NotNull(User);
             Assert.Equal("Joel", User.FirstName);

@@ -21,7 +21,7 @@ namespace Harvest.Net.Tests
         [Fact]
         public void Client_ReturnsClient()
         {
-            var client = Api.Client(GetTestId(TestId.ClientId)); // Id of base Harvest.Net client
+            var client = Api.Client(GetTestId(TestId.ClientId));
 
             Assert.NotNull(client);
             Assert.Equal("Harvest.Net", client.Name);

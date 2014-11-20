@@ -48,20 +48,21 @@ namespace Harvest.Net.Tests
 
         // https://github.com/harvesthq/api/issues/93 for the two tests below
 
-        [Fact(Skip="Getting a 404. I think this end point might have been removed.")]
+        [Fact]
         public void ToggleProject_TogglesTheProjectStatus()
         {
-            var _todelete = Api.CreateProject("Test Toggle Project", GetTestId(TestId.ClientId));
+            _todelete = Api.CreateProject("Test Toggle Project", GetTestId(TestId.ClientId));
 
             Assert.Equal(true, _todelete.Active);
 
             var result = Api.ToggleProject(_todelete.Id);
+            _todelete = Api.Project(_todelete.Id);
 
             Assert.Equal(true, result);
-            Assert.Null(Api.Project(_todelete.Id));
+            Assert.Equal(false, _todelete.Active);
         }
 
-        [Fact(Skip = "Getting a 302. I think this end point might be broken.")]
+        [Fact(Skip = "Bugged: https://github.com/harvesthq/api/issues/93")]
         public void UpdateProject_UpdatesOnlyChangedValues()
         {
             _todelete = Api.CreateProject("Test Update Project", GetTestId(TestId.ClientId));
@@ -84,7 +85,9 @@ namespace Harvest.Net.Tests
         public void Dispose()
         {
             if (_todelete != null)
+            {
                 Api.DeleteProject(_todelete.Id);
+            }
         }
     }
 }

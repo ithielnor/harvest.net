@@ -101,7 +101,7 @@ namespace Harvest.Net
         /// <param name="projectId">The ID of the Project to toggle</param>
         public bool ToggleProject(long projectId)
         {
-            var request = Request("projects/" + projectId + "/toggle", RestSharp.Method.POST);
+            var request = Request("projects/" + projectId + "/toggle", RestSharp.Method.PUT);
 
             var result = Execute(request);
 

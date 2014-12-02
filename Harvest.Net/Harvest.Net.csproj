@@ -58,6 +58,8 @@
     <Compile Include="Models\Modules.cs" />
     <Compile Include="Models\Company.cs" />
     <Compile Include="Models\ProjectManager.cs" />
+    <Compile Include="Models\TaskOptions.cs" />
+    <Compile Include="Models\Task.cs" />
     <Compile Include="Models\UserOptions.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Models\Account.cs" />
@@ -66,6 +68,7 @@
     <Compile Include="Models\InvoiceMessageOptions.cs" />
     <Compile Include="Models\InvoiceMessage.cs" />
     <Compile Include="Models\OAuth.cs" />
+    <Compile Include="Resources\Tasks.cs" />
     <Compile Include="Resources\Projects.cs" />
     <Compile Include="Resources\People.cs" />
     <Compile Include="Resources\InvoicePayments.cs" />

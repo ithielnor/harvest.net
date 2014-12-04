@@ -51,13 +51,5 @@ namespace Harvest.Net.Models
         public decimal? CostRate { get; set; }
 
         public string Timezone { get; set; }
-
-        public string TimezoneIdentifier { get; set; }
-
-        public long? TimezoneUtcOffset { get; set; }
-
-        public bool? TimestampTimers { get; set; }
-
-        public ProjectManager ProjectManager { get; set; }
     }
 }

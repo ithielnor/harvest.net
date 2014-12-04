@@ -12,6 +12,6 @@ namespace Harvest.Net.Models
     {
         public Company Company { get; set; }
 
-        public User User { get; set; }
+        public AccountUser User { get; set; }
     }
 }

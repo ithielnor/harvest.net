@@ -60,6 +60,7 @@
     <Compile Include="Models\ProjectManager.cs" />
     <Compile Include="Models\TaskOptions.cs" />
     <Compile Include="Models\Task.cs" />
+    <Compile Include="Models\AccountUser.cs" />
     <Compile Include="Models\UserOptions.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Models\Account.cs" />

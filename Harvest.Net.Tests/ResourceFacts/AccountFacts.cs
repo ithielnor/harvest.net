@@ -5,7 +5,7 @@ using Xunit;
 
 namespace Harvest.Net.Tests
 {
-    public class AccountFacts : FactBase, IDisposable
+    public class AccountFacts : FactBase
     {
         [Fact]
         public void WhoAmI_ReturnsAccountDetails()
@@ -19,10 +19,7 @@ namespace Harvest.Net.Tests
 
             Assert.Equal(this.Username, account.User.Email);
             Assert.Equal(this.Subdomain + ".harvestapp.com", account.Company.FullDomain);
-        }        
-
-        public void Dispose()
-        {
+            Assert.Equal(true, account.User.Admin);
         }
     }
 }

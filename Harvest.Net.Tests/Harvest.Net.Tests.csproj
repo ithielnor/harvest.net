@@ -55,6 +55,7 @@
   </Choose>
   <ItemGroup>
     <Compile Include="FactBase.cs" />
+    <Compile Include="ResourceFacts\TimeAndExpenseFacts.cs" />
     <Compile Include="ResourceFacts\TaskFacts.cs" />
     <Compile Include="ResourceFacts\ProjectFacts.cs" />
     <Compile Include="ResourceFacts\PeopleFacts.cs" />

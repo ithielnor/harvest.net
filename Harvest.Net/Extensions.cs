@@ -4,16 +4,21 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Harvest.Net.Extensions
+namespace Harvest.Net
 {
-    public static class StringExtensions
+    internal static class Extensions
     {
-        public static long? ParseNullableLong(this string input)
+        internal static long? ParseNullableLong(this string input)
         {
             long output;
             if (long.TryParse(input, out output))
                 return output;
             return null;
+        }
+
+        internal static string ToYesNo(this bool input)
+        {
+            return input ? "yes" : "no";
         }
     }
 }

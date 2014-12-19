@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Harvest.Net.Models
 {
-    [SerializeAs(Name = "dayentry")]
+    [SerializeAs(Name = "day-entry")]
     public class DayEntry : Harvest.Net.Models.IModel
     {
         public long Id { get; set; }
@@ -20,7 +20,7 @@ namespace Harvest.Net.Models
 
         public DateTime SpentAt { get; set; }
 
-        public double Hours { get; set; }
+        public decimal Hours { get; set; }
 
         public int UserId { get; set; }
 

@@ -45,7 +45,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Extensions\StringExtensions.cs" />
+    <Compile Include="Extensions.cs" />
+    <Compile Include="Models\DayEntry.cs" />
     <Compile Include="Models\ProjectOptions.cs" />
     <Compile Include="Models\Project.cs" />
     <Compile Include="Models\PaymentOptions.cs" />
@@ -69,6 +70,7 @@
     <Compile Include="Models\InvoiceMessageOptions.cs" />
     <Compile Include="Models\InvoiceMessage.cs" />
     <Compile Include="Models\OAuth.cs" />
+    <Compile Include="Resources\TimeAndExpense.cs" />
     <Compile Include="Resources\Tasks.cs" />
     <Compile Include="Resources\Projects.cs" />
     <Compile Include="Resources\People.cs" />

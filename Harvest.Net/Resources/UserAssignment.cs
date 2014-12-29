@@ -77,7 +77,6 @@ namespace Harvest.Net
         /// <param name="deactivated">Whether the user assignment is inactive</param>
         /// <param name="hourlyRate">The hourly rate</param>
         /// <param name="budget">The budget</param>
-        /// <param name="estimate">The estimate</param>
         /// <param name="isProjectManager">Whether this user is a project manager</param>
         public UserAssignment UpdateUserAssignment(long projectId, long userAssignmentId, long userId, bool? deactivated = null, decimal? hourlyRate = null, decimal? budget = null, bool? isProjectManager = null)
         {

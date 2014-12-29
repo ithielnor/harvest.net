@@ -62,7 +62,10 @@
     <Compile Include="Models\TaskOptions.cs" />
     <Compile Include="Models\Task.cs" />
     <Compile Include="Models\AccountUser.cs" />
+    <Compile Include="Models\TaskAssignment.cs" />
+    <Compile Include="Models\TaskAssignmentCreateOptions.cs" />
     <Compile Include="Models\UserAssignmentCreateOptions.cs" />
+    <Compile Include="Models\TaskAssignmentOptions.cs" />
     <Compile Include="Models\UserAssignmentOptions.cs" />
     <Compile Include="Models\UserAssignment.cs" />
     <Compile Include="Models\UserOptions.cs" />
@@ -73,6 +76,7 @@
     <Compile Include="Models\InvoiceMessageOptions.cs" />
     <Compile Include="Models\InvoiceMessage.cs" />
     <Compile Include="Models\OAuth.cs" />
+    <Compile Include="Resources\TaskAssignment.cs" />
     <Compile Include="Resources\UserAssignment.cs" />
     <Compile Include="Resources\TimeAndExpense.cs" />
     <Compile Include="Resources\Tasks.cs" />

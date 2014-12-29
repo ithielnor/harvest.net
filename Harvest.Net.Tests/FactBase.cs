@@ -47,7 +47,9 @@ namespace Harvest.Net.Tests
             PaymentId,
             ProjectId,
             ProjectId2,
+            TaskAssignmentId,
             TaskId,
+            TaskId2,
             UserAssignmentId,
             UserId,
         }

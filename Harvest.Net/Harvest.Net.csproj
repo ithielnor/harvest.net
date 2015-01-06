@@ -59,6 +59,7 @@
     <Compile Include="Models\Modules.cs" />
     <Compile Include="Models\Company.cs" />
     <Compile Include="Models\ProjectManager.cs" />
+    <Compile Include="Models\Daily.cs" />
     <Compile Include="Models\TaskOptions.cs" />
     <Compile Include="Models\Task.cs" />
     <Compile Include="Models\AccountUser.cs" />
@@ -76,6 +77,7 @@
     <Compile Include="Models\InvoiceMessageOptions.cs" />
     <Compile Include="Models\InvoiceMessage.cs" />
     <Compile Include="Models\OAuth.cs" />
+    <Compile Include="Resources\TimeTracking.cs" />
     <Compile Include="Resources\TaskAssignment.cs" />
     <Compile Include="Resources\UserAssignment.cs" />
     <Compile Include="Resources\TimeAndExpense.cs" />

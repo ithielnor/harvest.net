@@ -24,5 +24,7 @@ namespace Harvest.Net.Models
         public decimal? DefaultHourlyRate { get; set; }
 
         public bool Deactivated { get; set; }
+
+        public bool? Billable { get; set; }
     }
 }

@@ -55,5 +55,11 @@ namespace Harvest.Net.Models
         public decimal? CostBudget { get; set; }
 
         public bool CostBudgetIncludeExpenses { get; set; }
+
+        // These fields are only present on the Daily resource.
+
+        public string Client { get; set; }
+
+        public List<Task> Tasks { get; set; }
     }
 }

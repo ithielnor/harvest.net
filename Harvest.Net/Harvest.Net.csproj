@@ -46,6 +46,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Extensions.cs" />
+    <Compile Include="Models\DailyOptions.cs" />
+    <Compile Include="Models\Timer.cs" />
     <Compile Include="Models\DayEntry.cs" />
     <Compile Include="Models\ProjectOptions.cs" />
     <Compile Include="Models\Project.cs" />

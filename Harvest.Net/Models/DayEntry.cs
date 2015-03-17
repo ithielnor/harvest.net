@@ -28,7 +28,7 @@ namespace Harvest.Net.Models
         
         public int TaskId { get; set; }
 
-        public bool AdjecustmentRecord { get; set; }
+        public bool AdjustmentRecord { get; set; }
 
         public bool IsBilled { get; set; }
 

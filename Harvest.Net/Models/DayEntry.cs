@@ -34,16 +34,29 @@ namespace Harvest.Net.Models
 
         public bool IsClosed { get; set; }
 
-        // These fields are only present when loaded from the Daily resource
-
+        /// <summary>
+        /// Only supplied by the Daily resource
+        /// </summary>
         public DateTime? TimerStartedAt { get; set; }
 
+        /// <summary>
+        /// Only supplied by the Daily resource
+        /// </summary>
         public DateTime? StartedAt { get; set; }
 
+        /// <summary>
+        /// Only supplied by the Daily resource
+        /// </summary>
         public DateTime? EndedAt { get; set; }
 
+        /// <summary>
+        /// Only supplied by the Daily resource
+        /// </summary>
         public string Task { get; set; }
 
+        /// <summary>
+        /// Only supplied by the Daily resource
+        /// </summary>
         public string Project { get; set; }
     }
 }

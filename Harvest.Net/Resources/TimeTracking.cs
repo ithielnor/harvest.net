@@ -138,10 +138,7 @@ namespace Harvest.Net
         /// <param name="ofUser">The user the day entry belongs to</param>
         internal Timer CreateDaily(DailyOptions options, long? ofUser)
         {
-            var request = Request("daily/add", RestSharp.Method.POST);
-
-            if (ofUser != null)
-                request.AddParameter("of_user", ofUser.Value);
+            var request = Request(ofUser != null ? string.Format("daily/add?of_user={0}", ofUser) : "daily/add", RestSharp.Method.POST);
 
             request.AddBody(options);
 

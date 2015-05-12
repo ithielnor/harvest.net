@@ -11,6 +11,7 @@ $scriptpath = split-path -parent $MyInvocation.MyCommand.Path
 $dropbox = Get-DropBox
 $keyfile = "$dropbox\Personal\nuget-key.txt"
 $nugetpath = resolve-path "$scriptpath/nuget.exe"
+$packpath = resolve-path "$scriptpath/*.nupkg"
 $archivepath = resolve-path "$scriptpath/archive"
 $specpath = resolve-path "$scriptpath/../Harvest.Net"
  
@@ -19,9 +20,9 @@ if(-not (test-path $keyfile)) {
 }
 else {  
 
-  if (test-path *.nupkg) {
+  if (test-path $packpath) {
     # archive old packages
-    move-item *.nupkg $archivepath
+    move-item $packpath $archivepath
   }
 
   popd # up to root

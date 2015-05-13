@@ -46,18 +46,6 @@ namespace Harvest.Net.Tests
         }
 
         [Fact]
-        public void ToggleExpenseCategory_TogglesTheExpenseCategoryStatus()
-        {
-            _todelete = Api.CreateExpenseCategory("Test Toggle Expense Category");
-
-            Assert.Equal(false, _todelete.Deactivated);
-
-            _todelete = Api.ToggleExpenseCategory(_todelete.Id);
-
-            Assert.Equal(true, _todelete.Deactivated);
-        }
-
-        [Fact]
         public void UpdateExpenseCategory_UpdatingUnitsOnlyChangesUnits()
         {
             _todelete = Api.CreateExpenseCategory("Test Update Expense Category", unitName: "UNIT", unitPrice: 1);

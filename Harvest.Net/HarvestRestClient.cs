@@ -105,25 +105,28 @@ namespace Harvest.Net
             if (response.StatusCode == System.Net.HttpStatusCode.BadRequest)
                 throw new Exception(response.StatusDescription + Environment.NewLine + string.Join(Environment.NewLine, response.Headers.Select(h => h.Name + ": " + h.Value).ToArray()));
 
-            if (response.StatusCode == System.Net.HttpStatusCode.Created 
-                || response.StatusCode == System.Net.HttpStatusCode.Accepted
-                || (response.StatusCode == System.Net.HttpStatusCode.OK && (request.Method == Method.PUT || request.Method == Method.POST)))
+            if (response.Data == null)
             {
-                string location = null;
-
-                var header = response.Headers.FirstOrDefault(h => h.Type == ParameterType.HttpHeader && h.Name == "Location");
-                if (header != null)
+                if (response.StatusCode == System.Net.HttpStatusCode.Created
+                    || response.StatusCode == System.Net.HttpStatusCode.Accepted
+                    || (response.StatusCode == System.Net.HttpStatusCode.OK && (request.Method == Method.PUT || request.Method == Method.POST)))
                 {
-                    location = (string)header.Value;
-                }
-                else
-                {
-                    // Location header is missing try to GET from the original resource instead
-                    location = request.Resource;
-                }
+                    string location = null;
 
-                var loadRequest = Request(location);
-                response = _client.Execute<T>(loadRequest);
+                    var header = response.Headers.FirstOrDefault(h => h.Type == ParameterType.HttpHeader && h.Name == "Location");
+                    if (header != null)
+                    {
+                        location = (string)header.Value;
+                    }
+                    else
+                    {
+                        // Location header is missing try to GET from the original resource instead
+                        location = request.Resource;
+                    }
+
+                    var loadRequest = Request(location);
+                    response = _client.Execute<T>(loadRequest);
+                }
             }
 
             return response.Data;

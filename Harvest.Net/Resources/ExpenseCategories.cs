@@ -84,17 +84,6 @@ namespace Harvest.Net
         }
 
         /// <summary>
-        /// Toggle the Deactivated status of an expense category on the authenticated account. Makes a POST request to the Expense_Categories/Toggle resource and a GET request to the Expense_Category resource.
-        /// </summary>
-        /// <param name="expenseCategoryId">The ID of the expense category to toggle</param>
-        public ExpenseCategory ToggleExpenseCategory(long expenseCategoryId)
-        {
-            var request = Request("expense_categories/" + expenseCategoryId + "/toggle", RestSharp.Method.POST);
-
-            return Execute<ExpenseCategory>(request);
-        }
-
-        /// <summary>
         /// Update a expense category on the authenticated account. Makes a PUT and a GET request to the Expense_Category resource.
         /// </summary>
         /// <param name="expenseCategoryId">The ID of the expense category to update</param>

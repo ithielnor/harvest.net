@@ -24,7 +24,7 @@ namespace Harvest.Net.Models
 
         public bool Deactivated { get; set; }
 
-        public decimal? HourlyRate { get; set; }
+        public decimal HourlyRate { get; set; }
 
         public decimal? Budget { get; set; }
 

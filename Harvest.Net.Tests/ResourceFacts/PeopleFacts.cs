@@ -53,9 +53,9 @@ namespace Harvest.Net.Tests
 
             Assert.Equal(true, _todelete.IsActive);
 
-            _todelete = Api.ToggleUser(_todelete.Id);
+            var toggled = Api.ToggleUser(_todelete.Id);
 
-            Assert.Equal(false, _todelete.IsActive);
+            Assert.Equal(false, toggled.IsActive);
         }
 
         [Fact(Skip="Fails because the account has hit the max users limit")]

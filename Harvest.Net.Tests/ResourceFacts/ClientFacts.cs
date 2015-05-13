@@ -52,9 +52,9 @@ namespace Harvest.Net.Tests
 
             Assert.Equal(true, _todelete.Active);
 
-            _todelete = Api.ToggleClient(_todelete.Id);
+            var toggled = Api.ToggleClient(_todelete.Id);
 
-            Assert.Equal(false, _todelete.Active);
+            Assert.Equal(false, toggled.Active);
         }
 
         [Fact]

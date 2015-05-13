@@ -56,10 +56,10 @@ namespace Harvest.Net.Tests
             Assert.Equal(true, _todelete.Active);
 
             var result = Api.ToggleProject(_todelete.Id);
-            _todelete = Api.Project(_todelete.Id);
+            var toggled = Api.Project(_todelete.Id);
 
             Assert.Equal(true, result);
-            Assert.Equal(false, _todelete.Active);
+            Assert.Equal(false, toggled.Active);
         }
 
         [Fact(Skip = "Bugged: https://github.com/harvesthq/api/issues/93")]

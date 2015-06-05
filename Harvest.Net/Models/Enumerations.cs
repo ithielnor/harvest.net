@@ -178,9 +178,13 @@ namespace Harvest.Net.Models
     {
         [Description("none")]
         None,
+        [Description("person")]
         Person,
+        [Description("project")]
         Project,
+        [Description("project_cost")]
         ProjectCost,
+        [Description("task")]
         Task
     }
 

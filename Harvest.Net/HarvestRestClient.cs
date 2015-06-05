@@ -103,7 +103,7 @@ namespace Harvest.Net
             var response = _client.Execute<T>(request);
 
             if (response.StatusCode == System.Net.HttpStatusCode.BadRequest)
-                throw new Exception(response.StatusDescription + Environment.NewLine + string.Join(Environment.NewLine, response.Headers.Select(h => h.Name + ": " + h.Value).ToArray()));
+                throw new HarvestException(response);
 
             if (response.Data == null)
             {

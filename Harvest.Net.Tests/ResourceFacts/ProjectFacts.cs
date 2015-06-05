@@ -19,6 +19,39 @@ namespace Harvest.Net.Tests
         }
 
         [Fact]
+        public void ListProjects_WithBudgetOn_Returns()
+        {
+            var project = Api.Project(GetTestId(TestId.ProjectId));
+
+            Api.UpdateProject(project.Id, project.ClientId, budgetBy: BudgetMethod.ProjectCost, costBudget: 1, costBudgetIncludeExpenses: false);
+
+            var list = Api.ListProjects();
+
+            var updated = list.First(p => p.Id == GetTestId(TestId.ProjectId));
+
+            Assert.Equal(BudgetMethod.ProjectCost, updated.BudgetBy);
+            Assert.Equal(1m, updated.CostBudget);
+
+            Api.UpdateProject(project.Id, project.ClientId, budgetBy: BudgetMethod.None);
+        }
+
+        [Fact]
+        public void ListProjects_WithBillingMethod_Returns()
+        {
+            var project = Api.Project(GetTestId(TestId.ProjectId));
+
+            Api.UpdateProject(project.Id, project.ClientId, billBy: BillingMethod.People);
+
+            var list = Api.ListProjects();
+
+            var updated = list.First(p => p.Id == GetTestId(TestId.ProjectId));
+
+            Assert.Equal(BillingMethod.People, updated.BillBy);
+
+            Api.UpdateProject(project.Id, project.ClientId, billBy: BillingMethod.None);
+        }
+
+        [Fact]
         public void Project_ReturnsProject()
         {
             var Project = Api.Project(GetTestId(TestId.ProjectId));
@@ -62,12 +95,12 @@ namespace Harvest.Net.Tests
             Assert.Equal(false, toggled.Active);
         }
 
-        [Fact(Skip = "Bugged: https://github.com/harvesthq/api/issues/93")]
+        [Fact(Skip = "Fails because the account has hit the max projects limit")]
         public void UpdateProject_UpdatesOnlyChangedValues()
         {
             _todelete = Api.CreateProject("Test Update Project", GetTestId(TestId.ClientId));
 
-            var updated = Api.UpdateProject(_todelete.Id, name: "Test Updated Project", notes: "notes");
+            var updated = Api.UpdateProject(_todelete.Id, _todelete.ClientId, name: "Test Updated Project", notes: "notes");
             
             // stuff changed
             Assert.NotEqual(_todelete.Name, updated.Name);

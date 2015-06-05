@@ -46,7 +46,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Extensions.cs" />
+    <Compile Include="HarvestException.cs" />
     <Compile Include="Models\DailyOptions.cs" />
+    <Compile Include="Models\ErrorResult.cs" />
     <Compile Include="Models\Timer.cs" />
     <Compile Include="Models\DayEntry.cs" />
     <Compile Include="Models\ProjectOptions.cs" />

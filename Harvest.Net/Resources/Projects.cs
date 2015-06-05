@@ -128,7 +128,7 @@ namespace Harvest.Net
         /// <param name="hourlyRate">The project hourly rate</param>
         /// <param name="costBudget">The project cost budget</param>
         /// <param name="costBudgetIncludeExpenses">Whether the cost budget includes expenses</param>
-        public Project UpdateProject(long projectId, string name = null, long? clientId = null, bool? billable = null, BillingMethod? billBy = null, string code = null, string notes = null, BudgetMethod? budgetBy = null, decimal? budget = null, bool? notifyWhenOverBudget = null, decimal? overBudgetNotificationPercentage = null, bool? showBudgetToAll = null, EstimateMethod? estimateBy = null, decimal? estimate = null, decimal? hourlyRate = null, decimal? costBudget = null, bool? costBudgetIncludeExpenses = null)
+        public Project UpdateProject(long projectId, long clientId, string name = null, bool? billable = null, BillingMethod? billBy = null, string code = null, string notes = null, BudgetMethod? budgetBy = null, decimal? budget = null, bool? notifyWhenOverBudget = null, decimal? overBudgetNotificationPercentage = null, bool? showBudgetToAll = null, EstimateMethod? estimateBy = null, decimal? estimate = null, decimal? hourlyRate = null, decimal? costBudget = null, bool? costBudgetIncludeExpenses = null)
         {
             var options = new ProjectOptions()
             {

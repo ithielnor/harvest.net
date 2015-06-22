@@ -17,7 +17,7 @@ Usage
 
 Create a client object:
 
-    HarvestRestClient client = new HarvestRestClient("example.harvestapp.com", "myusername", "mypassword");
+    HarvestRestClient client = new HarvestRestClient("example", "myusername", "mypassword");
 
 Harvest API end points are converted to PascalCase. So `example.harvestapp.com/account/who_am_i` becomes
 

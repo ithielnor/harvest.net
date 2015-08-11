@@ -1,6 +1,8 @@
 Harvest.Net
 ===========
 
+[![Build Status](https://travis-ci.org/ithielnor/harvest.net.svg?branch=master)](https://travis-ci.org/ithielnor/harvest.net)
+
 A .Net wrapper for the [Harvest API][1].
 
 Installation

@@ -68,7 +68,7 @@ namespace Harvest.Net
             if (username != null && password != null)
                 _client.Authenticator = new HttpBasicAuthenticator(username, password);
             else if (accessToken != null)
-                _client.AddDefaultParameter("access_token", accessToken, ParameterType.UrlSegment);
+                _client.AddDefaultParameter("access_token", accessToken, ParameterType.GetOrPost);
         }
         #endregion
 
@@ -170,14 +170,7 @@ namespace Harvest.Net
         {
             var request = new RestRequest();
 
-            if (AccessToken != null)
-            {
-                var delimiter = resource.Contains("?") ? "&" : "?";
-                request.Resource = resource + delimiter + "access_token={access_token}";
-            }
-            else
-                request.Resource = resource;
-
+            request.Resource = resource;
             request.Method = method;
 
             request.RequestFormat = DataFormat.Xml;

@@ -18,7 +18,7 @@ namespace Harvest.Net.Models
         [Description("New Zealand Dollar - NZD")]NZD,
         [Description("Swedish krona - SEK")]SEK,
         [Description("Danish Krone - DKK")]DKK,
-        [Description("Norway Kroner - NOK")]NOK,
+        [Description("Norwegian Krone - NOK")]NOK,
         [Description("Switzerland Franc - CHF")]CHF,
         [Description("South Africa Rand - ZAR")]ZAR,
         [Description("Afghanistan Afghani - AFN")]AFN,

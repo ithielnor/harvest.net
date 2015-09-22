@@ -147,7 +147,10 @@ namespace Harvest.Net.Serialization
                     if (match != null)
                         prop.SetValue(x, match, null);
                     else
+                    {
+                        if (value.ToString() == "30 days") value = "net30";
                         prop.SetValue(x, type.FindEnumValue(value.ToString(), Culture), null);
+                    }
                 }
                 else if (type == typeof(Uri))
                 {

@@ -1,11 +1,16 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.30501.0
+# Visual Studio 14
+VisualStudioVersion = 14.0.23107.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Harvest.Net", "Harvest.Net\Harvest.Net.csproj", "{96CE4E1D-9E23-46C3-9E07-ADD599AB4B0C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Harvest.Net.Tests", "Harvest.Net.Tests\Harvest.Net.Tests.csproj", "{E7F0D793-0C67-46C3-8C27-7AB34F5A589C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".pack", ".pack", "{E348DECD-9537-477E-BDD4-5F11DE071785}"
+	ProjectSection(SolutionItems) = preProject
+		.pack\publish-nuget.ps1 = .pack\publish-nuget.ps1
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

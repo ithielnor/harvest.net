@@ -7,6 +7,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using Harvest.Net.Models;
+using RestSharp.Authenticators;
 
 namespace Harvest.Net
 {

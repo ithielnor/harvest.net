@@ -16,11 +16,13 @@ namespace Harvest.Net.Models
         public bool AttachPdf { get; set; }
 
         /// <summary>
-        /// This feature is not documented and may change in a future version of the Harvest API
+        /// Include a payment link in the message body
         /// </summary>
-        [Obsolete("Undocumented. Works as of 7/1/2014")]
         public bool IncludePayPalLink { get; set; }
 
+        /// <summary>
+        /// Send a copy to the current user
+        /// </summary>
         public bool SendMeACopy { get; set; }
 
         /// <summary>

@@ -4,10 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using RestSharp.Serializers;
+using Harvest.Net.Models.Interfaces;
 
 namespace Harvest.Net.Models
 {
-    public class OAuth
+    public class OAuth:IOAuth
     {
         [SerializeAs(Name = "access_token")]
         public string AccessToken { get; set; }

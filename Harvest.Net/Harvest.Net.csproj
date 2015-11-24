@@ -47,8 +47,10 @@
   <ItemGroup>
     <Compile Include="Extensions.cs" />
     <Compile Include="HarvestException.cs" />
+    <Compile Include="IHarvestRestClient.cs" />
     <Compile Include="Models\DailyOptions.cs" />
     <Compile Include="Models\ErrorResult.cs" />
+    <Compile Include="Models\Interfaces\IOAuth.cs" />
     <Compile Include="Models\Timer.cs" />
     <Compile Include="Models\DayEntry.cs" />
     <Compile Include="Models\ProjectOptions.cs" />
@@ -111,6 +113,10 @@
     <Compile Include="Models\InvoiceOptions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Models\Invoice.cs" />
+    <Compile Include="Utilities\AssemblyInformation.cs" />
+    <Compile Include="Utilities\EnvironmentInformation.cs" />
+    <Compile Include="Utilities\IAssemblyInformation.cs" />
+    <Compile Include="Utilities\IEnvironmentInformation.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Harvest.Net.nuspec" />

@@ -36,7 +36,7 @@ namespace Harvest.Net.Models
 
         public bool NotifyWhenOverBudget { get; set; }
 
-        public decimal OverBudgetNotificationPercentage { get; set; }
+        public decimal? OverBudgetNotificationPercentage { get; set; }
 
         public DateTime? OverBudgetNotifiedAt { get; set; }
         

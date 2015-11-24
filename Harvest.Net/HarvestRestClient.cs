@@ -3,13 +3,11 @@ using RestSharp;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 using System.Text;
-using System.Threading.Tasks;
 using Harvest.Net.Models;
-using RestSharp.Authenticators;
 using Harvest.Net.Models.Interfaces;
 using Harvest.Net.Utilities;
+using Harvest.Net.Network;
 
 namespace Harvest.Net
 {
@@ -40,11 +38,13 @@ namespace Harvest.Net
             new Dictionary<string, object>
             {
                 { IAssemblyInformation_Name, new AssemblyInformation() },
-                { IEnvironmentInformation_Name, new EnvironmentInformation() }
+                { IEnvironmentInformation_Name, new EnvironmentInformation() },
+                { IRestSharpFactory_Name, new RestSharpFactory() }
             };
 
         private const string IAssemblyInformation_Name = "IAssemblyInformation";
         private const string IEnvironmentInformation_Name = "IEnvironmentInformation";
+        private const string IRestSharpFactory_Name = "IRestSharpFactory";
 
         /// <summary>
         /// Constructs a client for executing all api commands.
@@ -57,7 +57,8 @@ namespace Harvest.Net
         /// <param name="accessToken">The harvest account OAuth token (optional for basic auth)</param>
         /// <param name="dateFormat">The date format of the harvest account (default: yyyy-MM-dd)</param>
         private HarvestRestClient(string subdomain, string username, string password, string clientId, string clientSecret,
-            string accessToken, string dateFormat, IAssemblyInformation assemblyInformation, IEnvironmentInformation environmentInformation)
+            string accessToken, string dateFormat, IAssemblyInformation assemblyInformation, IEnvironmentInformation environmentInformation,
+            IRestSharpFactory restSharpFactory)
         {
             this.Username = username;
             this.Password = password;
@@ -70,24 +71,20 @@ namespace Harvest.Net
             
             var assemblyVersion = assemblyInformation.Version;
             var environmentVersion = environmentInformation.Version;
-
-            _client = new RestClient(BaseUrl);
-            _client.UserAgent = "harvest.net/" + assemblyVersion + " (.NET " + environmentVersion + ")";
-
-            // Harvest API is inconsistent in JSON responses so we'll stick to XML
-            _client.ClearHandlers();
-            _client.AddHandler("application/xml", new HarvestXmlDeserializer());
-            _client.AddHandler("text/xml", new HarvestXmlDeserializer()); 
+            var userAgent = String.Format("harvest.net/{0} (.NET {1})", assemblyVersion, environmentVersion);
 
             if (username != null && password != null)
-                _client.Authenticator = new HttpBasicAuthenticator(username, password);
+                _client = restSharpFactory.GetWebClient(BaseUrl, userAgent, username, password);
             else if (accessToken != null)
-                _client.AddDefaultParameter("access_token", accessToken, ParameterType.GetOrPost);
+                _client = restSharpFactory.GetWebClient(BaseUrl, userAgent, accessToken);
+            else
+            _client = restSharpFactory.GetWebClient(BaseUrl, userAgent);
+            
         }
         #endregion
 
         /// <summary>
-        /// Initializes a new client using basic HTTP authentication
+        /// Initializes a new client using basic HTTP authentication and default depenedencies
         /// </summary>
         /// <param name="subdomain">The subdomain of the harvest account to connect to</param>
         /// <param name="username">The username to authenticate with</param>
@@ -95,7 +92,19 @@ namespace Harvest.Net
         public HarvestRestClient(string subdomain, string username, string password)
             : this(subdomain, username, password, null, null, null, null,
                   (IAssemblyInformation)Dependencies[IAssemblyInformation_Name],
-                  (IEnvironmentInformation)Dependencies[IEnvironmentInformation_Name])
+                  (IEnvironmentInformation)Dependencies[IEnvironmentInformation_Name],
+                  (IRestSharpFactory)Dependencies[IRestSharpFactory_Name])
+        { }
+
+        /// <summary>
+        /// Initializes a new client using basic HTTP authentication and non-default dependencies
+        /// </summary>
+        /// <param name="subdomain">The subdomain of the harvest account to connect to</param>
+        /// <param name="username">The username to authenticate with</param>
+        /// <param name="password">The password to athenticate with</param>
+        public HarvestRestClient(string subdomain, string username, string password, IAssemblyInformation assemblyInformation,
+            IEnvironmentInformation environmentInformation, IRestSharpFactory restSharpFactory)
+            : this(subdomain, username, password, null, null, null, null, assemblyInformation, environmentInformation, restSharpFactory)
         { }
 
         /// <summary>
@@ -108,7 +117,8 @@ namespace Harvest.Net
         public HarvestRestClient(string subdomain, string clientId, string clientSecret, string accessToken)
             : this(subdomain, null, null, clientId, clientSecret, accessToken, null,
                   (IAssemblyInformation)Dependencies[IAssemblyInformation_Name],
-                  (IEnvironmentInformation)Dependencies[IEnvironmentInformation_Name])
+                  (IEnvironmentInformation)Dependencies[IEnvironmentInformation_Name],
+                  (IRestSharpFactory)Dependencies[IRestSharpFactory_Name])
         { }
 
         /// <summary>

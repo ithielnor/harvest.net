@@ -29,8 +29,8 @@ namespace Harvest.Net.Models
         public override string ToString()
         {
             var items = new string[] {
-                Kind,
-                Description, 
+                "\"" + Kind + "\"",
+                "\"" + Description + "\"", 
                 Quantity.ToString(),
                 UnitPrice.ToString(),
                 Amount.ToString(),

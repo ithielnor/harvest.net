@@ -1,13 +1,14 @@
 language: csharp
 solution: Harvest.Net.sln
-before_install:
-  - pip install --user codecov
 install:
+  - pip install --user codecov
   - nuget restore Harvest.Net.sln
-  - nuget install xunit.runners -Version 1.9.2 -OutputDirectory testrunner
+  - nuget install xunit.runners -Version 1.9.2
+  - nuget install OpenCover -Version 4.5.3522
 script:
-  - xbuild /p:Configuration=Release Harvest.Net.sln
-  - mono ./testrunner/xunit.runners.1.9.2/tools/xunit.console.clr4.exe ./Harvest.Net.UnitTests/bin/Release/Harvest.Net.UnitTests.dll
+  - xbuild /p:Configuration=Debug Harvest.Net.sln
+  - mono .\packages\OpenCover.4.6.166\tools\OpenCover.Console.exe -register:user -target:".\packages\xunit.runners.1.9.2\tools\xunit.console.clr4.exe" -targetdir:"./Harvest.Net.UnitTests/bin/Debug/" -targetargs:"./Harvest.Net.UnitTests.dll" -filter:"+[Harvest.Net]* -[Harvest.Net]Harvest.Net.Properties.*" -hideskipped:all -output:./Harvest.Net.UnitTests_coverage.xml
+  - mono .\packages\OpenCover.4.6.166\tools\OpenCover.Console.exe -register:user -target:".\packages\xunit.runners.1.9.2\tools\xunit.console.clr4.exe" -targetdir:"./Harvest.Net.Tests/bin/Debug/" -targetargs:"./Harvest.Net.Tests.dll" -filter:"+[Harvest.Net]* -[Harvest.Net]Harvest.Net.Properties.*" -hideskipped:all -output:./Harvest.Net.Tests_coverage.xml
 sudo: false
 after_success:
   - codecov

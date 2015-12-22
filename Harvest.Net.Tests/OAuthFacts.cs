@@ -11,7 +11,7 @@ namespace Harvest.Net.Tests
 {
     public class OAuthFacts
     {
-        [Fact]
+        [Fact(Skip = "Does not work on free account")]
         public void RefreshToken_Succeeds()
         {
             var client = new HarvestRestClient("harvestdotnet", "CuJ3af_hylkRp4NvDe20yg", "3_-0j6mRXPSjOmNcGn2q73BHexU11jxbbPiwBXnpX1oJ92Yj7Sb22UYuE4uKkc5zZYMtXg5s2BXZsfmWbFo0fg", null);
@@ -22,7 +22,7 @@ namespace Harvest.Net.Tests
             Assert.NotNull(whatever.AccessToken);
         }
 
-        [Fact]
+        [Fact(Skip = "Does not work on free account")]
         public void OAuth_Succeeds()
         {
             var client = new HarvestRestClient("harvestdotnet", "CuJ3af_hylkRp4NvDe20yg", "3_-0j6mRXPSjOmNcGn2q73BHexU11jxbbPiwBXnpX1oJ92Yj7Sb22UYuE4uKkc5zZYMtXg5s2BXZsfmWbFo0fg", 

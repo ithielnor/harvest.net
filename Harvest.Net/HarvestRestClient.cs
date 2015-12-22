@@ -98,35 +98,36 @@ namespace Harvest.Net
         /// </summary>
         /// <typeparam name="T">The type to create and return</typeparam>
         /// <param name="request">The request to send</param>
-        public virtual T Execute<T>(RestRequest request) where T : new()
+        public virtual T Execute<T>(IRestRequest request) where T : new()
         {
             var response = _client.Execute<T>(request);
 
-            if (response.StatusCode == System.Net.HttpStatusCode.BadRequest)
-                throw new HarvestException(response);
+            response.ThrowIfBadRequest();
 
-            if (response.Data == null)
+            if (ShouldRequestLocationData(request, response))
             {
-                if (response.StatusCode == System.Net.HttpStatusCode.Created
-                    || response.StatusCode == System.Net.HttpStatusCode.Accepted
-                    || (response.StatusCode == System.Net.HttpStatusCode.OK && (request.Method == Method.PUT || request.Method == Method.POST)))
-                {
-                    string location = null;
+                var loadRequest = GetLocationHeaderRequest(request, response);
+                response = _client.Execute<T>(loadRequest);
+            }
 
-                    var header = response.Headers.FirstOrDefault(h => h.Type == ParameterType.HttpHeader && h.Name == "Location");
-                    if (header != null)
-                    {
-                        location = (string)header.Value;
-                    }
-                    else
-                    {
-                        // Location header is missing try to GET from the original resource instead
-                        location = request.Resource;
-                    }
+            return response.Data;
+        }
 
-                    var loadRequest = Request(location);
-                    response = _client.Execute<T>(loadRequest);
-                }
+        /// <summary>
+        /// Execute a manual REST request asynchronously
+        /// </summary>
+        /// <typeparam name="T">The type to create and return</typeparam>
+        /// <param name="request">The request to send</param>
+        public virtual async Task<T> ExecuteAsync<T>(IRestRequest request) where T : new()
+        {
+            var response = await _client.ExecuteTaskAsync<T>(request);
+
+            response.ThrowIfBadRequest();
+
+            if (ShouldRequestLocationData(request, response))
+            {
+                var loadRequest = GetLocationHeaderRequest(request, response);
+                response = await _client.ExecuteTaskAsync<T>(loadRequest);
             }
 
             return response.Data;
@@ -136,9 +137,18 @@ namespace Harvest.Net
         /// Execute a non-generic REST request
         /// </summary>
         /// <param name="request">The request to send</param>
-        public virtual IRestResponse Execute(RestRequest request)
+        public virtual IRestResponse Execute(IRestRequest request)
         {
             return _client.Execute(request);
+        }
+
+        /// <summary>
+        /// Execute a non-generic REST request asynchronously
+        /// </summary>
+        /// <param name="request">The request to send</param>
+        public virtual Task<IRestResponse> ExecuteAsync(IRestRequest request)
+        {
+            return _client.ExecuteTaskAsync(request);
         }
 
         /// <summary>
@@ -148,17 +158,21 @@ namespace Harvest.Net
         /// <returns></returns>
         public OAuth RefreshToken(string refreshToken)
         {
-            RestRequest r = new RestRequest();
-            r.Method = Method.POST;
+            var r = GetOAuthRefreshRequest(refreshToken);
 
-            r.Resource = "oauth2/token";
-            r.AddParameter("refresh_token", refreshToken);
-            r.AddParameter("client_id", ClientId);
-            r.AddParameter("client_secret", ClientSecret);
-            r.AddParameter("grant_type", "refresh_token");
-            r.AddHeader("Content-Type", "application/x-www-form-urlencoded");
+            return Execute<OAuth>(r);
+        }
 
-            return this.Execute<OAuth>(r);
+        /// <summary>
+        /// Request a new access token asynchronously
+        /// </summary>
+        /// <param name="refreshToken">An unexpired refresh token provided to the authenticated client ID.</param>
+        /// <returns></returns>
+        public Task<OAuth> RefreshTokenAsync(string refreshToken)
+        {
+            var r = GetOAuthRefreshRequest(refreshToken);
+
+            return ExecuteAsync<OAuth>(r);
         }
 
         /// <summary>
@@ -166,7 +180,7 @@ namespace Harvest.Net
         /// </summary>
         /// <param name="resource">Harvest resource request will hit</param>
         /// <param name="method">HTTP method to use</param>
-        protected RestRequest Request(string resource, Method method = Method.GET)
+        protected IRestRequest Request(string resource, Method method = Method.GET)
         {
             var request = new RestRequest();
 
@@ -186,6 +200,49 @@ namespace Harvest.Net
             };
 
             return request;
+        }
+        
+        private static bool ShouldRequestLocationData<T>(IRestRequest request, IRestResponse<T> response)
+        {
+            return response.Data == null 
+                && (response.StatusCode == System.Net.HttpStatusCode.Created
+                || response.StatusCode == System.Net.HttpStatusCode.Accepted
+                || (response.StatusCode == System.Net.HttpStatusCode.OK && (request.Method == Method.PUT || request.Method == Method.POST)));
+        }
+        
+        private IRestRequest GetLocationHeaderRequest(IRestRequest request, IRestResponse response)
+        {
+            string location;
+
+            var header = response.Headers.FirstOrDefault(h => h.Type == ParameterType.HttpHeader && h.Name == "Location");
+            if (header != null)
+            {
+                location = (string)header.Value;
+            }
+            else
+            {
+                // Location header is missing try to GET from the original resource instead
+                location = request.Resource;
+            }
+
+            return Request(location);
+        }
+
+        private IRestRequest GetOAuthRefreshRequest(string refreshToken)
+        {
+            var r = new RestRequest
+            {
+                Method = Method.POST,
+                Resource = "oauth2/token"
+            };
+
+            r.AddParameter("refresh_token", refreshToken);
+            r.AddParameter("client_id", ClientId);
+            r.AddParameter("client_secret", ClientSecret);
+            r.AddParameter("grant_type", "refresh_token");
+            r.AddHeader("Content-Type", "application/x-www-form-urlencoded");
+
+            return r;
         }
     }
 }

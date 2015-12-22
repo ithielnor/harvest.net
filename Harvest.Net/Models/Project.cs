@@ -39,7 +39,7 @@ namespace Harvest.Net.Models
         public decimal? OverBudgetNotificationPercentage { get; set; }
 
         public DateTime? OverBudgetNotifiedAt { get; set; }
-        
+
         public bool ShowBudgetToAll { get; set; }
 
         public decimal? Estimate { get; set; }
@@ -57,7 +57,6 @@ namespace Harvest.Net.Models
         public bool CostBudgetIncludeExpenses { get; set; }
 
         // These fields are only present on the Daily resource.
-
         public string Client { get; set; }
 
         public List<Task> Tasks { get; set; }

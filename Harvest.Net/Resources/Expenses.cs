@@ -20,11 +20,10 @@ namespace Harvest.Net
 
             if (ofUser != null)
                 request.AddParameter("of_user", ofUser.Value);
-            
+
             return Execute<List<Expense>>(request);
         }
 
-        
         /// <summary>
         /// Retrieve an expense on the authenticated account. Makes a GET request to the Expenses resource.
         /// </summary>
@@ -38,7 +37,7 @@ namespace Harvest.Net
 
             return Execute<Expense>(request);
         }
-        
+
         /// <summary>
         /// Create a new expense for on the authenticated account. Makes both a POST and a GET request to the Expense resource.
         /// </summary>
@@ -88,7 +87,7 @@ namespace Harvest.Net
 
             return Execute<Expense>(request);
         }
-        
+
         /// <summary>
         /// Delete an expense from the authenticated account. Makes a DELETE request to the Expenses resource.
         /// </summary>
@@ -105,7 +104,6 @@ namespace Harvest.Net
             return result.StatusCode == System.Net.HttpStatusCode.OK;
         }
 
-        
         /// <summary>
         /// Update an existing expense on the authenticated account. Makes both a PUT and GET request to the Expenses resource.
         /// </summary>
@@ -150,8 +148,8 @@ namespace Harvest.Net
             return Execute<Expense>(request);
         }
 
-        private static Dictionary<string, string> ALLOWED_RECEIPT_FILE_TYPES = new Dictionary<string, string>() 
-        { 
+        private static Dictionary<string, string> ALLOWED_RECEIPT_FILE_TYPES = new Dictionary<string, string>()
+        {
             { "png", "image/png" },
             { "gif", "image/gif" },
             { "pdf", "application/pdf" },

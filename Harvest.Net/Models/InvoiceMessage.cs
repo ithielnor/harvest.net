@@ -14,7 +14,7 @@ namespace Harvest.Net.Models
         public long Id { get; set; }
 
         public DateTime CreatedAt { get; set; }
-        
+
         public DateTime UpdatedAt { get; set; }
 
         public long InvoiceId { get; set; }

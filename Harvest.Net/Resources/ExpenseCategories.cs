@@ -21,7 +21,7 @@ namespace Harvest.Net
 
             if (updatedSince != null)
                 request.AddParameter("updated_since", updatedSince.Value.ToString("yyyy-MM-dd HH:mm"));
-            
+
             return Execute<List<ExpenseCategory>>(request);
         }
 

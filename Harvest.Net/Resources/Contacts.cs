@@ -49,7 +49,7 @@ namespace Harvest.Net
 
             return Execute<Contact>(request);
         }
-        
+
         /// <summary>
         /// Create a new contact for a client on the authenticated account. Makes both a POST and a GET request to the Contacts resource.
         /// </summary>
@@ -96,7 +96,7 @@ namespace Harvest.Net
 
             return Execute<Contact>(request);
         }
-        
+
         /// <summary>
         /// Delete a contact from the authenticated account. Makes a DELETE request to the Contacts resource.
         /// </summary>

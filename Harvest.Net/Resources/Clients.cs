@@ -69,7 +69,7 @@ namespace Harvest.Net
         {
             var request = Request("clients", RestSharp.Method.POST);
 
-            request.AddBody(options);            
+            request.AddBody(options);
 
             return Execute<Client>(request);
         }

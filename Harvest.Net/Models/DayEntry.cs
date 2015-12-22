@@ -25,7 +25,7 @@ namespace Harvest.Net.Models
         public long UserId { get; set; }
 
         public long ProjectId { get; set; }
-        
+
         public long TaskId { get; set; }
 
         public bool AdjustmentRecord { get; set; }

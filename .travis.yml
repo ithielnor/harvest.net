@@ -3,7 +3,7 @@ solution: Harvest.Net.sln
 before_install:
   - pip install --user codecov
 install:
-  - nuget restore solution-name.sln
+  - nuget restore Harvest.Net.sln
   - nuget install xunit.runners -Version 1.9.2 -OutputDirectory testrunner
 script:
   - xbuild /p:Configuration=Release Harvest.Net.sln

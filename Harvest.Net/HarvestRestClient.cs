@@ -1,17 +1,16 @@
-﻿using Harvest.Net.Serialization;
+﻿using Harvest.Net.Models;
+using Harvest.Net.Models.Interfaces;
+using Harvest.Net.Network;
+using Harvest.Net.Serialization;
+using Harvest.Net.Utilities;
 using RestSharp;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Harvest.Net.Models;
-using Harvest.Net.Models.Interfaces;
-using Harvest.Net.Utilities;
-using Harvest.Net.Network;
 
 namespace Harvest.Net
 {
-    public partial class HarvestRestClient:IHarvestRestClient
+    public partial class HarvestRestClient : IHarvestRestClient
     {
         /// <summary>
         /// Base URL of API
@@ -25,15 +24,18 @@ namespace Harvest.Net
 
         #region Privates
         private string Username { get; set; }
+
         private string Password { get; set; }
 
         private string ClientId { get; set; }
+
         private string ClientSecret { get; set; }
+
         private string AccessToken { get; set; }
 
         private IRestClient _client;
 
-        //This is a container for dependencies, until an IoC container can be brought in. It will help maintain the same interface for the user
+        // This is a container for dependencies, until an IoC container can be brought in. It will help maintain the same interface for the user
         private static IDictionary<string, object> Dependencies =
             new Dictionary<string, object>
             {
@@ -68,18 +70,17 @@ namespace Harvest.Net
             this.DateFormat = dateFormat ?? "yyyy-MM-dd";
 
             this.BaseUrl = "https://" + subdomain + ".harvestapp.com/";
-            
+
             var assemblyVersion = assemblyInformation.Version;
             var environmentVersion = environmentInformation.Version;
-            var userAgent = String.Format("harvest.net/{0} (.NET {1})", assemblyVersion, environmentVersion);
+            var userAgent = string.Format("harvest.net/{0} (.NET {1})", assemblyVersion, environmentVersion);
 
             if (username != null && password != null)
                 _client = restSharpFactory.GetWebClient(BaseUrl, userAgent, username, password);
             else if (accessToken != null)
                 _client = restSharpFactory.GetWebClient(BaseUrl, userAgent, accessToken);
             else
-            _client = restSharpFactory.GetWebClient(BaseUrl, userAgent);
-            
+                _client = restSharpFactory.GetWebClient(BaseUrl, userAgent);
         }
         #endregion
 
@@ -126,7 +127,8 @@ namespace Harvest.Net
         /// </summary>
         /// <typeparam name="T">The type to create and return</typeparam>
         /// <param name="request">The request to send</param>
-        public virtual T Execute<T>(IRestRequest request) where T : new()
+        public virtual T Execute<T>(IRestRequest request)
+            where T : new()
         {
             var response = _client.Execute<T>(request);
 
@@ -203,11 +205,11 @@ namespace Harvest.Net
 
             request.RequestFormat = DataFormat.Xml;
             request.XmlSerializer = new HarvestXmlSerializer() { DateFormat = this.DateFormat };
-         
+
             request.OnBeforeDeserialization = resp =>
             {
-                //remove the first ByteOrderMark
-                //see: http://stackoverflow.com/questions/19663100/restsharp-has-problems-deserializing-xml-including-byte-order-mark
+                // remove the first ByteOrderMark
+                // see: http://stackoverflow.com/questions/19663100/restsharp-has-problems-deserializing-xml-including-byte-order-mark
                 string byteOrderMarkUtf8 = Encoding.UTF8.GetString(Encoding.UTF8.GetPreamble());
                 if (resp.Content.StartsWith(byteOrderMarkUtf8))
                     resp.Content = resp.Content.TrimStart(byteOrderMarkUtf8.ToArray());

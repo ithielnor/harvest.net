@@ -41,22 +41,23 @@ namespace Harvest.Net.UnitTests
 
             assemblyInfo.SetupGet(s => s.Version).Returns(new Version(1, 0, 0));
             environmentInfo.SetupGet(s => s.Version).Returns(new Version(4, 5, 2));
-            restSharpFactory
-                .Setup(s => s.GetWebClient(
+            restSharpFactory.Setup(
+                s => s.GetWebClient(
                     It.IsAny<string>(),
                     It.IsAny<string>(),
                     It.IsAny<string>(),
                     It.IsAny<string>()))
                 .Returns(restSharpClient.Object);
 
-            IHarvestRestClient client = new HarvestRestClient("subdomain", username, password,
-                assemblyInfo.Object, environmentInfo.Object, restSharpFactory.Object);
+            IHarvestRestClient client = new HarvestRestClient("subdomain", username, password, assemblyInfo.Object, environmentInfo.Object, restSharpFactory.Object);
 
-            restSharpFactory.Verify(v => v.GetWebClient(
-                It.Is<string>(i => i == expectedBaseUrl),
-                It.Is<string>(i => i == expectedUserAgent),
-                It.Is<string>(i => i == username),
-                It.Is<string>(i => i == password)), Times.Once());
+            restSharpFactory.Verify(
+                v => v.GetWebClient(
+                    It.Is<string>(i => i == expectedBaseUrl),
+                    It.Is<string>(i => i == expectedUserAgent),
+                    It.Is<string>(i => i == username),
+                    It.Is<string>(i => i == password)),
+                Times.Once());
         }
     }
 }

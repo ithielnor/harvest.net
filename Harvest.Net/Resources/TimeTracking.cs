@@ -23,7 +23,7 @@ namespace Harvest.Net
             if (year != null && dayOfTheYear == null)
                 throw new ArgumentNullException("dayOfTheYear", "You must provide both dayOfYear and year or neither.");
 
-            var request = Request("daily" + (dayOfTheYear != null ? "/" + dayOfTheYear + "/" + year : ""));
+            var request = Request("daily" + (dayOfTheYear != null ? "/" + dayOfTheYear + "/" + year : string.Empty));
 
             if (ofUser != null)
                 request.AddParameter("of_user", ofUser.Value);

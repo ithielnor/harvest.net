@@ -3,7 +3,6 @@ solution: Harvest.Net.sln
 install:
   - pip install --user codecov
   - nuget restore Harvest.Net.sln
-  - nuget install xunit
 script:
   - xbuild /p:Configuration=Debug Harvest.Net.sln
   - mono ./packages/xunit.runners.*/tools/xunit.console.clr4.exe ./Harvest.Net.UnitTests/bin/Release/Harvest.Net.UnitTests.dll

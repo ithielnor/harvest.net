@@ -19,7 +19,7 @@ namespace Harvest.Net.Models
         [Description("Swedish krona - SEK")]SEK,
         [Description("Danish Krone - DKK")]DKK,
         [Description("Norwegian Krone - NOK")]NOK,
-        [Description("Switzerland Franc - CHF")]CHF,
+        [Description("Swiss Franc - CHF")]CHF,
         [Description("South Africa Rand - ZAR")]ZAR,
         [Description("Afghanistan Afghani - AFN")]AFN,
         [Description("Albania Lek - ALL")]ALL,

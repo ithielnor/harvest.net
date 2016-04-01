@@ -12,7 +12,7 @@ namespace Harvest.Net.Models
     {
         [Description("United States Dollar - USD")]USD,
         [Description("Euro - EUR")]EUR,
-        [Description("United Kingdom Pound - GBP")]GBP,
+        [Description("British Pound - GBP")]GBP,
         [Description("Canadian Dollar - CAD")]CAD,
         [Description("Australia Dollar - AUD")]AUD,
         [Description("New Zealand Dollar - NZD")]NZD,

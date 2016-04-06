@@ -59,7 +59,7 @@ namespace Harvest.Net.Models
         [Description("Hong Kong Dollar - HKD")]HKD,
         [Description("Hungary Forint - HUF")]HUF,
         [Description("Iceland Kronur - ISK")]ISK,
-        [Description("India Rupee - INR")]INR,
+        [Description("Indian Rupee - INR")]INR,
         [Description("Indonesia Rupiah - IDR")]IDR,
         [Description("Iran Rial - IRR")]IRR,
         [Description("Iraq Dinar - IQD")]IQD,

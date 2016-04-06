@@ -26,5 +26,5 @@ Harvest API end points are converted to PascalCase. So `example.harvestapp.com/a
 
     Account myAccount = client.WhoAmI();
 
-[1]:https://github.com/harvesthq/api
+[1]:http://help.getharvest.com/api/
 [2]:https://www.nuget.org/packages/Harvest.Net/

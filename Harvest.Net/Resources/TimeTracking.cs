@@ -174,7 +174,8 @@ namespace Harvest.Net
         /// <param name="endedAt">The new end timestamp for the entry</param>
         /// <param name="notes">The new notes for the entry</param>
         /// <param name="ofUser">The user the entry belongs to</param>
-        public Timer UpdateDaily(long dayEntryId, DateTime? spentAt = null, long? projectId = null, long? taskId = null, decimal? hours = null, TimeSpan? startedAt = null, TimeSpan? endedAt = null, string notes = null, long? ofUser = null)
+        public Timer UpdateDaily(long dayEntryId, DateTime? spentAt = null, long? projectId = null, long? taskId = null, decimal? hours = null, TimeSpan? startedAt = null, TimeSpan? endedAt = null, string notes = null, long? ofUser = null, 
+            string externalAppName = null, string externalId = null, string externalNamespace = null, string externalService = null)
         {
             var options = new DailyOptions()
             {
@@ -192,6 +193,18 @@ namespace Harvest.Net
 
             if (endedAt != null)
                 options.EndedAt = new DateTime(2000, 1, 1).Add(endedAt.Value).ToString("h:mmtt").ToLower();
+
+            if (externalAppName != null)
+                options.ExternalAppName = externalAppName;
+
+            if (externalId != null)
+                options.ExternalId = externalId;
+
+            if (externalNamespace != null)
+                options.ExternalNamespace = externalNamespace;
+
+            if (externalService != null)
+                options.ExternalService = externalService;
 
             return UpdateDaily(dayEntryId, options, ofUser);
         }

@@ -58,5 +58,10 @@ namespace Harvest.Net.Models
         /// Only supplied by the Daily resource
         /// </summary>
         public string Project { get; set; }
+
+        /// <summary>
+        /// Experimental. Reference to integation resource.
+        /// </summary>
+        public ExternalReference ExternalRef { get; set; }
     }
 }

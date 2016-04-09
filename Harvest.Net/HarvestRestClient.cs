@@ -132,7 +132,8 @@ namespace Harvest.Net
         {
             var response = _client.Execute<T>(request);
 
-            if (response.StatusCode == System.Net.HttpStatusCode.BadRequest)
+            if (response.StatusCode == System.Net.HttpStatusCode.BadRequest
+                || response.StatusCode == System.Net.HttpStatusCode.Unauthorized)
                 throw new HarvestException(response);
 
             if (response.Data == null)

@@ -52,6 +52,7 @@
     <Compile Include="IHarvestRestClient.cs" />
     <Compile Include="Models\DailyOptions.cs" />
     <Compile Include="Models\ErrorResult.cs" />
+    <Compile Include="Models\ExternalReference.cs" />
     <Compile Include="Models\Interfaces\IOAuth.cs" />
     <Compile Include="Models\Timer.cs" />
     <Compile Include="Models\DayEntry.cs" />

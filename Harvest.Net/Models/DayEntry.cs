@@ -22,6 +22,8 @@ namespace Harvest.Net.Models
 
         public decimal Hours { get; set; }
 
+        public decimal HoursWithoutTimer { get; set; }
+
         public long UserId { get; set; }
 
         public long ProjectId { get; set; }
@@ -58,5 +60,15 @@ namespace Harvest.Net.Models
         /// Only supplied by the Daily resource
         /// </summary>
         public string Project { get; set; }
+
+        /// <summary>
+        /// Only supplied by the Daily resource
+        /// </summary>
+        public string Client { get; set; }
+
+        /// <summary>
+        /// Experimental. Reference to integation resource.
+        /// </summary>
+        public ExternalReference ExternalRef { get; set; }
     }
 }

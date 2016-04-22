@@ -22,5 +22,25 @@ namespace Harvest.Net.Models
         public string StartedAt { get; set; }
 
         public string EndedAt { get; set; }
+
+        /// <summary>
+        /// Experimental
+        /// </summary>
+        public string ExternalAppName { get; set; }
+
+        /// <summary>
+        /// Experimental
+        /// </summary>
+        public string ExternalId { get; set; }
+
+        /// <summary>
+        /// Experimental
+        /// </summary>
+        public string ExternalNamespace { get; set; }
+
+        /// <summary>
+        /// Experimental
+        /// </summary>
+        public string ExternalService { get; set; }
     }
 }

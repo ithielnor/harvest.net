@@ -1,4 +1,5 @@
-﻿using Harvest.Net.Models;
+﻿
+using Harvest.Net.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,7 +17,7 @@ namespace Harvest.Net
         /// <param name="dayOfTheYear">The day of the year to list (1-366). If null, lists today.</param>
         /// <param name="year">The year to list. If null, lists today.</param>
         /// <param name="ofUser">The user the day entry belongs to</param>
-        public Daily Daily(short? dayOfTheYear = null, short? year = null, long? ofUser = null)
+        public Daily Daily(short? dayOfTheYear = null, short? year = null, long? ofUser = null, bool slim = false)
         {
             if (year == null && dayOfTheYear != null)
                 throw new ArgumentNullException("year", "You must provide both dayOfTheYear and year or neither.");
@@ -27,6 +28,9 @@ namespace Harvest.Net
 
             if (ofUser != null)
                 request.AddParameter("of_user", ofUser.Value);
+
+            if (slim)
+                request.AddParameter("slim", 1);
 
             return Execute<Daily>(request);
         }
@@ -70,7 +74,12 @@ namespace Harvest.Net
         /// <param name="hours">The hours on the entry</param>
         /// <param name="notes">The notes on the entry</param>
         /// <param name="ofUser">The user the day entry belongs to</param>
-        public Timer CreateDaily(DateTime spentAt, long projectId, long taskId, decimal hours, string notes = null, long? ofUser = null)
+        /// <param name="externalAppName">The human-readable name of your application</param>
+        /// <param name="externalId">Id of item in your application</param>
+        /// <param name="externalNamespace">Url of item in your application</param>
+        /// <param name="externalService">Application service name</param>
+        public Timer CreateDaily(DateTime spentAt, long projectId, long taskId, decimal hours, string notes = null, long? ofUser = null,
+            string externalAppName = null, string externalId = null, string externalNamespace = null, string externalService = null)
         {
             var options = new DailyOptions()
             {
@@ -78,7 +87,12 @@ namespace Harvest.Net
                 SpentAt = spentAt,
                 ProjectId = projectId,
                 TaskId = taskId,
-                Hours = hours.ToString("f2")
+                Hours = hours.ToString("f2"),
+
+                ExternalAppName = externalAppName,
+                ExternalId = externalId,
+                ExternalNamespace = externalNamespace,
+                ExternalService = externalService,
             };
 
             return CreateDaily(options, ofUser);
@@ -94,7 +108,12 @@ namespace Harvest.Net
         /// <param name="endedAt">The end timestamp of the entry</param>
         /// <param name="notes">The notes on the entry</param>
         /// <param name="ofUser">The user the day entry belongs to</param>
-        public Timer CreateDaily(DateTime spentAt, long projectId, long taskId, TimeSpan startedAt, TimeSpan endedAt, string notes = null, long? ofUser = null)
+        /// <param name="externalAppName">The human-readable name of your application</param>
+        /// <param name="externalId">Id of item in your application</param>
+        /// <param name="externalNamespace">Url of item in your application</param>
+        /// <param name="externalService">Application service name</param>
+        public Timer CreateDaily(DateTime spentAt, long projectId, long taskId, TimeSpan startedAt, TimeSpan endedAt, string notes = null, long? ofUser = null,
+            string externalAppName = null, string externalId = null, string externalNamespace = null, string externalService = null)
         {
             var options = new DailyOptions()
             {
@@ -103,7 +122,12 @@ namespace Harvest.Net
                 ProjectId = projectId,
                 TaskId = taskId,
                 StartedAt = new DateTime(2000, 1, 1).Add(startedAt).ToString("h:mmtt").ToLower(),
-                EndedAt = new DateTime(2000, 1, 1).Add(endedAt).ToString("h:mmtt").ToLower()
+                EndedAt = new DateTime(2000, 1, 1).Add(endedAt).ToString("h:mmtt").ToLower(),
+
+                ExternalAppName = externalAppName,
+                ExternalId = externalId,
+                ExternalNamespace = externalNamespace,
+                ExternalService = externalService,
             };
 
             return CreateDaily(options, ofUser);
@@ -174,7 +198,12 @@ namespace Harvest.Net
         /// <param name="endedAt">The new end timestamp for the entry</param>
         /// <param name="notes">The new notes for the entry</param>
         /// <param name="ofUser">The user the entry belongs to</param>
-        public Timer UpdateDaily(long dayEntryId, DateTime? spentAt = null, long? projectId = null, long? taskId = null, decimal? hours = null, TimeSpan? startedAt = null, TimeSpan? endedAt = null, string notes = null, long? ofUser = null)
+        /// <param name="externalAppName">The human-readable name of your application</param>
+        /// <param name="externalId">Id of item in your application</param>
+        /// <param name="externalNamespace">Url of item in your application</param>
+        /// <param name="externalService">Application service name</param>
+        public Timer UpdateDaily(long dayEntryId, DateTime? spentAt = null, long? projectId = null, long? taskId = null, decimal? hours = null, TimeSpan? startedAt = null, TimeSpan? endedAt = null, string notes = null, long? ofUser = null, 
+        string externalAppName = null, string externalId = null, string externalNamespace = null, string externalService = null)
         {
             var options = new DailyOptions()
             {
@@ -192,6 +221,18 @@ namespace Harvest.Net
 
             if (endedAt != null)
                 options.EndedAt = new DateTime(2000, 1, 1).Add(endedAt.Value).ToString("h:mmtt").ToLower();
+
+            if (externalAppName != null)
+                options.ExternalAppName = externalAppName;
+
+            if (externalId != null)
+                options.ExternalId = externalId;
+
+            if (externalNamespace != null)
+                options.ExternalNamespace = externalNamespace;
+
+            if (externalService != null)
+                options.ExternalService = externalService;
 
             return UpdateDaily(dayEntryId, options, ofUser);
         }

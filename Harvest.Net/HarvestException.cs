@@ -32,6 +32,8 @@ namespace Harvest.Net
             {
                 if (Result != null)
                     return Result.Message;
+                else if (Response != null && !string.IsNullOrEmpty(Response.ErrorMessage))
+                    return Response.ErrorMessage;
                 else
                     return "An error occurred, but could not deserialize the error response";
             }

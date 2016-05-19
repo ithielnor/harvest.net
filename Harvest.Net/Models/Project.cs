@@ -56,6 +56,10 @@ namespace Harvest.Net.Models
 
         public bool CostBudgetIncludeExpenses { get; set; }
 
+        public DateTime? StartsOn { get; set; }
+        
+        public DateTime? EndsOn { get; set; }
+
         // These fields are only present on the Daily resource.
         public string Client { get; set; }
 

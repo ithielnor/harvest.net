@@ -87,6 +87,7 @@
     <Compile Include="Models\OAuth.cs" />
     <Compile Include="Network\IRestSharpFactory.cs" />
     <Compile Include="Network\RestSharpFactory.cs" />
+    <Compile Include="RequestHelpers.cs" />
     <Compile Include="Resources\TimeTracking.cs" />
     <Compile Include="Resources\TaskAssignment.cs" />
     <Compile Include="Resources\UserAssignment.cs" />

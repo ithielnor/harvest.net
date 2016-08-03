@@ -20,7 +20,7 @@ namespace Harvest.Net
         /// <param name="updatedSince">An optional filter on the contact updated-at property</param>
         public IList<Contact> ListContacts(DateTime? updatedSince = null)
         {
-            var request = GetListContactsRequest(updatedSince);
+            var request = ListRequest(CONTACTS_RESOURCE, updatedSince);
 
             return Execute<List<Contact>>(request);
         }
@@ -31,7 +31,7 @@ namespace Harvest.Net
         /// <param name="updatedSince">An optional filter on the contact updated-at property</param>
         public async Task<IList<Contact>> ListContactsAsync(DateTime? updatedSince = null)
         {
-            var request = GetListContactsRequest(updatedSince);
+            var request = ListRequest(CONTACTS_RESOURCE, updatedSince);
 
             return await ExecuteAsync<List<Contact>>(request);
         }
@@ -43,7 +43,7 @@ namespace Harvest.Net
         /// <param name="updatedSince">An optional filter on the contact updated-at property</param>
         public IList<Contact> ListClientContacts(long clientId, DateTime? updatedSince = null)
         {
-            var request = GetListClientContactsRequest(clientId, updatedSince);
+            var request = ListClientContactsRequest(clientId, updatedSince);
 
             return Execute<List<Contact>>(request);
         }
@@ -55,7 +55,7 @@ namespace Harvest.Net
         /// <param name="updatedSince">An optional filter on the contact updated-at property</param>
         public async Task<IList<Contact>> ListClientContactsAsync(long clientId, DateTime? updatedSince = null)
         {
-            var request = GetListClientContactsRequest(clientId, updatedSince);
+            var request = ListClientContactsRequest(clientId, updatedSince);
 
             return await ExecuteAsync<List<Contact>>(request);
         }
@@ -66,7 +66,7 @@ namespace Harvest.Net
         /// <param name="contactId">The Id of the contact to retrieve</param>
         public Contact Contact(long contactId)
         {
-            var request = GetContactRequest(contactId, Method.GET);
+            var request = Request(CONTACTS_RESOURCE, contactId, Method.GET);
 
             return Execute<Contact>(request);
         }
@@ -77,7 +77,7 @@ namespace Harvest.Net
         /// <param name="contactId">The Id of the contact to retrieve</param>
         public Task<Contact> ContactAsync(long contactId)
         {
-            var request = GetContactRequest(contactId, Method.GET);
+            var request = Request(CONTACTS_RESOURCE, contactId, Method.GET);
 
             return ExecuteAsync<Contact>(request);
         }
@@ -124,7 +124,7 @@ namespace Harvest.Net
         /// <param name="options">The options for the new contact to be created</param>
         public Contact CreateContact(ContactOptions options)
         {
-            var request = GetCreateContactRequest(options);
+            var request = CreateRequest(CONTACTS_RESOURCE, options);
 
             return Execute<Contact>(request);
         }
@@ -135,7 +135,7 @@ namespace Harvest.Net
         /// <param name="options">The options for the new contact to be created</param>
         public Task<Contact> CreateContactAsync(ContactOptions options)
         {
-            var request = GetCreateContactRequest(options);
+            var request = CreateRequest(CONTACTS_RESOURCE, options);
 
             return ExecuteAsync<Contact>(request);
         }
@@ -146,7 +146,7 @@ namespace Harvest.Net
         /// <param name="contactId">The ID of the contact to delete</param>
         public bool DeleteContact(long contactId)
         {
-            var request = GetContactRequest(contactId, Method.DELETE);
+            var request = Request(CONTACTS_RESOURCE, contactId, Method.DELETE);
 
             var result = Execute(request);
 
@@ -159,7 +159,7 @@ namespace Harvest.Net
         /// <param name="contactId">The ID of the contact to delete</param>
         public async Task<bool> DeleteContactAsync(long contactId)
         {
-            var request = GetContactRequest(contactId, Method.DELETE);
+            var request = Request(CONTACTS_RESOURCE, contactId, Method.DELETE);
 
             var result = await ExecuteAsync(request);
 
@@ -211,7 +211,7 @@ namespace Harvest.Net
         /// <param name="options">The update options for the contact</param>
         public Contact UpdateContact(long contactId, ContactOptions options)
         {
-            var request = GetUpdateContactRequest(contactId, options);
+            var request = UpdateRequest(CONTACTS_RESOURCE, contactId, options);
 
             return Execute<Contact>(request);
         }
@@ -223,36 +223,11 @@ namespace Harvest.Net
         /// <param name="options">The update options for the contact</param>
         public Task<Contact> UpdateContactAsync(long contactId, ContactOptions options)
         {
-            var request = GetUpdateContactRequest(contactId, options);
+            var request = UpdateRequest(CONTACTS_RESOURCE, contactId, options);
 
             return ExecuteAsync<Contact>(request);
         }
-
-        private IRestRequest GetListContactsRequest(DateTime? updatedSince)
-        {
-            var request = Request(CONTACTS_RESOURCE);
-
-            if (updatedSince != null)
-                request.AddParameter("updated_since", updatedSince.Value.ToString("yyyy-MM-dd HH:mm"));
-
-            return request;
-        }
-
-        private IRestRequest GetListClientContactsRequest(long clientId, DateTime? updatedSince)
-        {
-            var request = Request(string.Format("{0}/{1}/{2}", CLIENTS_RESOURCE, clientId, CONTACTS_RESOURCE));
-
-            if (updatedSince != null)
-                request.AddParameter("updated_since", updatedSince.Value.ToString("yyyy-MM-dd HH:mm"));
-
-            return request;
-        }
-
-        private IRestRequest GetContactRequest(long contactId, Method method)
-        {
-            return Request(string.Format("{0}/{1}", CONTACTS_RESOURCE, contactId), method);
-        }
-
+        
         private static ContactOptions GetContactOptions(long? clientId, string firstName, string lastName, string title, string email, string phoneOffice, string phoneMobile, string fax)
         {
             if (firstName == null)
@@ -276,14 +251,9 @@ namespace Harvest.Net
             return newContact;
         }
 
-        private IRestRequest GetCreateContactRequest(ContactOptions options)
+        private IRestRequest ListClientContactsRequest(long clientId, DateTime? updatedSince)
         {
-            return Request(CONTACTS_RESOURCE, Method.POST).AddBody(options);
-        }
-
-        private IRestRequest GetUpdateContactRequest(long contactId, ContactOptions options)
-        {
-            return GetContactRequest(contactId, Method.PUT).AddBody(options);
+            return ListRequest(string.Format("{0}/{1}/{2}", CLIENTS_RESOURCE, clientId, CONTACTS_RESOURCE), updatedSince);
         }
     }
 }

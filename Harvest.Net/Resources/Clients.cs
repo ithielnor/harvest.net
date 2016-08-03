@@ -21,7 +21,7 @@ namespace Harvest.Net
         /// <param name="updatedSince">An optional filter on the client updated-at property</param>
         public IList<Client> ListClients(DateTime? updatedSince = null)
         {
-            var request = GetListClientsRequest(updatedSince);
+            var request = ListRequest(CLIENTS_RESOURCE, updatedSince);
 
             return Execute<List<Client>>(request);
         }
@@ -32,7 +32,7 @@ namespace Harvest.Net
         /// <param name="updatedSince">An optional filter on the client updated-at property</param>
         public async Task<IList<Client>> ListClientsAsync(DateTime? updatedSince = null)
         {
-            var request = GetListClientsRequest(updatedSince);
+            var request = ListRequest(CLIENTS_RESOURCE, updatedSince);
 
             return await ExecuteAsync<List<Client>>(request);
         }
@@ -43,7 +43,7 @@ namespace Harvest.Net
         /// <param name="clientId">The Id of the client to retrieve</param>
         public Client Client(long clientId)
         {
-            var request = GetClientRequest(clientId, Method.GET);
+            var request = Request(CLIENTS_RESOURCE, clientId, Method.GET);
 
             return Execute<Client>(request);
         }
@@ -54,7 +54,7 @@ namespace Harvest.Net
         /// <param name="clientId">The Id of the client to retrieve</param>
         public Task<Client> ClientAsync(long clientId)
         {
-            var request = GetClientRequest(clientId, Method.GET);
+            var request = Request(CLIENTS_RESOURCE, clientId, Method.GET);
 
             return ExecuteAsync<Client>(request);
         }
@@ -95,7 +95,7 @@ namespace Harvest.Net
         /// <param name="options">The options for the new client to be created</param>
         public Client CreateClient(ClientOptions options)
         {
-            var request = GetCreateClientRequest(options);
+            var request = CreateRequest(CLIENTS_RESOURCE, options);
 
             return Execute<Client>(request);
         }
@@ -106,7 +106,7 @@ namespace Harvest.Net
         /// <param name="options">The options for the new client to be created</param>
         public Task<Client> CreateClientAsync(ClientOptions options)
         {
-            var request = GetCreateClientRequest(options);
+            var request = CreateRequest(CLIENTS_RESOURCE, options);
 
             return ExecuteAsync<Client>(request);
         }
@@ -117,7 +117,7 @@ namespace Harvest.Net
         /// <param name="clientId">The ID of the client to delete</param>
         public bool DeleteClient(long clientId)
         {
-            var request = GetClientRequest(clientId, Method.DELETE);
+            var request = Request(CLIENTS_RESOURCE, clientId, Method.DELETE);
 
             var result = Execute(request);
 
@@ -130,7 +130,7 @@ namespace Harvest.Net
         /// <param name="clientId">The ID of the client to delete</param>
         public async Task<bool> DeleteClientAsync(long clientId)
         {
-            var request = GetClientRequest(clientId, Method.DELETE);
+            var request = Request(CLIENTS_RESOURCE, clientId, Method.DELETE);
 
             var result = await ExecuteAsync(request);
 
@@ -143,7 +143,7 @@ namespace Harvest.Net
         /// <param name="clientId">The ID of the client to toggle</param>
         public Client ToggleClient(long clientId)
         {
-            var request = GetClientRequest(clientId, Method.POST, TOGGLE_ACTION);
+            var request = Request(CLIENTS_RESOURCE, clientId, Method.POST, TOGGLE_ACTION);
 
             return Execute<Client>(request);
         }
@@ -154,7 +154,7 @@ namespace Harvest.Net
         /// <param name="clientId">The ID of the client to toggle</param>
         public Task<Client> ToggleClientAsync(long clientId)
         {
-            var request = GetClientRequest(clientId, Method.POST, TOGGLE_ACTION);
+            var request = Request(CLIENTS_RESOURCE, clientId, Method.POST, TOGGLE_ACTION);
 
             return ExecuteAsync<Client>(request);
         }
@@ -198,7 +198,7 @@ namespace Harvest.Net
         /// <param name="options">The options to be updated</param>
         public Client UpdateClient(long clientId, ClientOptions options)
         {
-            var request = GetUpdateClientRequest(clientId, options);
+            var request = UpdateRequest(CLIENTS_RESOURCE, clientId, options);
 
             return Execute<Client>(request);
         }
@@ -210,31 +210,11 @@ namespace Harvest.Net
         /// <param name="options">The options to be updated</param>
         public Task<Client> UpdateClientAsync(long clientId, ClientOptions options)
         {
-            var request = GetUpdateClientRequest(clientId, options);
+            var request = UpdateRequest(CLIENTS_RESOURCE, clientId, options);
 
             return ExecuteAsync<Client>(request);
         }
-
-        private IRestRequest GetListClientsRequest(DateTime? updatedSince)
-        {
-            var request = Request(CLIENTS_RESOURCE);
-
-            if (updatedSince != null)
-                request.AddParameter("updated_since", updatedSince.Value.ToString("yyyy-MM-dd HH:mm"));
-
-            return request;
-        }
-
-        private IRestRequest GetClientRequest(long clientId, Method method, string action = null)
-        {
-            string resource = string.Format("{0}/{1}", CLIENTS_RESOURCE, clientId);
-
-            if (!string.IsNullOrEmpty(action))
-                resource = string.Format("{0}/{1}", resource, action);
-
-            return Request(resource, method);
-        }
-
+        
         private static ClientOptions GetClientOptions(string name, Currency? currency, bool? active, string details, long? highriseId)
         {
             if (name == null)
@@ -248,16 +228,6 @@ namespace Harvest.Net
                 Details = details,
                 HighriseId = highriseId
             };
-        }
-        
-        private IRestRequest GetCreateClientRequest(ClientOptions options)
-        {
-            return Request(CLIENTS_RESOURCE, Method.POST).AddBody(options);
-        }
-
-        private IRestRequest GetUpdateClientRequest(long clientId, ClientOptions options)
-        {
-            return GetClientRequest(clientId, Method.PUT).AddBody(options);
         }
     }
 }

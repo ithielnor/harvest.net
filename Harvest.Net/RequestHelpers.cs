@@ -16,12 +16,12 @@ namespace Harvest.Net
             return request;
         }
 
-        private IRestRequest Request(string resource, long resourceId, string action, Method method)
+        private IRestRequest Request(string resource, long resourceId, string actionOrSubresource, Method method)
         {
-            if (string.IsNullOrWhiteSpace(action))
-                throw new ArgumentException("Value cannot be null or whitespace.", nameof(action));
+            if (string.IsNullOrWhiteSpace(actionOrSubresource))
+                throw new ArgumentException("Value cannot be null or whitespace.", nameof(actionOrSubresource));
             
-            string resourceUrl = $"{resource}/{resourceId}/{action}";
+            string resourceUrl = $"{resource}/{resourceId}/{actionOrSubresource}";
             
             return Request(resourceUrl, method);
         }
@@ -40,6 +40,12 @@ namespace Harvest.Net
             where TOptions : class, new()
         {
             return Request(resource, Method.POST).AddBody(options);
+        }
+
+        private IRestRequest CreateRequest<TOptions>(string resource, long resourceId, string subresource, TOptions options)
+            where TOptions : class, new()
+        {
+            return Request(resource, resourceId, subresource, Method.POST).AddBody(options);
         }
 
         private IRestRequest UpdateRequest<TOptions>(string resource, long resourceId, TOptions options)

@@ -1,8 +1,6 @@
 ﻿using Harvest.Net.Models;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using RestSharp;
 
@@ -231,10 +229,10 @@ namespace Harvest.Net
         private static ContactOptions GetContactOptions(long? clientId, string firstName, string lastName, string title, string email, string phoneOffice, string phoneMobile, string fax)
         {
             if (firstName == null)
-                throw new ArgumentNullException("firstName");
+                throw new ArgumentNullException(nameof(firstName));
 
             if (lastName == null)
-                throw new ArgumentNullException("lastName");
+                throw new ArgumentNullException(nameof(lastName));
 
             var newContact = new ContactOptions
             {
@@ -251,9 +249,7 @@ namespace Harvest.Net
             return newContact;
         }
 
-        private IRestRequest ListClientContactsRequest(long clientId, DateTime? updatedSince)
-        {
-            return ListRequest(string.Format("{0}/{1}/{2}", CLIENTS_RESOURCE, clientId, CONTACTS_RESOURCE), updatedSince);
-        }
+        private IRestRequest ListClientContactsRequest(long clientId, DateTime? updatedSince) 
+            => ListRequest($"{CLIENTS_RESOURCE}/{clientId}/{CONTACTS_RESOURCE}", updatedSince);
     }
 }

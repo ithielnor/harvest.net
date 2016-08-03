@@ -1,8 +1,6 @@
 ﻿using Harvest.Net.Models;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using RestSharp;
 
@@ -112,7 +110,7 @@ namespace Harvest.Net
         /// <param name="expenseCategoryId">The ID of the expense category to delete</param>
         public bool DeleteExpenseCategory(long expenseCategoryId)
         {
-            var request = Request(EXPENSE_CATEGORIES_RESOURCE, expenseCategoryId, RestSharp.Method.DELETE);
+            var request = Request(EXPENSE_CATEGORIES_RESOURCE, expenseCategoryId, Method.DELETE);
 
             var result = Execute(request);
 
@@ -125,7 +123,7 @@ namespace Harvest.Net
         /// <param name="expenseCategoryId">The ID of the expense category to delete</param>
         public async Task<bool> DeleteExpenseCategoryAsync(long expenseCategoryId)
         {
-            var request = Request(EXPENSE_CATEGORIES_RESOURCE, expenseCategoryId, RestSharp.Method.DELETE);
+            var request = Request(EXPENSE_CATEGORIES_RESOURCE, expenseCategoryId, Method.DELETE);
 
             var result = await ExecuteAsync(request);
 
@@ -187,16 +185,14 @@ namespace Harvest.Net
         private static ExpenseCategoryOptions GetExpenseCategoryOptions(string name, string unitName, decimal? unitPrice)
         {
             if (name == null)
-                throw new ArgumentNullException("name");
+                throw new ArgumentNullException(nameof(name));
 
-            var newExpenseCategory = new ExpenseCategoryOptions
+            return new ExpenseCategoryOptions
             {
                 Name = name,
                 UnitName = unitName,
                 UnitPrice = unitPrice
             };
-
-            return newExpenseCategory;
         }
     }
 }

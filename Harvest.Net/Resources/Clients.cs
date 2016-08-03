@@ -1,8 +1,6 @@
 ﻿using Harvest.Net.Models;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using RestSharp;
 
@@ -143,7 +141,7 @@ namespace Harvest.Net
         /// <param name="clientId">The ID of the client to toggle</param>
         public Client ToggleClient(long clientId)
         {
-            var request = Request(CLIENTS_RESOURCE, clientId, Method.POST, TOGGLE_ACTION);
+            var request = Request(CLIENTS_RESOURCE, clientId, TOGGLE_ACTION, Method.POST);
 
             return Execute<Client>(request);
         }
@@ -154,7 +152,7 @@ namespace Harvest.Net
         /// <param name="clientId">The ID of the client to toggle</param>
         public Task<Client> ToggleClientAsync(long clientId)
         {
-            var request = Request(CLIENTS_RESOURCE, clientId, Method.POST, TOGGLE_ACTION);
+            var request = Request(CLIENTS_RESOURCE, clientId, TOGGLE_ACTION, Method.POST);
 
             return ExecuteAsync<Client>(request);
         }
@@ -218,7 +216,7 @@ namespace Harvest.Net
         private static ClientOptions GetClientOptions(string name, Currency? currency, bool? active, string details, long? highriseId)
         {
             if (name == null)
-                throw new ArgumentNullException("name");
+                throw new ArgumentNullException(nameof(name));
 
             return new ClientOptions
             {

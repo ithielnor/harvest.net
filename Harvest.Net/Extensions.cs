@@ -24,7 +24,7 @@ namespace Harvest.Net
 
         internal static void ThrowIfBadRequest(this IRestResponse response)
         {
-            if (response.StatusCode == System.Net.HttpStatusCode.BadRequest)
+            if ((int)response.StatusCode >= 400)
                 throw new HarvestException(response);
         }
 

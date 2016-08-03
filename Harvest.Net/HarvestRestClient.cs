@@ -7,6 +7,7 @@ using RestSharp;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Harvest.Net
 {
@@ -132,8 +133,7 @@ namespace Harvest.Net
         {
             var response = _client.Execute<T>(request);
 
-            if ((int)response.StatusCode >= 400)
-                throw new HarvestException(response);
+            response.ThrowIfBadRequest();
 
             if (ShouldRequestLocationData(request, response))
             {
@@ -149,7 +149,8 @@ namespace Harvest.Net
         /// </summary>
         /// <typeparam name="T">The type to create and return</typeparam>
         /// <param name="request">The request to send</param>
-        public virtual async Task<T> ExecuteAsync<T>(IRestRequest request) where T : new()
+        public virtual async Task<T> ExecuteAsync<T>(IRestRequest request) 
+            where T : new()
         {
             var response = await _client.ExecuteTaskAsync<T>(request);
 

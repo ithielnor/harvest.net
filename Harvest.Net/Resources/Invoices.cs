@@ -68,7 +68,7 @@ namespace Harvest.Net
         /// <param name="number">The number for the invoice</param>
         /// <param name="projectIds">The IDs of projects to include in the invoice (useless for FreeForm invoices)</param>
         /// <param name="lineItems">A collection of line items for the invoice (only for FreeForm invoices)</param>
-        public Invoice CreateInvoice(InvoiceKind kind, long clientId, DateTime issuedAt, 
+        public Invoice CreateInvoice(InvoiceKind kind, long clientId, DateTime issuedAt,
             DateTime? dueAt = null, Currency? currency = null, string subject = null, string notes = null, string number = null, long[] projectIds = null, List<InvoiceItem> lineItems = null)
         {
             var invoice = new InvoiceOptions()
@@ -116,7 +116,7 @@ namespace Harvest.Net
             var result = Execute(request);
 
             return result.StatusCode == System.Net.HttpStatusCode.OK;
-        } 
+        }
 
         /// <summary>
         /// Update an existing invoice on the authenticated account. Makes both a PUT and a GET request to the Invoices resource.

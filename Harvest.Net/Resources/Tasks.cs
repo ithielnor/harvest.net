@@ -23,7 +23,7 @@ namespace Harvest.Net
 
             return Execute<List<Task>>(request);
         }
-        
+
         /// <summary>
         /// Retrieve a task on the authenticated account. Makes a GET request to the Tasks resource.
         /// </summary>
@@ -34,7 +34,7 @@ namespace Harvest.Net
 
             return Execute<Task>(request);
         }
-        
+
         /// <summary>
         /// Creates a new task under the authenticated account. Makes both a POST and a GET request to the Tasks resource.
         /// </summary>
@@ -46,7 +46,7 @@ namespace Harvest.Net
         {
             if (name == null)
                 throw new ArgumentNullException("name");
-            
+
             var options = new TaskOptions()
             {
                 Name = name,
@@ -57,7 +57,7 @@ namespace Harvest.Net
 
             return CreateTask(options);
         }
-        
+
         /// <summary>
         /// Creates a new task under the authenticated account. Makes a POST and a GET request to the Tasks resource.
         /// </summary>
@@ -70,7 +70,7 @@ namespace Harvest.Net
 
             return Execute<Task>(request);
         }
-        
+
         /// <summary>
         /// Delete a task from the authenticated account. Makes a DELETE request to the Tasks resource.
         /// </summary>
@@ -83,7 +83,7 @@ namespace Harvest.Net
 
             return result.StatusCode == System.Net.HttpStatusCode.OK;
         }
-        
+
         /// <summary>
         /// Activate a task on the authenticated account. Makes a POST request to the Tasks/Activate resource and a GET request to the Tasks resource.
         /// </summary>
@@ -94,7 +94,7 @@ namespace Harvest.Net
 
             return Execute<Task>(request);
         }
-        
+
         /// <summary>
         /// Update a task on the authenticated account. Makes a PUT and a GET request to the Tasks resource.
         /// </summary>

@@ -27,7 +27,7 @@ namespace Harvest.Net.Tests
             Assert.Equal("Harvest.Net", client.Name);
         }
 
-        [Fact]
+        [Fact(Skip = "Does not work on free account")]
         public void DeleteClient_ReturnsTrue()
         {
             var client = Api.CreateClient("Test Delete Client");
@@ -37,7 +37,7 @@ namespace Harvest.Net.Tests
             Assert.Equal(true, result);
         }
 
-        [Fact]
+        [Fact(Skip = "Does not work on free account")]
         public void CreateClient_ReturnsANewClient()
         {
             _todelete = Api.CreateClient("Test Create Client");
@@ -45,7 +45,7 @@ namespace Harvest.Net.Tests
             Assert.Equal("Test Create Client", _todelete.Name);
         }
 
-        [Fact]
+        [Fact(Skip = "Does not work on free account")]
         public void ToggleClient_TogglesTheClientStatus()
         {
             _todelete = Api.CreateClient("Test Toggle Client");
@@ -57,7 +57,7 @@ namespace Harvest.Net.Tests
             Assert.Equal(false, toggled.Active);
         }
 
-        [Fact]
+        [Fact(Skip = "Does not work on free account")]
         public void UpdateClient_UpdatesOnlyChangedValues()
         {
             _todelete = Api.CreateClient("Test Update Client");

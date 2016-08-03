@@ -1,19 +1,20 @@
-﻿using RestSharp.Serializers;
+﻿using RestSharp.Extensions;
+using RestSharp.Serializers;
 using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Xml.Linq;
-using RestSharp.Extensions;
-using System.Collections;
-using System.Globalization;
-using System.ComponentModel;
 
 namespace Harvest.Net.Serialization
 {
     public class HarvestXmlSerializer : ISerializer
     {
         private ISerializer _defaultSerializer;
+
         public HarvestXmlSerializer()
         {
             _defaultSerializer = new XmlSerializer();
@@ -27,6 +28,7 @@ namespace Harvest.Net.Serialization
             {
                 return _defaultSerializer.ContentType;
             }
+
             set
             {
                 _defaultSerializer.ContentType = value;
@@ -39,6 +41,7 @@ namespace Harvest.Net.Serialization
             {
                 return _defaultSerializer.DateFormat;
             }
+
             set
             {
                 _defaultSerializer.DateFormat = value;
@@ -51,6 +54,7 @@ namespace Harvest.Net.Serialization
             {
                 return _defaultSerializer.Namespace;
             }
+
             set
             {
                 _defaultSerializer.Namespace = value;
@@ -63,6 +67,7 @@ namespace Harvest.Net.Serialization
             {
                 return _defaultSerializer.RootElement;
             }
+
             set
             {
                 _defaultSerializer.RootElement = value;
@@ -90,7 +95,7 @@ namespace Harvest.Net.Serialization
 
             if (obj is IList)
             {
-                var itemTypeName = "";
+                var itemTypeName = string.Empty;
                 foreach (var item in (IList)obj)
                 {
                     var type = item.GetType();
@@ -99,17 +104,21 @@ namespace Harvest.Net.Serialization
                     {
                         itemTypeName = opts.TransformName(opts.Name ?? name);
                     }
-                    if (itemTypeName == "")
+
+                    if (itemTypeName == string.Empty)
                     {
                         itemTypeName = type.Name;
                     }
+
                     var instance = new XElement(itemTypeName.AsNamespaced(Namespace));
                     Map(instance, item);
                     root.Add(instance);
                 }
             }
             else
+            {
                 Map(root, obj);
+            }
 
             if (RootElement.HasValue())
             {
@@ -156,22 +165,11 @@ namespace Harvest.Net.Serialization
                 var settings = prop.GetAttribute<SerializeAsAttribute>();
                 if (settings != null)
                 {
-                    //name = settings.Name.HasValue() ? settings.Name : name;
                     useAttribute = settings.Attribute;
                 }
 
-                //var options = prop.GetAttribute<SerializeAsAttribute>();
-                //if (options != null)
-                //{
-                //    name = options.TransformName(name);
-                //}
-                //else if (globalOptions != null)
-                //{
-                //    name = globalOptions.TransformName(name);
-                //}
-
-                var nsName = name.AsNamespaced(Namespace);
-                var element = new XElement(nsName);
+                var namespaceName = name.AsNamespaced(Namespace);
+                var element = new XElement(namespaceName);
 
                 if (propType.IsPrimitive || propType.IsValueType || propType == typeof(string))
                 {
@@ -185,10 +183,10 @@ namespace Harvest.Net.Serialization
                 }
                 else if (rawValue is IList)
                 {
-                    var itemTypeName = "";
+                    var itemTypeName = string.Empty;
                     foreach (var item in (IList)rawValue)
                     {
-                        if (itemTypeName == "")
+                        if (itemTypeName == string.Empty)
                         {
                             var type = item.GetType();
                             var setting = type.GetAttribute<SerializeAsAttribute>();
@@ -196,6 +194,7 @@ namespace Harvest.Net.Serialization
                                 ? setting.Name
                                 : type.Name;
                         }
+
                         var instance = new XElement(itemTypeName.AsNamespaced(Namespace));
                         Map(instance, item);
                         element.Add(instance);
@@ -221,14 +220,17 @@ namespace Harvest.Net.Serialization
                 else if (DateFormat.HasValue())
                     output = ((DateTime)obj).ToString(DateFormat, CultureInfo.InvariantCulture);
             }
+
             if (obj is bool)
             {
                 output = ((bool)obj).ToString(CultureInfo.InvariantCulture).ToLower();
             }
+
             if (IsNumeric(obj))
             {
                 return SerializeNumber(obj);
             }
+
             if (obj.GetType().IsEnum)
             {
                 var description = obj.GetType().GetMember(obj.ToString())[0].GetAttribute<DescriptionAttribute>();
@@ -255,7 +257,7 @@ namespace Harvest.Net.Serialization
             else if (number is float)
                 return ((float)number).ToString(CultureInfo.InvariantCulture);
             else
-                return (Convert.ToDouble(number, CultureInfo.InvariantCulture).ToString("r", CultureInfo.InvariantCulture));
+                return Convert.ToDouble(number, CultureInfo.InvariantCulture).ToString("r", CultureInfo.InvariantCulture);
         }
 
         /// <summary>
@@ -264,17 +266,29 @@ namespace Harvest.Net.Serialization
         /// </summary>
         static bool IsNumeric(object value)
         {
-            if (value is sbyte) return true;
-            if (value is byte) return true;
-            if (value is short) return true;
-            if (value is ushort) return true;
-            if (value is int) return true;
-            if (value is uint) return true;
-            if (value is long) return true;
-            if (value is ulong) return true;
-            if (value is float) return true;
-            if (value is double) return true;
-            if (value is decimal) return true;
+            if (value is sbyte)
+                return true;
+
+            if (value is byte)
+                return true;
+            if (value is short)
+                return true;
+            if (value is ushort)
+                return true;
+            if (value is int)
+                return true;
+            if (value is uint)
+                return true;
+            if (value is long)
+                return true;
+            if (value is ulong)
+                return true;
+            if (value is float)
+                return true;
+            if (value is double)
+                return true;
+            if (value is decimal)
+                return true;
             return false;
         }
     }

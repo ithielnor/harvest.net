@@ -23,7 +23,7 @@ namespace Harvest.Net
 
             if (updatedSince != null)
                 request.AddParameter("updated_since", updatedSince.Value.ToString("yyyy-MM-dd HH:mm"));
-            
+
             return Execute<List<Project>>(request);
         }
 
@@ -37,7 +37,7 @@ namespace Harvest.Net
 
             return Execute<Project>(request);
         }
-        
+
         /// <summary>
         /// Creates a new project under the authenticated account. Makes both a POST and a GET request to the Projects resource.
         /// </summary>
@@ -53,12 +53,12 @@ namespace Harvest.Net
         {
             if (name == null)
                 throw new ArgumentNullException("name");
-            
+
             var options = new ProjectOptions()
             {
                 ClientId = clientId,
                 Name = name,
-                Code = code,                
+                Code = code,
                 Active = active,
                 BillBy = billBy,
                 Notes = notes,
@@ -77,11 +77,11 @@ namespace Harvest.Net
         {
             var request = Request("projects", RestSharp.Method.POST);
 
-            request.AddBody(options);            
+            request.AddBody(options);
 
             return Execute<Project>(request);
         }
-        
+
         /// <summary>
         /// Delete a project from the authenticated account. Makes a DELETE request to the Projects resource.
         /// </summary>
@@ -107,7 +107,7 @@ namespace Harvest.Net
 
             return result.StatusCode == System.Net.HttpStatusCode.OK;
         }
-        
+
         /// <summary>
         /// Update a project on the authenticated account. Makes a PUT and a GET request to the Projects resource.
         /// </summary>
@@ -139,7 +139,7 @@ namespace Harvest.Net
                 BillBy = billBy,
                 Billable = billable,
                 BudgetBy = budgetBy,
-                Budget = budget,                
+                Budget = budget,
                 NotifyWhenOverBudget = notifyWhenOverBudget,
                 OverBudgetNotificationPercentage = overBudgetNotificationPercentage,
                 ShowBudgetToAll = showBudgetToAll,
@@ -149,7 +149,7 @@ namespace Harvest.Net
                 CostBudget = costBudget,
                 CostBudgetIncludeExpenses = costBudgetIncludeExpenses
             };
-            
+
             return UpdateProject(projectId, options);
         }
 

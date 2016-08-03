@@ -22,11 +22,11 @@ namespace Harvest.Net.Models
 
         public decimal Hours { get; set; }
 
-        public int UserId { get; set; }
+        public long UserId { get; set; }
 
-        public int ProjectId { get; set; }
-        
-        public int TaskId { get; set; }
+        public long ProjectId { get; set; }
+
+        public long TaskId { get; set; }
 
         public bool AdjustmentRecord { get; set; }
 

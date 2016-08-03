@@ -74,6 +74,7 @@ namespace Harvest.Net.Models
         public string CsvLineItems { get; set; }
 
         private IList<InvoiceItem> _listLineItems;
+
         public IList<InvoiceItem> ListLineItems()
         {
             if (_listLineItems == null)
@@ -99,6 +100,7 @@ namespace Harvest.Net.Models
                     });
                 }
             }
+
             return _listLineItems;
         }
     }

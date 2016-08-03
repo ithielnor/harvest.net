@@ -11,8 +11,11 @@ namespace Harvest.Net.Models
     public class Modules
     {
         public bool Expenses { get; set; }
+
         public bool Invoices { get; set; }
+
         public bool Estimates { get; set; }
+
         public bool Approval { get; set; }
     }
 }

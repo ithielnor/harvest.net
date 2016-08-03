@@ -1,9 +1,8 @@
 # http://www.jeremyskinner.co.uk/2011/01/12/automating-nuget-package-creation-with-msbuild-and-powershell/
 
 Function Get-DropBox() {
-  $hostFile = Join-Path (Split-Path (Get-ItemProperty HKCU:\Software\Dropbox).InstallPath) "host.db"
-  $encodedPath = [System.Convert]::FromBase64String((Get-Content $hostFile)[1])
-  [System.Text.Encoding]::UTF8.GetString($encodedPath)
+  $hostFile = Get-Content -raw -path "$env:LOCALAPPDATA\Dropbox\info.json" | ConvertFrom-Json
+  $hostFile.personal.path
 }
 
 $scriptpath = split-path -parent $MyInvocation.MyCommand.Path
@@ -60,7 +59,7 @@ else {
       $packages | % { 
           $package = $_.Name
           write-host "Uploading $package"
-          & $nugetpath push $package $key
+          & $nugetpath push $package $key -Source https://www.nuget.org/api/v2/package
           write-host ""
       }
     }

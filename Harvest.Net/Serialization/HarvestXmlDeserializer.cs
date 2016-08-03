@@ -16,11 +16,14 @@ using System.Xml.Linq;
 
 namespace Harvest.Net.Serialization
 {
-    public class HarvestXmlDeserializer :IDeserializer
+    public class HarvestXmlDeserializer : IDeserializer
     {
         public string RootElement { get; set; }
+
         public string Namespace { get; set; }
+
         public string DateFormat { get; set; }
+
         public CultureInfo Culture { get; set; }
 
         public HarvestXmlDeserializer()
@@ -69,6 +72,7 @@ namespace Harvest.Net.Serialization
                 {
                     e.Name = XNamespace.None.GetName(e.Name.LocalName);
                 }
+
                 if (e.Attributes().Any(a => a.IsNamespaceDeclaration || a.Name.Namespace != XNamespace.None))
                 {
                     e.ReplaceAttributes(e.Attributes().Select(a => a.IsNamespaceDeclaration ? null : a.Name.Namespace != XNamespace.None ? new XAttribute(XNamespace.None.GetName(a.Name.LocalName), a.Value) : a));
@@ -108,6 +112,7 @@ namespace Harvest.Net.Serialization
 
                         prop.SetValue(x, list, null);
                     }
+
                     continue;
                 }
 
@@ -115,11 +120,12 @@ namespace Harvest.Net.Serialization
                 if (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(Nullable<>))
                 {
                     // if the value is empty, set the property to null...
-                    if (value == null || String.IsNullOrEmpty(value.ToString()))
+                    if (value == null || string.IsNullOrEmpty(value.ToString()))
                     {
                         prop.SetValue(x, null, null);
                         continue;
                     }
+
                     type = type.GetGenericArguments()[0];
                 }
 
@@ -145,10 +151,13 @@ namespace Harvest.Net.Serialization
                         });
 
                     if (match != null)
+                    {
                         prop.SetValue(x, match, null);
+                    }
                     else
                     {
-                        if (value.ToString() == "30 days") value = "net30";
+                        if (value.ToString() == "30 days")
+                            value = "net30";
                         prop.SetValue(x, type.FindEnumValue(value.ToString(), Culture), null);
                     }
                 }
@@ -195,7 +204,7 @@ namespace Harvest.Net.Serialization
                             }
                             else
                             {
-                                //fallback to parse
+                                // fallback to parse
                                 deserialisedValue = DateTimeOffset.Parse(toConvert);
                                 prop.SetValue(x, deserialisedValue, null);
                             }
@@ -203,9 +212,9 @@ namespace Harvest.Net.Serialization
                     }
                 }
 #endif
-                else if (type == typeof(Decimal))
+                else if (type == typeof(decimal))
                 {
-                    value = Decimal.Parse(value.ToString(), Culture);
+                    value = decimal.Parse(value.ToString(), Culture);
                     prop.SetValue(x, value, null);
                 }
                 else if (type == typeof(Guid))
@@ -244,7 +253,7 @@ namespace Harvest.Net.Serialization
                 }
                 else
                 {
-                    //fallback to type converters if possible
+                    // fallback to type converters if possible
                     object result;
                     if (TryGetFromString(value.ToString(), out result, type))
                     {
@@ -271,15 +280,19 @@ namespace Harvest.Net.Serialization
         {
 #if !SILVERLIGHT && !WINDOWS_PHONE && !PocketPC
             var converter = TypeDescriptor.GetConverter(type);
+
             if (converter.CanConvertFrom(typeof(string)))
             {
-                result = (converter.ConvertFromInvariantString(inputString));
+                result = converter.ConvertFromInvariantString(inputString);
                 return true;
             }
+
             result = null;
+
             return false;
 #else
             result = null;
+
             return false;
 #endif
         }
@@ -305,7 +318,6 @@ namespace Harvest.Net.Serialization
             {
                 t = type.BaseType.GetGenericArguments()[0];
             }
-
 
             var list = (IList)Activator.CreateInstance(type);
 
@@ -351,7 +363,7 @@ namespace Harvest.Net.Serialization
         protected virtual object CreateAndMap(Type t, XElement element)
         {
             object item;
-            if (t == typeof(String))
+            if (t == typeof(string))
             {
                 item = element.Value;
             }
@@ -423,7 +435,7 @@ namespace Harvest.Net.Serialization
             // try looking for element that matches sanitized property name (Order by depth)
             var element = root.Descendants()
                 .OrderBy(d => d.Ancestors().Count())
-                .FirstOrDefault(d => d.Name.LocalName.RemoveUnderscoresAndDashes() == name.LocalName) 
+                .FirstOrDefault(d => d.Name.LocalName.RemoveUnderscoresAndDashes() == name.LocalName)
                 ?? root.Descendants()
                 .OrderBy(d => d.Ancestors().Count())
                 .FirstOrDefault(d => d.Name.LocalName.RemoveUnderscoresAndDashes() == name.LocalName.ToLower());

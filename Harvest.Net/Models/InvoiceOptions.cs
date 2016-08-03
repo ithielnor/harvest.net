@@ -45,12 +45,12 @@ namespace Harvest.Net.Models
         public decimal? Tax2Amount { get; set; }
 
         public InvoiceKind? Kind { get; set; }
-        
+
         /// <summary>
         /// Free form items
         /// </summary>
         public string CsvLineItems { get; set; }
-        
+
         /// <summary>
         /// Project IDs to gather data from
         /// </summary>

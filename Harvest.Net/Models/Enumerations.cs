@@ -12,14 +12,14 @@ namespace Harvest.Net.Models
     {
         [Description("United States Dollar - USD")]USD,
         [Description("Euro - EUR")]EUR,
-        [Description("United Kingdom Pound - GBP")]GBP,
-        [Description("Canada Dollar - CAD")]CAD,
+        [Description("British Pound - GBP")]GBP,
+        [Description("Canadian Dollar - CAD")]CAD,
         [Description("Australia Dollar - AUD")]AUD,
         [Description("New Zealand Dollar - NZD")]NZD,
         [Description("Swedish krona - SEK")]SEK,
         [Description("Danish Krone - DKK")]DKK,
         [Description("Norwegian Krone - NOK")]NOK,
-        [Description("Switzerland Franc - CHF")]CHF,
+        [Description("Swiss Franc - CHF")]CHF,
         [Description("South Africa Rand - ZAR")]ZAR,
         [Description("Afghanistan Afghani - AFN")]AFN,
         [Description("Albania Lek - ALL")]ALL,
@@ -59,7 +59,7 @@ namespace Harvest.Net.Models
         [Description("Hong Kong Dollar - HKD")]HKD,
         [Description("Hungary Forint - HUF")]HUF,
         [Description("Iceland Kronur - ISK")]ISK,
-        [Description("India Rupee - INR")]INR,
+        [Description("Indian Rupee - INR")]INR,
         [Description("Indonesia Rupiah - IDR")]IDR,
         [Description("Iran Rial - IRR")]IRR,
         [Description("Iraq Dinar - IQD")]IQD,
@@ -171,7 +171,7 @@ namespace Harvest.Net.Models
         None,
         People,
         Project,
-        Task
+        Tasks
     }
 
     public enum BudgetMethod
@@ -192,5 +192,13 @@ namespace Harvest.Net.Models
     {
         [Description("none")]
         None,
+        [Description("person")]
+        Person,
+        [Description("project")]
+        Project,
+        [Description("project_cost")]
+        ProjectCost,
+        [Description("task")]
+        Task
     }
 }

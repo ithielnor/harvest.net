@@ -28,15 +28,16 @@ namespace Harvest.Net.Models
 
         public override string ToString()
         {
-            var items = new string[] {
+            var items = new string[]
+            {
                 Kind,
-                Description, 
+                Description,
                 Quantity.ToString(),
                 UnitPrice.ToString(),
                 Amount.ToString(),
                 Taxed.ToString().ToLower(),
                 Taxed2.ToString().ToLower(),
-                "" + ProjectId
+                string.Empty + ProjectId
             };
             return string.Join(",", items);
         }

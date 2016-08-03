@@ -24,7 +24,7 @@ namespace Harvest.Net
 
             return Execute<List<UserAssignment>>(request);
         }
-        
+
         /// <summary>
         /// Retrieve an user assignment on a project. Makes a GET request to the Projects/User_Assignments resource.
         /// </summary>
@@ -36,7 +36,7 @@ namespace Harvest.Net
 
             return Execute<UserAssignment>(request);
         }
-        
+
         /// <summary>
         /// Assigns an user to a project. Makes both a POST and a GET request to the Projects/User_Assignments resource.
         /// </summary>
@@ -53,7 +53,7 @@ namespace Harvest.Net
 
             return Execute<UserAssignment>(request);
         }
-        
+
         /// <summary>
         /// Remove an user from a project. Makes a DELETE request to the Projects/User_Assignments resource.
         /// </summary>
@@ -62,12 +62,12 @@ namespace Harvest.Net
         public bool DeleteUserAssignment(long projectId, long userAssignmentId)
         {
             var request = Request("projects/" + projectId + "/user_assignments/" + userAssignmentId, RestSharp.Method.DELETE);
-            
+
             var result = Execute(request);
 
             return result.StatusCode == System.Net.HttpStatusCode.OK;
         }
-        
+
         /// <summary>
         /// Update an user assignment on a project. Makes a PUT and a GET request to the Projects/User_Assignments resource.
         /// </summary>

@@ -15,7 +15,7 @@ namespace Harvest.Net.Models
         public decimal? Units { get; set; }
 
         public long? ProjectId { get; set; }
-        
+
         public long? ExpenseCategoryId { get; set; }
 
         public DateTime? SpentAt { get; set; }

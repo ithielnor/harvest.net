@@ -43,5 +43,9 @@ namespace Harvest.Net.Models
         public decimal? CostBudget { get; set; }
 
         public bool? CostBudgetIncludeExpenses { get; set; }
+
+        public DateTime? StartsOn { get; set; }
+        
+        public DateTime? EndsOn { get; set; }
     }
 }

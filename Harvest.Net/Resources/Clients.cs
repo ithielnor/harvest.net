@@ -30,11 +30,11 @@ namespace Harvest.Net
         /// List all clients for the authenticated account. Makes a GET request to the Clients resource.
         /// </summary>
         /// <param name="updatedSince">An optional filter on the client updated-at property</param>
-        public Task<List<Client>> ListClientsAsync(DateTime? updatedSince = null)
+        public async Task<IList<Client>> ListClientsAsync(DateTime? updatedSince = null)
         {
             var request = GetListClientsRequest(updatedSince);
 
-            return ExecuteAsync<List<Client>>(request);
+            return await ExecuteAsync<List<Client>>(request);
         }
 
         /// <summary>

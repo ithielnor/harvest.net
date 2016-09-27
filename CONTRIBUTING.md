@@ -16,7 +16,7 @@ We love contributors!
 * For 2.0 features work on the 2.0 branch
 * Make commits of logical units.
 * Check for unnecessary whitespace with `git diff --check` before committing.
-* Make sure your commit messages are descriptive, and include issue numbers were appropriate.
+* Make sure your commit messages are descriptive, and include issue numbers where appropriate.
 * Make sure you have added the necessary tests for your changes.
 * Run _all_ the tests to assure nothing else was accidentally broken.
 

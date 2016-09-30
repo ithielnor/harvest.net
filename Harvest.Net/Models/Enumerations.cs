@@ -125,26 +125,32 @@ namespace Harvest.Net.Models
         /// Unpaid Invoices.
         /// </summary>
         Open,
+
         /// <summary>
         /// Partial paid invoice.
         /// </summary>
         Partial,
+
         /// <summary>
         /// Drafted invoices.
         /// </summary>
         Draft,
+
         /// <summary>
         /// Paid in full invoices.
         /// </summary>
         Paid,
+
         /// <summary>
         /// Unpaid invoices.
         /// </summary>
         Unpaid,
+
         /// <summary>
         /// State which is reached when the invoice is not paid til the due date.
         /// </summary>
         PastDue,
+
         /// <summary>
         /// State which is reached when the invoice is closed.
         /// </summary>
@@ -160,18 +166,22 @@ namespace Harvest.Net.Models
         /// Gathers hours & expenses from Harvest grouped by projects.
         /// </summary>
         Project,
+
         /// <summary>
         /// Gathers hours & expenses from Harvest grouped by task.
         /// </summary>
         Task,
+
         /// <summary>
         /// Gathers hours & expenses from Harvest grouped by person.
         /// </summary>
         People,
+
         /// <summary>
         /// Uses a line item for each hour & expense entry, including detailed notes.
         /// </summary>
         Detailed,
+
         /// <summary>
         /// Creates free form invoice. Line items added with csv-line-items
         /// </summary>
@@ -188,26 +198,31 @@ namespace Harvest.Net.Models
         /// </summary>
         [Description("upon receipt")]
         UponReceipt,
+
         /// <summary>
         /// 15 days until the invoice is due.
         /// </summary>
         [Description("net 15")]
         Net15,
+
         /// <summary>
         /// 30 days until the invoice is due.
         /// </summary>
         [Description("net 30")]
         Net30,
+
         /// <summary>
         /// 45 days until the invoice is due.
         /// </summary>
         [Description("net 45")]
         Net45,
+
         /// <summary>
         /// 60 days until the invoice is due.
         /// </summary>
         [Description("net 60")]
         Net60,
+
         /// <summary>
         /// Custom amount of days until the invoice is due.
         /// </summary>
@@ -224,10 +239,12 @@ namespace Harvest.Net.Models
         /// Sunday.
         /// </summary>
         Sunday,
+
         /// <summary>
         /// Monday.
         /// </summary>
         Monday,
+
         /// <summary>
         /// Saturday.
         /// </summary>
@@ -244,14 +261,17 @@ namespace Harvest.Net.Models
         /// </summary>
         [Description("none")]
         None,
+
         /// <summary>
         /// Invoiced by people.
         /// </summary>
         People,
+
         /// <summary>
         /// Invoiced by projects.
         /// </summary>
         Project,
+
         /// <summary>
         /// Invoiced by tasks.
         /// </summary>
@@ -268,21 +288,25 @@ namespace Harvest.Net.Models
         /// </summary>
         [Description("none")]
         None,
+
         /// <summary>
         /// Budgeted by hours per person.
         /// </summary>
         [Description("person")]
         Person,
+
         /// <summary>
         /// Budgeted by hours per project.
         /// </summary>
         [Description("project")]
         Project,
+
         /// <summary>
         /// Budgeted by total project fees.
         /// </summary>
         [Description("project_cost")]
         ProjectCost,
+
         /// <summary>
         /// Budgeted by hours per task.
         /// </summary>
@@ -300,21 +324,25 @@ namespace Harvest.Net.Models
         /// </summary>
         [Description("none")]
         None,
+
         /// <summary>
         /// Estimated by hours per person.
         /// </summary>
         [Description("person")]
         Person,
+
         /// <summary>
         /// Estimated by hours per project.
         /// </summary>
         [Description("project")]
         Project,
+
         /// <summary>
         /// Estimated by total project fees.
         /// </summary>
         [Description("project_cost")]
         ProjectCost,
+
         /// <summary>
         /// Estimated by hours per task.
         /// </summary>

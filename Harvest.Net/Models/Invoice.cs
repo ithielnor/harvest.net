@@ -232,14 +232,13 @@ namespace Harvest.Net.Models
         {
             if (_listLineItems == null)
             {
-
                 _listLineItems = new List<InvoiceItem>();
 
                 // Null check
                 if (string.IsNullOrEmpty(CsvLineItems)) return _listLineItems;
 
                 // Get memory stream of data
-                System.IO.MemoryStream stream = new System.IO.MemoryStream(Encoding.UTF8.GetBytes(CsvLineItems));
+                System.IO.MemoryStream stream = new System.IO.MemoryStream(System.Text.Encoding.UTF8.GetBytes(CsvLineItems));
 
                 // Use the inbuildt .NET CSV parser
                 Microsoft.VisualBasic.FileIO.TextFieldParser parser = new Microsoft.VisualBasic.FileIO.TextFieldParser(stream);
@@ -274,15 +273,17 @@ namespace Harvest.Net.Models
                                 case "amount": invocieitem.Amount  = decimal.Parse(field, System.Globalization.CultureInfo.InvariantCulture); break;
                                 case "taxed": invocieitem.Taxed = bool.Parse(field); break;
                                 case "taxed2": invocieitem.Taxed2 = bool.Parse(field); break;
-                                case "project_id": invocieitem.ProjectId = (string.IsNullOrEmpty(field) ? 0 : long.Parse(field)); break;
+                                case "project_id": invocieitem.ProjectId = string.IsNullOrEmpty(field) ? 0 : long.Parse(field); break;
                             }
-
                         }
+
                         fieldindex++;
                     }
+
                     lineindex++;
                     if (invocieitem != null) _listLineItems.Add(invocieitem);
                 }
+
                 parser.Close();
             }
 

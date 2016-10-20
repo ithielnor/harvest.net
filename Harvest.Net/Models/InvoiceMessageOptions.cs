@@ -1,30 +1,35 @@
-﻿using Harvest.Net.Serialization;
 using RestSharp.Serializers;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Harvest.Net.Models
 {
+    /// <summary>
+    /// Model for creating and updating invoice messages.
+    /// </summary>
     [SerializeAs(Name = "invoice-message")]
     public class InvoiceMessageOptions
     {
+        /// <summary>
+        /// Text body of the invoice message.
+        /// </summary>
         public string Body { get; set; }
 
+        /// <summary>
+        /// Value which describes if an pdf is attached to the invoice message.
+        /// </summary>
         public bool AttachPdf { get; set; }
 
         /// <summary>
-        /// This feature is not documented and may change in a future version of the Harvest API
+        /// Include a payment link in the message body.
         /// </summary>
-        [Obsolete("Undocumented. Works as of 7/1/2014")]
         public bool IncludePayPalLink { get; set; }
 
+        /// <summary>
+        /// Send a copy to the current user.
+        /// </summary>
         public bool SendMeACopy { get; set; }
 
         /// <summary>
-        /// Comma delimited list of recipient emails
+        /// Comma delimited list of recipient emails.
         /// </summary>
         public string Recipients { get; set; }
     }

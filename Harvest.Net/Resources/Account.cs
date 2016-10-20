@@ -17,7 +17,7 @@ namespace Harvest.Net
         public Account WhoAmI()
         {
             var request = Request("account/who_am_i");
-            
+
             return Execute<Account>(request);
         }
     }

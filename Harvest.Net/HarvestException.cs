@@ -2,10 +2,6 @@
 using RestSharp;
 using RestSharp.Deserializers;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Harvest.Net
 {
@@ -27,6 +23,7 @@ namespace Harvest.Net
         }
 
         public IRestResponse Response { get; private set; }
+
         public ErrorResult Result { get; private set; }
 
         public override string Message

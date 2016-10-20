@@ -14,11 +14,14 @@ using System.Threading.Tasks;
 
 namespace Harvest.Net.Serialization
 {
-    public class HarvestJsonDeserializer :IDeserializer
+    public class HarvestJsonDeserializer : IDeserializer
     {
         public string RootElement { get; set; }
+
         public string Namespace { get; set; }
+
         public string DateFormat { get; set; }
+
         public CultureInfo Culture { get; set; }
 
         public HarvestJsonDeserializer()
@@ -69,6 +72,7 @@ namespace Harvest.Net.Serialization
             {
                 return data[RootElement];
             }
+
             return data;
         }
 
@@ -81,7 +85,7 @@ namespace Harvest.Net.Serialization
             {
                 var type = prop.PropertyType;
 
-                string name = String.Empty;
+                string name = string.Empty;
 
                 var attributes = prop.GetCustomAttributes(typeof(DeserializeAsAttribute), false);
                 if (attributes.Length > 0)
@@ -100,14 +104,19 @@ namespace Harvest.Net.Serialization
                 for (var i = 0; i < parts.Length; ++i)
                 {
                     var actualName = parts[i].GetNameVariants(Culture).FirstOrDefault(currentData.ContainsKey);
-                    if (actualName == null) break;
-                    if (i == parts.Length - 1) value = currentData[actualName];
-                    else currentData = (IDictionary<string, object>)currentData[actualName];
+                    if (actualName == null)
+                        break;
+                    if (i == parts.Length - 1)
+                        value = currentData[actualName];
+                    else
+                        currentData = (IDictionary<string, object>)currentData[actualName];
                 }
 
-                if (value != null) prop.SetValue(target, ConvertValue(type, value), null);
+                if (value != null)
+                    prop.SetValue(target, ConvertValue(type, value), null);
             }
         }
+
         private IDictionary BuildDictionary(Type type, object parent)
         {
             var dict = (IDictionary)Activator.CreateInstance(type);
@@ -124,8 +133,10 @@ namespace Harvest.Net.Serialization
                 {
                     item = ConvertValue(valueType, child.Value);
                 }
+
                 dict.Add(key, item);
             }
+
             return dict;
         }
 
@@ -171,6 +182,7 @@ namespace Harvest.Net.Serialization
             {
                 list.Add(ConvertValue(itemType, parent));
             }
+
             return list;
         }
 
@@ -182,12 +194,13 @@ namespace Harvest.Net.Serialization
             if (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(Nullable<>))
             {
                 // Since the type is nullable and no value is provided return null
-                if (String.IsNullOrEmpty(stringValue)) return null;
+                if (string.IsNullOrEmpty(stringValue))
+                    return null;
 
                 type = type.GetGenericArguments()[0];
             }
 
-            if (type == typeof(System.Object) && value != null)
+            if (type == typeof(object) && value != null)
             {
                 type = value.GetType();
             }
@@ -201,7 +214,7 @@ namespace Harvest.Net.Serialization
                 // first try to get the value using the SerializeAsAttribute
                 var match = Enum.GetValues(type)
                     .Cast<Enum>()
-                    .FirstOrDefault(v => 
+                    .FirstOrDefault(v =>
                     {
                         var attr = type.GetMember(v.ToString())[0].GetAttribute<DescriptionAttribute>();
                         if (attr != null && attr.Description == stringValue)
@@ -222,11 +235,12 @@ namespace Harvest.Net.Serialization
             {
                 return stringValue;
             }
-            else if (type == typeof(DateTime)
+
 #if !PocketPC
-|| type == typeof(DateTimeOffset)
+            else if (type == typeof(DateTime) || type == typeof(DateTimeOffset))
+#else
+            else if (type == typeof(DateTime))
 #endif
-)
             {
                 DateTime dt;
                 if (DateFormat.HasValue())
@@ -252,12 +266,12 @@ namespace Harvest.Net.Serialization
                 }
 #endif
             }
-            else if (type == typeof(Decimal))
+            else if (type == typeof(decimal))
             {
                 if (value is double)
                     return (decimal)((double)value);
 
-                return Decimal.Parse(stringValue, Culture);
+                return decimal.Parse(stringValue, Culture);
             }
             else if (type == typeof(Guid))
             {
@@ -297,7 +311,7 @@ namespace Harvest.Net.Serialization
             }
             else if (type == typeof(JsonObject))
             {
-                // simplify JsonObject into a Dictionary<string, object> 
+                // simplify JsonObject into a Dictionary<string, object>
                 return BuildDictionary(typeof(Dictionary<string, object>), value);
             }
             else
@@ -324,7 +338,7 @@ namespace Harvest.Net.Serialization
             }
 
             Map(instance, data);
-            
+
             return instance;
         }
     }

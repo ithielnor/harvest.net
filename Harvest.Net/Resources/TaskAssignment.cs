@@ -24,7 +24,7 @@ namespace Harvest.Net
 
             return Execute<List<TaskAssignment>>(request);
         }
-        
+
         /// <summary>
         /// Retrieve a task assignment on a project. Makes a GET request to the Projects/Task_Assignments resource.
         /// </summary>
@@ -36,7 +36,7 @@ namespace Harvest.Net
 
             return Execute<TaskAssignment>(request);
         }
-        
+
         /// <summary>
         /// Assign a task to a project. Makes both a POST and a GET request to the Projects/Task_Assignments resource.
         /// </summary>
@@ -65,12 +65,12 @@ namespace Harvest.Net
 
             request.AddBody(new TaskOptions()
             {
-                Name = name                
+                Name = name
             });
 
             return Execute<TaskAssignment>(request);
         }
-        
+
         /// <summary>
         /// Remove a task from a project. Makes a DELETE request to the Projects/Task_Assignments resource.
         /// </summary>
@@ -79,12 +79,12 @@ namespace Harvest.Net
         public bool DeleteTaskAssignment(long projectId, long taskAssignmentId)
         {
             var request = Request("projects/" + projectId + "/task_assignments/" + taskAssignmentId, RestSharp.Method.DELETE);
-            
+
             var result = Execute(request);
 
             return result.StatusCode == System.Net.HttpStatusCode.OK;
         }
-        
+
         /// <summary>
         /// Update a task assignment on a project. Makes a PUT and a GET request to the Projects/Task_Assignments resource.
         /// </summary>

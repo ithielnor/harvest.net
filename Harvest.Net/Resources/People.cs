@@ -82,7 +82,7 @@ namespace Harvest.Net
                 Telephone = telephone,
                 Timezone = timezone,
                 IsActive = isActive,
-                IsAdmin = isAdmin, 
+                IsAdmin = isAdmin,
                 IsContractor = isContractor,
                 HasAccessToAllFutureProjects = hasAccessToAllFutureProjects,
                 WantsNewsletter = wantsNewsletter,
@@ -102,7 +102,7 @@ namespace Harvest.Net
         {
             var request = Request("people", RestSharp.Method.POST);
 
-            request.AddBody(options);            
+            request.AddBody(options);
 
             return Execute<User>(request);
         }
@@ -143,7 +143,7 @@ namespace Harvest.Net
 
             return Execute<User>(request);
         }
-        
+
         /// <summary>
         /// Update a user on the authenticated account. Makes a PUT and a GET request to the People resource.
         /// </summary>
@@ -172,7 +172,7 @@ namespace Harvest.Net
                 Department = department,
                 Telephone = telephone,
                 Timezone = timezone,
-                IsAdmin = isAdmin, 
+                IsAdmin = isAdmin,
                 IsContractor = isContractor,
                 HasAccessToAllFutureProjects = hasAccessToAllFutureProjects,
                 WantsNewsletter = wantsNewsletter,
@@ -180,7 +180,7 @@ namespace Harvest.Net
                 DefaultHourlyRate = defaultHourlyRate,
                 CostRate = costRate
             };
-            
+
             return UpdateUser(userId, options);
         }
 

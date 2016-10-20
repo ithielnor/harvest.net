@@ -55,7 +55,7 @@ namespace Harvest.Net
         }
 
         /// <summary>
-        /// Get all time entries logged to a project for a given timeframe with optional filters. Makes a GET request to the Projects/Entries resource. 
+        /// Get all time entries logged to a project for a given timeframe with optional filters. Makes a GET request to the Projects/Entries resource.
         /// </summary>
         /// <param name="projectId">The projectId</param>
         /// <param name="beginTime">The start of the timeframe</param>
@@ -89,7 +89,7 @@ namespace Harvest.Net
             if (isClosed != null)
                 request.AddParameter("is_closed", isClosed.Value.ToYesNo());
 
-            if (updatedSince != null) 
+            if (updatedSince != null)
                 request.AddParameter("updated_since", updatedSince.Value.ToString("yyyy-MM-dd HH:mm"));
 
             return Execute<List<DayEntry>>(request);
@@ -110,18 +110,18 @@ namespace Harvest.Net
             request.AddParameter("from", beginTime.ToString("yyyyMMdd"));
 
             request.AddParameter("to", endTime.ToString("yyyyMMdd"));
-            
+
             if (isClosed != null)
                 request.AddParameter("is_closed", isClosed.Value.ToYesNo());
 
-            if (updatedSince != null) 
+            if (updatedSince != null)
                 request.AddParameter("updated_since", updatedSince.Value.ToString("yyyy-MM-dd HH:mm"));
 
             return Execute<List<Expense>>(request);
         }
 
         /// <summary>
-        /// List all expense entries logged to a project for a given timeframe with optional filters. Makes a GET request to the Projects/Expenses resource. 
+        /// List all expense entries logged to a project for a given timeframe with optional filters. Makes a GET request to the Projects/Expenses resource.
         /// </summary>
         /// <param name="projectId">The projectId</param>
         /// <param name="beginTime">The start of the timeframe</param>

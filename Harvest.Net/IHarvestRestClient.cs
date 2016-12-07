@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Harvest.Net
 {
-    public interface IHarvestRestClient
+    public partial interface IHarvestRestClient
     {
         string BaseUrl { get; }
 

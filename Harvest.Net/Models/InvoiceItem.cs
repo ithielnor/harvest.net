@@ -53,8 +53,8 @@ namespace Harvest.Net.Models
         {
             var items = new string[]
             {
-                Kind,
-                Description,
+                "\"" + Kind + "\"",
+                "\"" + Description + "\"", 
                 Quantity.ToString(),
                 UnitPrice.ToString(),
                 Amount.ToString(),

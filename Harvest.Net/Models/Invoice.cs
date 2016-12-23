@@ -232,26 +232,59 @@ namespace Harvest.Net.Models
         {
             if (_listLineItems == null)
             {
-                var lines = CsvLineItems.Split(new[] { '\n' }, StringSplitOptions.RemoveEmptyEntries)
-                    .Select(line => line.Split(','));
-
-                var headers = lines.First();
                 _listLineItems = new List<InvoiceItem>();
 
-                foreach (var row in lines.Skip(1))
+                // Null check
+                if (string.IsNullOrEmpty(CsvLineItems)) return _listLineItems;
+
+                // Get memory stream of data
+                System.IO.MemoryStream stream = new System.IO.MemoryStream(System.Text.Encoding.UTF8.GetBytes(CsvLineItems));
+
+                // Use the inbuildt .NET CSV parser
+                Microsoft.VisualBasic.FileIO.TextFieldParser parser = new Microsoft.VisualBasic.FileIO.TextFieldParser(stream);
+                parser.TextFieldType = Microsoft.VisualBasic.FileIO.FieldType.Delimited;
+                parser.SetDelimiters(",");
+
+                List<string> headers = new List<string>();
+                int lineindex = 0;
+                while (!parser.EndOfData)
                 {
-                    _listLineItems.Add(new InvoiceItem()
+                    string[] fields = parser.ReadFields();
+                    int fieldindex = 0;
+                    InvoiceItem invocieitem = null;
+                    foreach (string field in fields)
                     {
-                        ProjectId = row[Array.IndexOf<string>(headers, "project_id")].ParseNullableLong(),
-                        UnitPrice = decimal.Parse(row[Array.IndexOf<string>(headers, "unit_price")]),
-                        Quantity = decimal.Parse(row[Array.IndexOf<string>(headers, "quantity")]),
-                        Amount = decimal.Parse(row[Array.IndexOf<string>(headers, "amount")]),
-                        Taxed = bool.Parse(row[Array.IndexOf<string>(headers, "taxed")]),
-                        Taxed2 = bool.Parse(row[Array.IndexOf<string>(headers, "taxed2")]),
-                        Kind = row[Array.IndexOf<string>(headers, "kind")],
-                        Description = row[Array.IndexOf<string>(headers, "description")],
-                    });
+                        // Header, or content?
+                        if (lineindex == 0)
+                        {
+                            headers.Add(field);
+                        }
+                        else
+                        {
+                            if (invocieitem == null) invocieitem = new InvoiceItem();
+
+                            // Parse by header name
+                            switch (headers[fieldindex])
+                            {
+                                case "kind": invocieitem.Kind = field; break;
+                                case "description": invocieitem.Description = field; break;
+                                case "quantity": invocieitem.Quantity = decimal.Parse(field, System.Globalization.CultureInfo.InvariantCulture); break;
+                                case "unit_price": invocieitem.UnitPrice = decimal.Parse(field, System.Globalization.CultureInfo.InvariantCulture); break;
+                                case "amount": invocieitem.Amount  = decimal.Parse(field, System.Globalization.CultureInfo.InvariantCulture); break;
+                                case "taxed": invocieitem.Taxed = bool.Parse(field); break;
+                                case "taxed2": invocieitem.Taxed2 = bool.Parse(field); break;
+                                case "project_id": invocieitem.ProjectId = string.IsNullOrEmpty(field) ? 0 : long.Parse(field); break;
+                            }
+                        }
+
+                        fieldindex++;
+                    }
+
+                    lineindex++;
+                    if (invocieitem != null) _listLineItems.Add(invocieitem);
                 }
+
+                parser.Close();
             }
 
             return _listLineItems;

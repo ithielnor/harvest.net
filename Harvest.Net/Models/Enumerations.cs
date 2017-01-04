@@ -311,7 +311,13 @@ namespace Harvest.Net.Models
         /// Budgeted by hours per task.
         /// </summary>
         [Description("task")]
-        Task
+        Task,
+
+        /// <summary>
+        /// Budgeted by task fees.
+        /// </summary>
+        [Description("task_fees")]
+        TaskFees
     }
 
     /// <summary>
@@ -347,6 +353,12 @@ namespace Harvest.Net.Models
         /// Estimated by hours per task.
         /// </summary>
         [Description("task")]
-        Task
+        Task,
+
+        /// <summary>
+        /// Estimated by task fees.
+        /// </summary>
+        [Description("task_fees")]
+        TaskFees
     }
 }

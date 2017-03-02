@@ -14,7 +14,7 @@ namespace Harvest.Net.Network
         public IRestClient GetWebClient(string baseUrl, string userAgent, string accessToken)
         {
             var client = GetBasicClient(baseUrl, userAgent);
-            client.AddDefaultParameter("access_token", accessToken, ParameterType.GetOrPost);
+            client.AddDefaultParameter("access_token", accessToken, ParameterType.QueryString);
             return client;
         }
 

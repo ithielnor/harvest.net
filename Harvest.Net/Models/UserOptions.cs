@@ -77,5 +77,10 @@ namespace Harvest.Net.Models
         /// To set a timezone other than the account default.
         /// </summary>
         public string Timezone { get; set; }
+
+        /// <summary>
+        /// The number of seconds per week this person is available to work.
+        /// </summary>
+        public long WeeklyCapacity { get; set; }
     }
 }

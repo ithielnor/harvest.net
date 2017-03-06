@@ -165,27 +165,56 @@ namespace Harvest.Net.Models
         /// <summary>
         /// Gathers hours & expenses from Harvest grouped by projects.
         /// </summary>
+        [Description("project")]
         Project,
 
         /// <summary>
         /// Gathers hours & expenses from Harvest grouped by task.
         /// </summary>
+        [Description("task")]
         Task,
 
         /// <summary>
         /// Gathers hours & expenses from Harvest grouped by person.
         /// </summary>
+        [Description("people")]
         People,
 
         /// <summary>
         /// Uses a line item for each hour & expense entry, including detailed notes.
         /// </summary>
+        [Description("detailed")]
         Detailed,
 
         /// <summary>
         /// Creates free form invoice. Line items added with csv-line-items
         /// </summary>
+        [Description("free-form")]
         FreeForm,
+    }
+
+    /// <summary>
+    /// Formats which are describing the type of hours to import.
+    /// </summary>
+    public enum InvoiceImportHours
+    {
+        /// <summary>
+        /// Import all hours
+        /// </summary>
+        [Description("all")]
+        All,
+
+        /// <summary>
+        /// Import hours using period start and period end
+        /// </summary>
+        [Description("yes")]
+        Yes,
+
+        /// <summary>
+        /// Do not import hours
+        /// </summary>
+        [Description("no")]
+        No
     }
 
     /// <summary>

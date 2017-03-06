@@ -127,6 +127,43 @@ namespace Harvest.Net.Models
         public string ProjectsToInvoice { get; set; }
 
         /// <summary>
+        /// Which hours to import into invoices. Options:
+        /// <list type="bullet">
+        /// <item>
+        /// <description>all</description>
+        /// </item>
+        /// <item>
+        /// <description>yes</description>
+        /// </item>
+        /// <item>
+        /// <description>no</description>
+        /// </item>
+        /// </list>
+        /// For further reference, lookup: <see cref="InvoiceImportHours"/>.
+        /// </summary>
+        public InvoiceImportHours? ImportHours { get; set; }
+
+        /// <summary>
+        /// Date for included project hours.
+        /// <example>
+        /// This is an example given by the API.
+        /// 2015-04-22
+        /// </example>
+        /// </summary>
+        [HarvestSerialize(DateOnly = true)]
+        public DateTime? PeriodStart { get; set; }
+
+        /// <summary>
+        /// End date for included project hours.
+        /// <example>
+        /// This is an example given by the API.
+        /// 2015-04-22
+        /// </example>
+        /// </summary>
+        [HarvestSerialize(DateOnly = true)]
+        public DateTime? PeriodEnd { get; set; }
+
+        /// <summary>
         /// Method to set invoice items of the invoice options.
         /// </summary>
         /// <param name="items">

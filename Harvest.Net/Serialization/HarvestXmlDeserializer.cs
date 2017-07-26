@@ -215,8 +215,9 @@ namespace Harvest.Net.Serialization
                 }
 #endif
                 else if (type == typeof(decimal))
-                {
-                    value = decimal.Parse(value.ToString(), Culture);
+                {                    
+                    var raw = value.ToString();
+                    value = string.IsNullOrEmpty(raw) ? 0 : decimal.Parse(value.ToString(), Culture);
                     prop.SetValue(x, value, null);
                 }
                 else if (type == typeof(Guid))

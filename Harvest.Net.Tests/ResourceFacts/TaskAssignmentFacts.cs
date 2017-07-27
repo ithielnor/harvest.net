@@ -72,7 +72,7 @@ namespace Harvest.Net.Tests
             Assert.NotEqual(_todelete.Billable, updated.Billable);
             Assert.Equal(false, _todelete.Billable);
             Assert.NotEqual(_todelete.HourlyRate, updated.HourlyRate);
-            Assert.Equal(0m, _todelete.HourlyRate);
+            Assert.Equal(1m, _todelete.HourlyRate);
 
             // stuff didn't change
             Assert.Equal(_todelete.Id, updated.Id);

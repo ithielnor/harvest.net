@@ -47,7 +47,7 @@ namespace Harvest.Net.Models
         /// <summary>
         /// Hourly rate for the task assignment.
         /// </summary>
-        public decimal HourlyRate { get; set; }
+        public decimal? HourlyRate { get; set; }
 
         /// <summary>
         /// Total budget given for the task assignment.

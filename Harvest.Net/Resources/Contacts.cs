@@ -31,7 +31,8 @@ namespace Harvest.Net
         {
             var request = ListRequest(CONTACTS_RESOURCE, updatedSince);
 
-            return await ExecuteAsync<List<Contact>>(request);
+            // ReSharper disable once AsyncConverter.AsyncAwaitMayBeElidedHighlighting
+            return await ExecuteAsync<List<Contact>>(request).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -55,7 +56,8 @@ namespace Harvest.Net
         {
             var request = ListClientContactsRequest(clientId, updatedSince);
 
-            return await ExecuteAsync<List<Contact>>(request);
+            // ReSharper disable once AsyncConverter.AsyncAwaitMayBeElidedHighlighting
+            return await ExecuteAsync<List<Contact>>(request).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -159,7 +161,7 @@ namespace Harvest.Net
         {
             var request = Request(CONTACTS_RESOURCE, contactId, Method.DELETE);
 
-            var result = await ExecuteAsync(request);
+            var result = await ExecuteAsync(request).ConfigureAwait(false);
 
             return result.StatusCode == System.Net.HttpStatusCode.OK;
         }
@@ -225,7 +227,7 @@ namespace Harvest.Net
 
             return ExecuteAsync<Contact>(request);
         }
-        
+
         private static ContactOptions GetContactOptions(long? clientId, string firstName, string lastName, string title, string email, string phoneOffice, string phoneMobile, string fax)
         {
             if (firstName == null)
@@ -249,7 +251,7 @@ namespace Harvest.Net
             return newContact;
         }
 
-        private IRestRequest ListClientContactsRequest(long clientId, DateTime? updatedSince) 
+        private IRestRequest ListClientContactsRequest(long clientId, DateTime? updatedSince)
             => ListRequest($"{CLIENTS_RESOURCE}/{clientId}/{CONTACTS_RESOURCE}", updatedSince);
     }
 }

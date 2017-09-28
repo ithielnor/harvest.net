@@ -31,7 +31,8 @@ namespace Harvest.Net
         {
             var request = ListRequest(EXPENSE_CATEGORIES_RESOURCE, updatedSince);
 
-            return await ExecuteAsync<List<ExpenseCategory>>(request);
+            // ReSharper disable once AsyncConverter.AsyncAwaitMayBeElidedHighlighting
+            return await ExecuteAsync<List<ExpenseCategory>>(request).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -125,7 +126,7 @@ namespace Harvest.Net
         {
             var request = Request(EXPENSE_CATEGORIES_RESOURCE, expenseCategoryId, Method.DELETE);
 
-            var result = await ExecuteAsync(request);
+            var result = await ExecuteAsync(request).ConfigureAwait(false);
 
             return result.StatusCode == System.Net.HttpStatusCode.OK;
         }

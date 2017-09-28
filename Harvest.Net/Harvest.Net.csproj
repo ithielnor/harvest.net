@@ -34,7 +34,7 @@
     <CodeAnalysisRuleSet>..\Harvest.Net.UnitTests\Harvest.Net.UnitTests.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
-	<Reference Include="Microsoft.VisualBasic" />
+    <Reference Include="Microsoft.VisualBasic" />
     <Reference Include="RestSharp, Version=105.2.3.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\RestSharp.105.2.3\lib\net45\RestSharp.dll</HintPath>
       <Private>True</Private>
@@ -94,6 +94,7 @@
     <Compile Include="ResourceInterfaces\ExpenseCategories.cs" />
     <Compile Include="ResourceInterfaces\Expenses.cs" />
     <Compile Include="ResourceInterfaces\InvoiceCategories.cs" />
+    <Compile Include="ResourceInterfaces\InvoiceMessages.cs" />
     <Compile Include="ResourceInterfaces\InvoicePayments.cs" />
     <Compile Include="ResourceInterfaces\Invoices.cs" />
     <Compile Include="ResourceInterfaces\People.cs" />

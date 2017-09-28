@@ -42,7 +42,8 @@ namespace Harvest.Net
         {
             var request = ListInvoicesRequest(page, from, to, updatedSince, status, clientId);
 
-            return await ExecuteAsync<List<Invoice>>(request);
+            // ReSharper disable once AsyncConverter.AsyncAwaitMayBeElidedHighlighting
+            return await ExecuteAsync<List<Invoice>>(request).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -154,7 +155,7 @@ namespace Harvest.Net
         {
             var request = Request(INVOICES_RESOURCE, invoiceId, Method.DELETE);
 
-            var result = await ExecuteAsync(request);
+            var result = await ExecuteAsync(request).ConfigureAwait(false);
 
             return result.StatusCode == System.Net.HttpStatusCode.OK;
         }

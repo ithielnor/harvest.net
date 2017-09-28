@@ -32,7 +32,8 @@ namespace Harvest.Net
         {
             var request = ListRequest(CLIENTS_RESOURCE, updatedSince);
 
-            return await ExecuteAsync<List<Client>>(request);
+            // ReSharper disable once AsyncConverter.AsyncAwaitMayBeElidedHighlighting
+            return await ExecuteAsync<List<Client>>(request).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -130,7 +131,7 @@ namespace Harvest.Net
         {
             var request = Request(CLIENTS_RESOURCE, clientId, Method.DELETE);
 
-            var result = await ExecuteAsync(request);
+            var result = await ExecuteAsync(request).ConfigureAwait(false);
 
             return result.IsSuccessfulDelete();
         }

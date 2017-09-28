@@ -39,7 +39,8 @@ namespace Harvest.Net
             if (ofUser != null)
                 request.AddParameter("of_user", ofUser.Value);
 
-            return await ExecuteAsync<List<Expense>>(request);
+            // ReSharper disable once AsyncConverter.AsyncAwaitMayBeElidedHighlighting
+            return await ExecuteAsync<List<Expense>>(request).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -159,7 +160,7 @@ namespace Harvest.Net
             if (ofUser != null)
                 request.AddParameter("of_user", ofUser.Value);
 
-            var result = await ExecuteAsync(request);
+            var result = await ExecuteAsync(request).ConfigureAwait(false);
 
             return result.StatusCode == System.Net.HttpStatusCode.OK;
         }
@@ -252,9 +253,9 @@ namespace Harvest.Net
         {
             var request = AttachExpenseReceiptRequest(expenseId, bytes, fileName, ofUser);
 
-            await ExecuteAsync(request);
+            await ExecuteAsync(request).ConfigureAwait(false);
 
-            return await ExpenseAsync(expenseId);
+            return await ExpenseAsync(expenseId).ConfigureAwait(false);
         }
 
         private IRestRequest AttachExpenseReceiptRequest(long expenseId, byte[] bytes, string fileName, long? ofUser)

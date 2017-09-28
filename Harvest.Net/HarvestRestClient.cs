@@ -152,14 +152,14 @@ namespace Harvest.Net
         public virtual async Task<T> ExecuteAsync<T>(IRestRequest request)
             where T : new()
         {
-            var response = await _client.ExecuteTaskAsync<T>(request);
+            var response = await _client.ExecuteTaskAsync<T>(request).ConfigureAwait(false);
 
             response.ThrowIfBadRequest();
 
             if (ShouldRequestLocationData(request, response))
             {
                 var loadRequest = GetLocationHeaderRequest(request, response);
-                response = await _client.ExecuteTaskAsync<T>(loadRequest);
+                response = await _client.ExecuteTaskAsync<T>(loadRequest).ConfigureAwait(false);
             }
 
             return response.Data;

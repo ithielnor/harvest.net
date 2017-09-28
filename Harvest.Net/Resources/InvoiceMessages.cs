@@ -34,7 +34,8 @@ namespace Harvest.Net
         {
             var request = Request(INVOICES_RESOURCE, invoiceId, MESSAGES_SUBRESOURCE, Method.GET);
 
-            return await ExecuteAsync<List<InvoiceMessage>>(request);
+            // ReSharper disable once AsyncConverter.AsyncAwaitMayBeElidedHighlighting
+            return await ExecuteAsync<List<InvoiceMessage>>(request).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -140,7 +141,7 @@ namespace Harvest.Net
         {
             var request = Request(INVOICES_RESOURCE, invoiceId, $"{MESSAGES_SUBRESOURCE}/{messageId}", Method.DELETE);
 
-            var result = await ExecuteAsync(request);
+            var result = await ExecuteAsync(request).ConfigureAwait(false);
 
             return result.StatusCode == System.Net.HttpStatusCode.OK;
         }
@@ -236,7 +237,7 @@ namespace Harvest.Net
         {
             var request = CreateInvoiceMessageActionRequest(invoiceId, body, action);
 
-            var result = await ExecuteAsync(request);
+            var result = await ExecuteAsync(request).ConfigureAwait(false);
 
             return result.StatusCode == System.Net.HttpStatusCode.OK;
         }

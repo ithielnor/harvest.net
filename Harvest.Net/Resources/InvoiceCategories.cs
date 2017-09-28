@@ -63,6 +63,9 @@ namespace Harvest.Net
         /// <param name="useAsService">Whether to use as service</param>
         public InvoiceItemCategory CreateInvoiceCategory(string name, bool useAsExpense = false, bool useAsService = false)
         {
+            if (name == null)
+                throw new ArgumentNullException(nameof(name));
+
             var newInvoiceCategory = GetInvoiceItemCategoryOptions(name, useAsExpense, useAsService);
 
             return CreateInvoiceCategory(newInvoiceCategory);
@@ -76,6 +79,9 @@ namespace Harvest.Net
         /// <param name="useAsService">Whether to use as service</param>
         public Task<InvoiceItemCategory> CreateInvoiceCategoryAsync(string name, bool useAsExpense = false, bool useAsService = false)
         {
+            if (name == null)
+                throw new ArgumentNullException(nameof(name));
+
             var newInvoiceCategory = GetInvoiceItemCategoryOptions(name, useAsExpense, useAsService);
 
             return CreateInvoiceCategoryAsync(newInvoiceCategory);
@@ -183,10 +189,7 @@ namespace Harvest.Net
 
         private static InvoiceItemCategoryOptions GetInvoiceItemCategoryOptions(string name, bool? useAsExpense, bool? useAsService)
         {
-            if (name == null)
-                throw new ArgumentNullException(nameof(name));
-
-            return new InvoiceItemCategoryOptions()
+            return new InvoiceItemCategoryOptions
             {
                 Name = name,
                 UseAsExpense = useAsExpense,

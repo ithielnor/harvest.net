@@ -65,6 +65,9 @@ namespace Harvest.Net
         /// <param name="unitPrice">The unit price of the expense category (Unit name and price must be set together)</param>
         public ExpenseCategory CreateExpenseCategory(string name, string unitName = null, decimal? unitPrice = null)
         {
+            if (name == null)
+                throw new ArgumentNullException(nameof(name));
+
             var newExpenseCategory = GetExpenseCategoryOptions(name, unitName, unitPrice);
 
             return CreateExpenseCategory(newExpenseCategory);
@@ -78,6 +81,9 @@ namespace Harvest.Net
         /// <param name="unitPrice">The unit price of the expense category (Unit name and price must be set together)</param>
         public Task<ExpenseCategory> CreateExpenseCategoryAsync(string name, string unitName = null, decimal? unitPrice = null)
         {
+            if (name == null)
+                throw new ArgumentNullException(nameof(name));
+
             var newExpenseCategory = GetExpenseCategoryOptions(name, unitName, unitPrice);
 
             return CreateExpenseCategoryAsync(newExpenseCategory);
@@ -185,9 +191,6 @@ namespace Harvest.Net
 
         private static ExpenseCategoryOptions GetExpenseCategoryOptions(string name, string unitName, decimal? unitPrice)
         {
-            if (name == null)
-                throw new ArgumentNullException(nameof(name));
-
             return new ExpenseCategoryOptions
             {
                 Name = name,

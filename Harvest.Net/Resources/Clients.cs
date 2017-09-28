@@ -68,6 +68,9 @@ namespace Harvest.Net
         /// <param name="highriseId">The related Highrise ID of the client</param>
         public Client CreateClient(string name, Currency? currency = null, bool active = true, string details = null, long? highriseId = null)
         {
+            if (name == null)
+                throw new ArgumentNullException(nameof(name));
+
             var newClient = GetClientOptions(name, currency, active, details, highriseId);
 
             return CreateClient(newClient);
@@ -83,6 +86,9 @@ namespace Harvest.Net
         /// <param name="highriseId">The related Highrise ID of the client</param>
         public Task<Client> CreateClientAsync(string name, Currency? currency = null, bool active = true, string details = null, long? highriseId = null)
         {
+            if (name == null)
+                throw new ArgumentNullException(nameof(name));
+
             var newClient = GetClientOptions(name, currency, active, details, highriseId);
 
             return CreateClientAsync(newClient);
@@ -216,9 +222,6 @@ namespace Harvest.Net
         
         private static ClientOptions GetClientOptions(string name, Currency? currency, bool? active, string details, long? highriseId)
         {
-            if (name == null)
-                throw new ArgumentNullException(nameof(name));
-
             return new ClientOptions
             {
                 Name = name,

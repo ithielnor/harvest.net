@@ -113,6 +113,12 @@ namespace Harvest.Net
         /// <param name="fax">The contact's fax number</param>
         public Task<Contact> CreateContactAsync(long clientId, string firstName, string lastName, string title = null, string email = null, string phoneOffice = null, string phoneMobile = null, string fax = null)
         {
+            if (firstName == null)
+                throw new ArgumentNullException(nameof(firstName));
+
+            if (lastName == null)
+                throw new ArgumentNullException(nameof(lastName));
+
             var newContact = GetContactOptions(clientId, firstName, lastName, title, email, phoneOffice, phoneMobile, fax);
 
             return CreateContactAsync(newContact);
@@ -230,12 +236,6 @@ namespace Harvest.Net
 
         private static ContactOptions GetContactOptions(long? clientId, string firstName, string lastName, string title, string email, string phoneOffice, string phoneMobile, string fax)
         {
-            if (firstName == null)
-                throw new ArgumentNullException(nameof(firstName));
-
-            if (lastName == null)
-                throw new ArgumentNullException(nameof(lastName));
-
             var newContact = new ContactOptions
             {
                 ClientId = clientId,

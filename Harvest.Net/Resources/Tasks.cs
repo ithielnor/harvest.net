@@ -64,6 +64,9 @@ namespace Harvest.Net
         /// <param name="defaultHourlyRate">The default hourly rate</param>
         public Models.Task CreateTask(string name, bool billableByDefault = false, bool isDefault = false, decimal? defaultHourlyRate = null)
         {
+            if (name == null)
+                throw new ArgumentNullException(nameof(name));
+
             var options = GetTaskOptions(name, billableByDefault, isDefault, defaultHourlyRate);
 
             return CreateTask(options);
@@ -78,6 +81,9 @@ namespace Harvest.Net
         /// <param name="defaultHourlyRate">The default hourly rate</param>
         public Task<Models.Task> CreateTaskAsync(string name, bool billableByDefault = false, bool isDefault = false, decimal? defaultHourlyRate = null)
         {
+            if (name == null)
+                throw new ArgumentNullException(nameof(name));
+
             var options = GetTaskOptions(name, billableByDefault, isDefault, defaultHourlyRate);
 
             return CreateTaskAsync(options);
@@ -227,9 +233,6 @@ namespace Harvest.Net
 
         private static TaskOptions GetTaskOptions(string name, bool? billableByDefault, bool? isDefault, decimal? defaultHourlyRate)
         {
-            if (name == null)
-                throw new ArgumentNullException(nameof(name));
-
             var options = new TaskOptions
             {
                 Name = name,

@@ -39,6 +39,7 @@ namespace Harvest.Net.Tests
                 Subject = "Test Create Invoice"
             });
 
+            Assert.NotEqual(0, _toDelete.Id);
             Assert.Equal("Test Create Invoice", _toDelete.Subject);
             Assert.Equal(client.Id, _toDelete.ClientId);
         }

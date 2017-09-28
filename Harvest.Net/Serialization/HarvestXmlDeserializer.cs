@@ -147,6 +147,8 @@ namespace Harvest.Net.Serialization
                             var attr = type.GetMember(v.ToString())[0].GetAttribute<DescriptionAttribute>();
                             if (attr != null && attr.Description == value.ToString())
                                 return true;
+                            else if (v.ToString() == value.ToString().Split('-').Reverse().First().Trim()) // for currency, match only the abbreviation part
+                                return true;
                             return false;
                         });
 

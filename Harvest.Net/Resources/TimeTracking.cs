@@ -1,4 +1,4 @@
-﻿using Harvest.Net.Models;
+using Harvest.Net.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;

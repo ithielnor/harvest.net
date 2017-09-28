@@ -149,7 +149,7 @@ namespace Harvest.Net
         /// </summary>
         /// <typeparam name="T">The type to create and return</typeparam>
         /// <param name="request">The request to send</param>
-        public virtual async Task<T> ExecuteAsync<T>(IRestRequest request) 
+        public virtual async Task<T> ExecuteAsync<T>(IRestRequest request)
             where T : new()
         {
             var response = await _client.ExecuteTaskAsync<T>(request);
@@ -214,34 +214,36 @@ namespace Harvest.Net
         /// <param name="method">HTTP method to use</param>
         protected IRestRequest Request(string resource, Method method = Method.GET)
         {
-            var request = new RestRequest();
-
-            request.Resource = resource;
-            request.Method = method;
-
-            request.RequestFormat = DataFormat.Xml;
-            request.XmlSerializer = new HarvestXmlSerializer() { DateFormat = this.DateFormat };
-
-            request.OnBeforeDeserialization = resp =>
+            var request = new RestRequest
             {
-                // remove the first ByteOrderMark
-                // see: http://stackoverflow.com/questions/19663100/restsharp-has-problems-deserializing-xml-including-byte-order-mark
-                string byteOrderMarkUtf8 = Encoding.UTF8.GetString(Encoding.UTF8.GetPreamble());
-                if (resp.Content.StartsWith(byteOrderMarkUtf8))
-                    resp.Content = resp.Content.TrimStart(byteOrderMarkUtf8.ToArray());
+                Resource = resource,
+                Method = method,
+                RequestFormat = DataFormat.Xml,
+                XmlSerializer = new HarvestXmlSerializer
+                {
+                    DateFormat = this.DateFormat
+                },
+                OnBeforeDeserialization = resp =>
+                {
+                    // remove the first ByteOrderMark
+                    // see: http://stackoverflow.com/questions/19663100/restsharp-has-problems-deserializing-xml-including-byte-order-mark
+                    string byteOrderMarkUtf8 = Encoding.UTF8.GetString(Encoding.UTF8.GetPreamble());
+                    if (resp.Content.StartsWith(byteOrderMarkUtf8))
+                        resp.Content = resp.Content.TrimStart(byteOrderMarkUtf8.ToArray());
+                }
             };
 
             return request;
         }
-        
+
         private static bool ShouldRequestLocationData<T>(IRestRequest request, IRestResponse<T> response)
         {
-            return response.Data == null 
+            return response.Data == null
                 && (response.StatusCode == System.Net.HttpStatusCode.Created
                 || response.StatusCode == System.Net.HttpStatusCode.Accepted
                 || (response.StatusCode == System.Net.HttpStatusCode.OK && (request.Method == Method.PUT || request.Method == Method.POST)));
         }
-        
+
         private IRestRequest GetLocationHeaderRequest(IRestRequest request, IRestResponse response)
         {
             string location;

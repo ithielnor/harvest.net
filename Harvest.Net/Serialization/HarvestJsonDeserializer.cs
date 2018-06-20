@@ -11,6 +11,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using SimpleJson;
 
 namespace Harvest.Net.Serialization
 {
@@ -47,7 +48,7 @@ namespace Harvest.Net.Serialization
                 }
                 else
                 {
-                    var data = SimpleJson.DeserializeObject(response.Content);
+                    var data = SimpleJson.SimpleJson.DeserializeObject(response.Content);
                     target = (T)BuildList(objType, data);
                 }
             }
@@ -67,7 +68,7 @@ namespace Harvest.Net.Serialization
 
         private object FindRoot(string content)
         {
-            var data = (IDictionary<string, object>)SimpleJson.DeserializeObject(content);
+            var data = (IDictionary<string, object>)SimpleJson.SimpleJson.DeserializeObject(content);
             if (RootElement.HasValue() && data.ContainsKey(RootElement))
             {
                 return data[RootElement];

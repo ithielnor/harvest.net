@@ -1,7 +1,9 @@
 using RestSharp.Serializers;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using CsvHelper;
 
 namespace Harvest.Net.Models
 {
@@ -238,59 +240,64 @@ namespace Harvest.Net.Models
                 if (string.IsNullOrEmpty(CsvLineItems)) return _listLineItems;
 
                 // Get memory stream of data
-                System.IO.MemoryStream stream = new System.IO.MemoryStream(System.Text.Encoding.UTF8.GetBytes(CsvLineItems));
-
-                // Use the inbuildt .NET CSV parser
-                var parser = new Microsoft.VisualBasic.FileIO.TextFieldParser(stream)
-                {
-                    TextFieldType = Microsoft.VisualBasic.FileIO.FieldType.Delimited
-                };
-
-                parser.SetDelimiters(",");
-
-                List<string> headers = new List<string>();
-                int lineindex = 0;
-                while (!parser.EndOfData)
-                {
-                    string[] fields = parser.ReadFields();
-                    int fieldindex = 0;
-                    InvoiceItem invocieitem = null;
-                    foreach (string field in fields)
+                using (System.IO.MemoryStream stream = new System.IO.MemoryStream(System.Text.Encoding.UTF8.GetBytes(CsvLineItems)))
+                using (var streamReader = new StreamReader(stream))
+                using (var parser = new CsvHelper.CsvReader(streamReader)) {
+                    List<string> headers = new List<string>();
+                    int lineindex = 0;
+                    while (parser.Read())
                     {
-                        // Header, or content?
-                        if (lineindex == 0)
+                        string[] fields = GetFields(parser);
+                        int fieldindex = 0;
+                        InvoiceItem invocieitem = null;
+                        foreach (string field in fields)
                         {
-                            headers.Add(field);
-                        }
-                        else
-                        {
-                            if (invocieitem == null) invocieitem = new InvoiceItem();
-
-                            // Parse by header name
-                            switch (headers[fieldindex])
+                            // Header, or content?
+                            if (lineindex == 0)
                             {
-                                case "kind": invocieitem.Kind = field; break;
-                                case "description": invocieitem.Description = field; break;
-                                case "quantity": invocieitem.Quantity = decimal.Parse(field, System.Globalization.CultureInfo.InvariantCulture); break;
-                                case "unit_price": invocieitem.UnitPrice = decimal.Parse(field, System.Globalization.CultureInfo.InvariantCulture); break;
-                                case "amount": invocieitem.Amount = decimal.Parse(field, System.Globalization.CultureInfo.InvariantCulture); break;
-                                case "taxed": invocieitem.Taxed = bool.Parse(field); break;
-                                case "taxed2": invocieitem.Taxed2 = bool.Parse(field); break;
-                                case "project_id": invocieitem.ProjectId = string.IsNullOrEmpty(field) ? 0 : long.Parse(field); break;
+                                headers.Add(field);
                             }
+                            else
+                            {
+                                if (invocieitem == null) invocieitem = new InvoiceItem();
+
+                                // Parse by header name
+                                switch (headers[fieldindex])
+                                {
+                                    case "kind": invocieitem.Kind = field; break;
+                                    case "description": invocieitem.Description = field; break;
+                                    case "quantity": invocieitem.Quantity = decimal.Parse(field, System.Globalization.CultureInfo.InvariantCulture); break;
+                                    case "unit_price": invocieitem.UnitPrice = decimal.Parse(field, System.Globalization.CultureInfo.InvariantCulture); break;
+                                    case "amount": invocieitem.Amount = decimal.Parse(field, System.Globalization.CultureInfo.InvariantCulture); break;
+                                    case "taxed": invocieitem.Taxed = bool.Parse(field); break;
+                                    case "taxed2": invocieitem.Taxed2 = bool.Parse(field); break;
+                                    case "project_id": invocieitem.ProjectId = string.IsNullOrEmpty(field) ? 0 : long.Parse(field); break;
+                                }
+                            }
+
+                            fieldindex++;
                         }
 
-                        fieldindex++;
+                        lineindex++;
+                        if (invocieitem != null) _listLineItems.Add(invocieitem);
                     }
-
-                    lineindex++;
-                    if (invocieitem != null) _listLineItems.Add(invocieitem);
                 }
-
-                parser.Close();
             }
 
             return _listLineItems;
+        }
+
+        private string[] GetFields(CsvReader parser)
+        {
+            List<string> results = new List<string>();
+            for (int i = 0; i < 20; i++)
+            {
+                if (parser.TryGetField<string>(i, out var s))
+                {
+                    results.Add(s);
+                }
+            }
+            return results.ToArray();
         }
     }
 }

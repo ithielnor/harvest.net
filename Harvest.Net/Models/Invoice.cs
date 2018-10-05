@@ -240,7 +240,7 @@ namespace Harvest.Net.Models
                 // Get memory stream of data
                 System.IO.MemoryStream stream = new System.IO.MemoryStream(System.Text.Encoding.UTF8.GetBytes(CsvLineItems));
 
-                // Use the inbuildt .NET CSV parser
+                // Use the inbuilt .NET CSV parser
                 var parser = new Microsoft.VisualBasic.FileIO.TextFieldParser(stream)
                 {
                     TextFieldType = Microsoft.VisualBasic.FileIO.FieldType.Delimited

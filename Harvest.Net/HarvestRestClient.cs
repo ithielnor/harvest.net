@@ -86,11 +86,11 @@ namespace Harvest.Net
         #endregion
 
         /// <summary>
-        /// Initializes a new client using basic HTTP authentication and default depenedencies
+        /// Initializes a new client using basic HTTP authentication and default dependencies
         /// </summary>
         /// <param name="subdomain">The subdomain of the harvest account to connect to</param>
         /// <param name="username">The username to authenticate with</param>
-        /// <param name="password">The password to athenticate with</param>
+        /// <param name="password">The password to authenticate with</param>
         public HarvestRestClient(string subdomain, string username, string password)
             : this(subdomain, username, password, null, null, null, null,
                   (IAssemblyInformation)Dependencies[IAssemblyInformation_Name],
@@ -103,7 +103,7 @@ namespace Harvest.Net
         /// </summary>
         /// <param name="subdomain">The subdomain of the harvest account to connect to</param>
         /// <param name="username">The username to authenticate with</param>
-        /// <param name="password">The password to athenticate with</param>
+        /// <param name="password">The password to authenticate with</param>
         public HarvestRestClient(string subdomain, string username, string password, IAssemblyInformation assemblyInformation,
             IEnvironmentInformation environmentInformation, IRestSharpFactory restSharpFactory)
             : this(subdomain, username, password, null, null, null, null, assemblyInformation, environmentInformation, restSharpFactory)

@@ -13,7 +13,7 @@ namespace Harvest.Net
         /// <summary>
         /// List all user assignments on a project. Makes a GET request to the Projects/User_Assignments resource.
         /// </summary>
-        /// <param name="projectId">The Id of the project for which to retrieve assignemnts</param>
+        /// <param name="projectId">The Id of the project for which to retrieve assignments</param>
         /// <param name="updatedSince">An optional filter on the updated-at property</param>
         public IList<UserAssignment> ListUserAssignments(long projectId, DateTime? updatedSince = null)
         {
@@ -25,7 +25,7 @@ namespace Harvest.Net
         /// <summary>
         /// List all user assignments on a project. Makes a GET request to the Projects/User_Assignments resource.
         /// </summary>
-        /// <param name="projectId">The Id of the project for which to retrieve assignemnts</param>
+        /// <param name="projectId">The Id of the project for which to retrieve assignments</param>
         /// <param name="updatedSince">An optional filter on the updated-at property</param>
         public async Task<IList<UserAssignment>> ListUserAssignmentsAsync(long projectId, DateTime? updatedSince = null)
         {
@@ -38,7 +38,7 @@ namespace Harvest.Net
         /// <summary>
         /// Retrieve an user assignment on a project. Makes a GET request to the Projects/User_Assignments resource.
         /// </summary>
-        /// <param name="projectId">The Id of the project for which to retrieve an assignemnt</param>
+        /// <param name="projectId">The Id of the project for which to retrieve an assignment</param>
         /// <param name="userAssignmentId">The Id of the assignment to retrieve</param>
         public UserAssignment UserAssignment(long projectId, long userAssignmentId)
         {
@@ -50,7 +50,7 @@ namespace Harvest.Net
         /// <summary>
         /// Retrieve an user assignment on a project. Makes a GET request to the Projects/User_Assignments resource.
         /// </summary>
-        /// <param name="projectId">The Id of the project for which to retrieve an assignemnt</param>
+        /// <param name="projectId">The Id of the project for which to retrieve an assignment</param>
         /// <param name="userAssignmentId">The Id of the assignment to retrieve</param>
         public Task<UserAssignment> UserAssignmentAsync(long projectId, long userAssignmentId)
         {

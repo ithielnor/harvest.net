@@ -70,7 +70,7 @@ namespace Harvest.Net.Models
         public char DecimalSymbol { get; set; }
 
         /// <summary>
-        /// Seperator which should be used for dividing big numbers.
+        /// Separator which should be used for dividing big numbers.
         /// <example>
         /// ,
         /// </example>

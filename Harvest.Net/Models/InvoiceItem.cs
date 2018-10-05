@@ -11,7 +11,7 @@ namespace Harvest.Net.Models
         public string Kind { get; set; }
 
         /// <summary>
-        /// Text which describes the invoice item more specificially.
+        /// Text which describes the invoice item more specifically.
         /// </summary>
         public string Description { get; set; }
 
@@ -46,9 +46,9 @@ namespace Harvest.Net.Models
         public long? ProjectId { get; set; }
 
         /// <summary>
-        /// Method to convert the object to a string by comma seperation.
+        /// Method to convert the object to a string by comma separation.
         /// </summary>
-        /// <returns>The invoice item as comma seperated string.</returns>
+        /// <returns>The invoice item as comma separated string.</returns>
         public override string ToString()
         {
             var items = new string[]

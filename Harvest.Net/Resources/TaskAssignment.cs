@@ -13,7 +13,7 @@ namespace Harvest.Net
         /// <summary>
         /// List all task assignments on a project. Makes a GET request to the Projects/Task_Assignments resource.
         /// </summary>
-        /// <param name="projectId">The Id of the project for which to retrieve assignemnts</param>
+        /// <param name="projectId">The Id of the project for which to retrieve assignments</param>
         /// <param name="updatedSince">An optional filter on the updated-at property</param>
         public IList<TaskAssignment> ListTaskAssignments(long projectId, DateTime? updatedSince = null)
         {
@@ -25,7 +25,7 @@ namespace Harvest.Net
         /// <summary>
         /// List all task assignments on a project. Makes a GET request to the Projects/Task_Assignments resource.
         /// </summary>
-        /// <param name="projectId">The Id of the project for which to retrieve assignemnts</param>
+        /// <param name="projectId">The Id of the project for which to retrieve assignments</param>
         /// <param name="updatedSince">An optional filter on the updated-at property</param>
         public async Task<IList<TaskAssignment>> ListTaskAssignmentsAsync(long projectId, DateTime? updatedSince = null)
         {
@@ -38,7 +38,7 @@ namespace Harvest.Net
         /// <summary>
         /// Retrieve a task assignment on a project. Makes a GET request to the Projects/Task_Assignments resource.
         /// </summary>
-        /// <param name="projectId">The Id of the project for which to retrieve an assignemnt</param>
+        /// <param name="projectId">The Id of the project for which to retrieve an assignment</param>
         /// <param name="taskAssignmentId">The Id of the assignment to retrieve</param>
         public TaskAssignment TaskAssignment(long projectId, long taskAssignmentId)
         {
@@ -46,11 +46,11 @@ namespace Harvest.Net
 
             return Execute<TaskAssignment>(request);
         }
-        
+
         /// <summary>
         /// Retrieve a task assignment on a project. Makes a GET request to the Projects/Task_Assignments resource.
         /// </summary>
-        /// <param name="projectId">The Id of the project for which to retrieve an assignemnt</param>
+        /// <param name="projectId">The Id of the project for which to retrieve an assignment</param>
         /// <param name="taskAssignmentId">The Id of the assignment to retrieve</param>
         public Task<TaskAssignment> TaskAssignmentAsync(long projectId, long taskAssignmentId)
         {

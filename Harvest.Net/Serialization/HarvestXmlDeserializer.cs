@@ -191,11 +191,11 @@ namespace Harvest.Net.Serialization
                     var toConvert = value.ToString();
                     if (!string.IsNullOrEmpty(toConvert))
                     {
-                        DateTimeOffset deserialisedValue;
+                        DateTimeOffset deserializedValue;
                         try
                         {
-                            deserialisedValue = XmlConvert.ToDateTimeOffset(toConvert);
-                            prop.SetValue(x, deserialisedValue, null);
+                            deserializedValue = XmlConvert.ToDateTimeOffset(toConvert);
+                            prop.SetValue(x, deserializedValue, null);
                         }
                         catch (Exception)
                         {
@@ -207,8 +207,8 @@ namespace Harvest.Net.Serialization
                             else
                             {
                                 // fallback to parse
-                                deserialisedValue = DateTimeOffset.Parse(toConvert);
-                                prop.SetValue(x, deserialisedValue, null);
+                                deserializedValue = DateTimeOffset.Parse(toConvert);
+                                prop.SetValue(x, deserializedValue, null);
                             }
                         }
                     }

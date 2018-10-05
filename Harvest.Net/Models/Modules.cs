@@ -3,7 +3,7 @@ using RestSharp.Serializers;
 namespace Harvest.Net.Models
 {
     /// <summary>
-    /// Class which desribes which modules are activated for companies.
+    /// Class which describes which modules are activated for companies.
     /// </summary>
     [SerializeAs(Name = "modules")]
     public class Modules

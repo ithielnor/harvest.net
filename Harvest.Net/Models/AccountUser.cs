@@ -72,7 +72,7 @@ namespace Harvest.Net.Models
         public long? TimezoneUtcOffset { get; set; }
 
         /// <summary>
-        /// Boolean which desribes if timestamp timers are activated.
+        /// Boolean which describes if timestamp timers are activated.
         /// </summary>
         public bool? TimestampTimers { get; set; }
 

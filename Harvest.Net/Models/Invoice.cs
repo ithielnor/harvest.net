@@ -240,9 +240,12 @@ namespace Harvest.Net.Models
                 // Get memory stream of data
                 System.IO.MemoryStream stream = new System.IO.MemoryStream(System.Text.Encoding.UTF8.GetBytes(CsvLineItems));
 
-                // Use the inbuildt .NET CSV parser
-                Microsoft.VisualBasic.FileIO.TextFieldParser parser = new Microsoft.VisualBasic.FileIO.TextFieldParser(stream);
-                parser.TextFieldType = Microsoft.VisualBasic.FileIO.FieldType.Delimited;
+                // Use the inbuilt .NET CSV parser
+                var parser = new Microsoft.VisualBasic.FileIO.TextFieldParser(stream)
+                {
+                    TextFieldType = Microsoft.VisualBasic.FileIO.FieldType.Delimited
+                };
+
                 parser.SetDelimiters(",");
 
                 List<string> headers = new List<string>();
@@ -270,7 +273,7 @@ namespace Harvest.Net.Models
                                 case "description": invocieitem.Description = field; break;
                                 case "quantity": invocieitem.Quantity = decimal.Parse(field, System.Globalization.CultureInfo.InvariantCulture); break;
                                 case "unit_price": invocieitem.UnitPrice = decimal.Parse(field, System.Globalization.CultureInfo.InvariantCulture); break;
-                                case "amount": invocieitem.Amount  = decimal.Parse(field, System.Globalization.CultureInfo.InvariantCulture); break;
+                                case "amount": invocieitem.Amount = decimal.Parse(field, System.Globalization.CultureInfo.InvariantCulture); break;
                                 case "taxed": invocieitem.Taxed = bool.Parse(field); break;
                                 case "taxed2": invocieitem.Taxed2 = bool.Parse(field); break;
                                 case "project_id": invocieitem.ProjectId = string.IsNullOrEmpty(field) ? 0 : long.Parse(field); break;

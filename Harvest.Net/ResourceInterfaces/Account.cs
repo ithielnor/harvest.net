@@ -1,14 +1,12 @@
-﻿using Harvest.Net.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
+using Harvest.Net.Models;
 
 namespace Harvest.Net
 {
-    public partial interface IHarvestRestClient 
+    public partial interface IHarvestRestClient
     {
         Account WhoAmI();
+
+        Task<Account> WhoAmIAsync();
     }
 }

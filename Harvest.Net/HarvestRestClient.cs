@@ -7,6 +7,7 @@ using RestSharp;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Harvest.Net
 {
@@ -85,11 +86,11 @@ namespace Harvest.Net
         #endregion
 
         /// <summary>
-        /// Initializes a new client using basic HTTP authentication and default depenedencies
+        /// Initializes a new client using basic HTTP authentication and default dependencies
         /// </summary>
         /// <param name="subdomain">The subdomain of the harvest account to connect to</param>
         /// <param name="username">The username to authenticate with</param>
-        /// <param name="password">The password to athenticate with</param>
+        /// <param name="password">The password to authenticate with</param>
         public HarvestRestClient(string subdomain, string username, string password)
             : this(subdomain, username, password, null, null, null, null,
                   (IAssemblyInformation)Dependencies[IAssemblyInformation_Name],
@@ -102,7 +103,7 @@ namespace Harvest.Net
         /// </summary>
         /// <param name="subdomain">The subdomain of the harvest account to connect to</param>
         /// <param name="username">The username to authenticate with</param>
-        /// <param name="password">The password to athenticate with</param>
+        /// <param name="password">The password to authenticate with</param>
         public HarvestRestClient(string subdomain, string username, string password, IAssemblyInformation assemblyInformation,
             IEnvironmentInformation environmentInformation, IRestSharpFactory restSharpFactory)
             : this(subdomain, username, password, null, null, null, null, assemblyInformation, environmentInformation, restSharpFactory)
@@ -132,31 +133,33 @@ namespace Harvest.Net
         {
             var response = _client.Execute<T>(request);
 
-            if ((int)response.StatusCode >= 400)
-                throw new HarvestException(response);
+            response.ThrowIfBadRequest();
 
-            if (response.Data == null)
+            if (ShouldRequestLocationData(request, response))
             {
-                if (response.StatusCode == System.Net.HttpStatusCode.Created
-                    || response.StatusCode == System.Net.HttpStatusCode.Accepted
-                    || (response.StatusCode == System.Net.HttpStatusCode.OK && (request.Method == Method.PUT || request.Method == Method.POST)))
-                {
-                    string location = null;
+                var loadRequest = GetLocationHeaderRequest(request, response);
+                response = _client.Execute<T>(loadRequest);
+            }
 
-                    var header = response.Headers.FirstOrDefault(h => h.Type == ParameterType.HttpHeader && h.Name == "Location");
-                    if (header != null)
-                    {
-                        location = (string)header.Value;
-                    }
-                    else
-                    {
-                        // Location header is missing try to GET from the original resource instead
-                        location = request.Resource;
-                    }
+            return response.Data;
+        }
 
-                    var loadRequest = Request(location);
-                    response = _client.Execute<T>(loadRequest);
-                }
+        /// <summary>
+        /// Execute a manual REST request asynchronously
+        /// </summary>
+        /// <typeparam name="T">The type to create and return</typeparam>
+        /// <param name="request">The request to send</param>
+        public virtual async Task<T> ExecuteAsync<T>(IRestRequest request)
+            where T : new()
+        {
+            var response = await _client.ExecuteTaskAsync<T>(request).ConfigureAwait(false);
+
+            response.ThrowIfBadRequest();
+
+            if (ShouldRequestLocationData(request, response))
+            {
+                var loadRequest = GetLocationHeaderRequest(request, response);
+                response = await _client.ExecuteTaskAsync<T>(loadRequest).ConfigureAwait(false);
             }
 
             return response.Data;
@@ -172,23 +175,36 @@ namespace Harvest.Net
         }
 
         /// <summary>
+        /// Execute a non-generic REST request asynchronously
+        /// </summary>
+        /// <param name="request">The request to send</param>
+        public virtual Task<IRestResponse> ExecuteAsync(IRestRequest request)
+        {
+            return _client.ExecuteTaskAsync(request);
+        }
+
+        /// <summary>
         /// Request a new access token
         /// </summary>
         /// <param name="refreshToken">An unexpired refresh token provided to the authenticated client ID.</param>
         /// <returns></returns>
         public IOAuth RefreshToken(string refreshToken)
         {
-            RestRequest r = new RestRequest();
-            r.Method = Method.POST;
+            var r = GetOAuthRefreshRequest(refreshToken);
 
-            r.Resource = "oauth2/token";
-            r.AddParameter("refresh_token", refreshToken);
-            r.AddParameter("client_id", ClientId);
-            r.AddParameter("client_secret", ClientSecret);
-            r.AddParameter("grant_type", "refresh_token");
-            r.AddHeader("Content-Type", "application/x-www-form-urlencoded");
+            return Execute<OAuth>(r);
+        }
 
-            return this.Execute<OAuth>(r);
+        /// <summary>
+        /// Request a new access token asynchronously
+        /// </summary>
+        /// <param name="refreshToken">An unexpired refresh token provided to the authenticated client ID.</param>
+        /// <returns></returns>
+        public Task<OAuth> RefreshTokenAsync(string refreshToken)
+        {
+            var r = GetOAuthRefreshRequest(refreshToken);
+
+            return ExecuteAsync<OAuth>(r);
         }
 
         /// <summary>
@@ -198,24 +214,69 @@ namespace Harvest.Net
         /// <param name="method">HTTP method to use</param>
         protected IRestRequest Request(string resource, Method method = Method.GET)
         {
-            var request = new RestRequest();
-
-            request.Resource = resource;
-            request.Method = method;
-
-            request.RequestFormat = DataFormat.Xml;
-            request.XmlSerializer = new HarvestXmlSerializer() { DateFormat = this.DateFormat };
-
-            request.OnBeforeDeserialization = resp =>
+            var request = new RestRequest
             {
-                // remove the first ByteOrderMark
-                // see: http://stackoverflow.com/questions/19663100/restsharp-has-problems-deserializing-xml-including-byte-order-mark
-                string byteOrderMarkUtf8 = Encoding.UTF8.GetString(Encoding.UTF8.GetPreamble());
-                if (resp.Content.StartsWith(byteOrderMarkUtf8))
-                    resp.Content = resp.Content.TrimStart(byteOrderMarkUtf8.ToArray());
+                Resource = resource,
+                Method = method,
+                RequestFormat = DataFormat.Xml,
+                XmlSerializer = new HarvestXmlSerializer
+                {
+                    DateFormat = this.DateFormat
+                },
+                OnBeforeDeserialization = resp =>
+                {
+                    // remove the first ByteOrderMark
+                    // see: http://stackoverflow.com/questions/19663100/restsharp-has-problems-deserializing-xml-including-byte-order-mark
+                    string byteOrderMarkUtf8 = Encoding.UTF8.GetString(Encoding.UTF8.GetPreamble());
+                    if (resp.Content.StartsWith(byteOrderMarkUtf8))
+                        resp.Content = resp.Content.TrimStart(byteOrderMarkUtf8.ToArray());
+                }
             };
 
             return request;
+        }
+
+        private static bool ShouldRequestLocationData<T>(IRestRequest request, IRestResponse<T> response)
+        {
+            return response.Data == null
+                && (response.StatusCode == System.Net.HttpStatusCode.Created
+                || response.StatusCode == System.Net.HttpStatusCode.Accepted
+                || (response.StatusCode == System.Net.HttpStatusCode.OK && (request.Method == Method.PUT || request.Method == Method.POST)));
+        }
+
+        private IRestRequest GetLocationHeaderRequest(IRestRequest request, IRestResponse response)
+        {
+            string location;
+
+            var header = response.Headers.FirstOrDefault(h => h.Type == ParameterType.HttpHeader && h.Name == "Location");
+            if (header != null)
+            {
+                location = (string)header.Value;
+            }
+            else
+            {
+                // Location header is missing try to GET from the original resource instead
+                location = request.Resource;
+            }
+
+            return Request(location);
+        }
+
+        private IRestRequest GetOAuthRefreshRequest(string refreshToken)
+        {
+            var r = new RestRequest
+            {
+                Method = Method.POST,
+                Resource = "oauth2/token"
+            };
+
+            r.AddParameter("refresh_token", refreshToken);
+            r.AddParameter("client_id", ClientId);
+            r.AddParameter("client_secret", ClientSecret);
+            r.AddParameter("grant_type", "refresh_token");
+            r.AddHeader("Content-Type", "application/x-www-form-urlencoded");
+
+            return r;
         }
     }
 }

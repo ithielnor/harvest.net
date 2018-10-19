@@ -172,7 +172,7 @@ namespace Harvest.Net.Models
         /// Method to set invoice items of the invoice options.
         /// </summary>
         /// <param name="items">
-        /// List of items which should be added to the invoice otions.
+        /// List of items which should be added to the invoice options.
         /// </param>
         public void SetInvoiceItems(IList<InvoiceItem> items)
         {

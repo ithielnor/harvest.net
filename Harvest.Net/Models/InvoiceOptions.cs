@@ -164,6 +164,11 @@ namespace Harvest.Net.Models
         public DateTime? PeriodEnd { get; set; }
 
         /// <summary>
+        /// Optional percentage discount to apply to the invoice.  Discount should be in format: 25.0. (25%)
+        /// </summary>
+        public decimal? Discount { get; set; }
+
+        /// <summary>
         /// Method to set invoice items of the invoice options.
         /// </summary>
         /// <param name="items">

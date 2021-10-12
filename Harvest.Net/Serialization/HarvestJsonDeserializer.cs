@@ -153,7 +153,7 @@ namespace Harvest.Net.Serialization
                     if (itemType.IsPrimitive)
                     {
                         var value = element.ToString();
-                        list.Add(value.ChangeType(itemType, Culture));
+                        list.Add(Convert.ChangeType(value, itemType, Culture));
                     }
                     else if (itemType == typeof(string))
                     {
@@ -207,7 +207,7 @@ namespace Harvest.Net.Serialization
 
             if (type.IsPrimitive)
             {
-                return value.ChangeType(type, Culture);
+                return Convert.ChangeType(value, type, Culture);
             }
             else if (type.IsEnum)
             {

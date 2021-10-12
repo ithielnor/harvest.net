@@ -136,7 +136,7 @@ namespace Harvest.Net.Serialization
                 }
                 else if (type.IsPrimitive)
                 {
-                    prop.SetValue(x, value.ChangeType(type, Culture), null);
+                    prop.SetValue(x, Convert.ChangeType(value, type, Culture), null);
                 }
                 else if (type.IsEnum)
                 {
@@ -371,7 +371,7 @@ namespace Harvest.Net.Serialization
             }
             else if (t.IsPrimitive)
             {
-                item = element.Value.ChangeType(t, Culture);
+                item = Convert.ChangeType(element.Value, t, Culture);
             }
             else
             {

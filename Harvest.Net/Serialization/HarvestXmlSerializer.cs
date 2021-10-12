@@ -1,4 +1,5 @@
 ﻿using RestSharp.Extensions;
+using RestSharp.Serialization.Xml;
 using RestSharp.Serializers;
 using System;
 using System.Collections;
@@ -11,9 +12,9 @@ using System.Xml.Linq;
 
 namespace Harvest.Net.Serialization
 {
-    public class HarvestXmlSerializer : ISerializer
+    public class HarvestXmlSerializer : IXmlSerializer
     {
-        private ISerializer _defaultSerializer;
+        private IXmlSerializer _defaultSerializer;
 
         public HarvestXmlSerializer()
         {

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using Xunit;
@@ -21,6 +22,8 @@ namespace Harvest.Net.Tests
 
         public FactBase()
         {
+            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
+
             Username = ConfigurationManager.AppSettings["auth_username"];
             Subdomain = ConfigurationManager.AppSettings["auth_subdomain"];
             

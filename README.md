@@ -1,8 +1,8 @@
 Harvest.Net
 ===========
-
+<!--
 [![Build Status](https://travis-ci.org/ithielnor/harvest.net.svg?branch=master)](https://travis-ci.org/ithielnor/harvest.net)
-<!--[![codecov.io](http://codecov.io/github/ithielnor/harvest.net/coverage.svg?branch=master)](http://codecov.io/github/ithielnor/harvest.net?branch=master)-->
+[![codecov.io](http://codecov.io/github/ithielnor/harvest.net/coverage.svg?branch=master)](http://codecov.io/github/ithielnor/harvest.net?branch=master)-->
 
 A .Net wrapper for the [Harvest API][1].
 

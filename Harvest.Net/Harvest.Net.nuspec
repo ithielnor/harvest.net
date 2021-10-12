@@ -14,7 +14,7 @@
     <releaseNotes>First release.</releaseNotes>
     <tags>harvest harvestapp harvestapi api harvesthq timetracking</tags>
     <dependencies>
-      <dependency id="RestSharp" version="105.2.2" /> <!-- 105.2.2 included breaking namespaces changes -->
+      <dependency id="RestSharp" version="106.12.0" />
     </dependencies>
   </metadata>
 </package>

@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<package >
+<package>
   <metadata>
     <id>$id$</id>
     <version>$version$</version>
@@ -14,7 +14,12 @@
     <releaseNotes>First release.</releaseNotes>
     <tags>harvest harvestapp harvestapi api harvesthq timetracking</tags>
     <dependencies>
-      <dependency id="RestSharp" version="106.12.0" />
+		<group targetFramework="net452">
+			<dependency id="RestSharp" version="106.12.0" />
+		</group>
+		<group targetFramework="netcoreapp3.1">
+			<dependency id="RestSharp" version="106.12.0" />
+		</group>
     </dependencies>
   </metadata>
 </package>
